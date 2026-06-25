@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>Fiches Kanji</title>
+<style>
+  :root{
+    --paper:#f3efe6;
+    --ink:#1c1a17;
+    --sumi:#2b2722;
+    --vermilion:#c0392b;
+    --vermilion-soft:#d35843;
+    --seal:#9b2d23;
+    --gold:#b08743;
+    --muted:#7c7468;
+    --line:#d9d2c4;
+    --card:#fbf9f3;
+    --shadow:rgba(40,34,26,.18);
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:
+      radial-gradient(circle at 20% 12%, #f7f3ea 0%, var(--paper) 55%) fixed;
+    color:var(--ink);
+    font-family:"Hiragino Mincho ProN","Yu Mincho",Georgia,serif;
+    min-height:100vh;
+    -webkit-font-smoothing:antialiased;
+  }
+  header{
+    text-align:center;
+    padding:26px 16px 10px;
+  }
+  header .seal{
+    display:inline-block;
+    font-family:"Hiragino Mincho ProN",serif;
+    background:var(--seal);
+    color:#f3efe6;
+    font-size:13px;
+    letter-spacing:.35em;
+    padding:6px 4px 6px 12px;
+    writing-mode:horizontal-tb;
+    border-radius:3px;
+    box-shadow:0 2px 6px var(--shadow);
+  }
+  h1{
+    font-size:30px;
+    margin:14px 0 4px;
+    letter-spacing:.12em;
+    font-weight:600;
+  }
+  .sub{
+    color:var(--muted);
+    font-size:13px;
+    letter-spacing:.18em;
+    font-family:-apple-system,"Helvetica Neue",sans-serif;
+    text-transform:uppercase;
+  }
+
+  .controls{
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:center;
+    gap:10px;
+    padding:14px 16px 6px;
+    font-family:-apple-system,"Helvetica Neue",sans-serif;
+  }
+  .controls button{
+    border:1px solid var(--line);
+    background:var(--card);
+    color:var(--sumi);
+    font-size:14px;
+    padding:9px 16px;
+    border-radius:999px;
+    cursor:pointer;
+    transition:transform .12s ease, background .2s;
+  }
+  .controls button:active{transform:scale(.95);}
+  .controls button.on{background:var(--sumi);color:var(--paper);border-color:var(--sumi);}
+  .count{
+    font-family:-apple-system,sans-serif;
+    font-size:12px;
+    color:var(--muted);
+    text-align:center;
+    padding:2px 0 12px;
+    letter-spacing:.1em;
+  }
+
+  .grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(168px,1fr));
+    gap:16px;
+    padding:8px 18px 60px;
+    max-width:1100px;
+    margin:0 auto;
+  }
+
+  .card{
+    position:relative;
+    aspect-ratio:3/4;
+    min-height:224px;
+    perspective:1100px;
+    cursor:pointer;
+  }
+  @supports not (aspect-ratio:1){
+    .card{height:224px;}
+  }
+  .inner{
+    position:absolute;
+    inset:0;
+    transition:transform .55s cubic-bezier(.2,.7,.2,1);
+    transform-style:preserve-3d;
+  }
+  .card.flip .inner{transform:rotateY(180deg);}
+  .face{
+    position:absolute;
+    inset:0;
+    backface-visibility:hidden;
+    -webkit-backface-visibility:hidden;
+    border-radius:12px;
+    background:var(--card);
+    box-shadow:0 4px 14px var(--shadow);
+    display:flex;
+    flex-direction:column;
+    overflow:hidden;
+  }
+  .front{
+    align-items:center;
+    justify-content:center;
+    border:1px solid var(--line);
+  }
+  .front::before{
+    content:"";
+    position:absolute;inset:7px;
+    border:1px solid var(--line);
+    border-radius:8px;
+    pointer-events:none;
+  }
+  .front .ji{
+    font-size:74px;
+    line-height:1;
+    color:var(--sumi);
+    text-shadow:0 1px 0 rgba(255,255,255,.6);
+  }
+  .front .hint{
+    position:absolute;
+    bottom:10px;
+    font-size:11px;
+    letter-spacing:.2em;
+    color:var(--muted);
+    font-family:-apple-system,sans-serif;
+  }
+
+  .back{
+    transform:rotateY(180deg);
+    border:1px solid var(--line);
+    padding:13px 13px 11px;
+    background:linear-gradient(180deg,#fcfaf4,#f6f1e7);
+  }
+  .back .ji-mini{
+    font-size:30px;
+    text-align:center;
+    color:var(--sumi);
+    line-height:1;
+    margin-bottom:6px;
+  }
+  .back .meaning{
+    text-align:center;
+    font-size:13px;
+    color:var(--vermilion);
+    font-family:-apple-system,sans-serif;
+    margin-bottom:9px;
+    letter-spacing:.02em;
+  }
+  .reading{
+    margin:5px 0;
+    font-family:-apple-system,"Helvetica Neue",sans-serif;
+  }
+  .reading .tag{
+    display:inline-block;
+    font-size:9px;
+    font-weight:700;
+    letter-spacing:.12em;
+    padding:1px 6px;
+    border-radius:3px;
+    vertical-align:middle;
+    margin-right:5px;
+  }
+  .reading.on .tag{background:var(--vermilion);color:#fff;}
+  .reading.kun .tag{background:var(--sumi);color:var(--paper);}
+  .reading .val{
+    font-size:14px;
+    color:var(--ink);
+    font-family:"Hiragino Mincho ProN",serif;
+  }
+  .ex{
+    margin-top:8px;
+    padding-top:7px;
+    border-top:1px dashed var(--line);
+    font-size:12.5px;
+    line-height:1.5;
+    color:var(--sumi);
+  }
+  .ex b{color:var(--seal);font-weight:600;}
+  .ex .fr{color:var(--muted);font-family:-apple-system,sans-serif;font-size:11.5px;}
+
+  .empty{
+    text-align:center;
+    color:var(--muted);
+    padding:40px 16px;
+    font-family:-apple-system,sans-serif;
+  }
+
+  /* ---- Tabs ---- */
+  .tabs{
+    display:flex;
+    justify-content:center;
+    gap:8px;
+    padding:10px 16px 4px;
+    font-family:-apple-system,"Helvetica Neue",sans-serif;
+  }
+  .tab{
+    border:1px solid var(--line);
+    background:transparent;
+    color:var(--muted);
+    font-size:15px;
+    letter-spacing:.08em;
+    padding:9px 28px;
+    border-radius:999px;
+    cursor:pointer;
+    transition:all .2s;
+  }
+  .tab.on{background:var(--seal);color:#f3efe6;border-color:var(--seal);box-shadow:0 2px 6px var(--shadow);}
+  .tab:active{transform:scale(.96);}
+
+  /* ---- Quiz ---- */
+  #viewQuiz{max-width:560px;margin:0 auto;padding:8px 18px 60px;font-family:-apple-system,"Helvetica Neue",sans-serif;}
+  .qlabel{
+    font-size:12px;letter-spacing:.18em;text-transform:uppercase;
+    color:var(--muted);margin:22px 0 10px;text-align:center;
+  }
+  .qopts{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;}
+  .qopt{
+    border:1px solid var(--line);background:var(--card);color:var(--sumi);
+    font-size:15px;padding:11px 20px;border-radius:10px;cursor:pointer;transition:all .18s;
+  }
+  .qopt.on{background:var(--sumi);color:var(--paper);border-color:var(--sumi);}
+  .qopt:active{transform:scale(.96);}
+  .start-btn{
+    display:block;width:100%;margin:30px auto 0;
+    border:none;background:var(--seal);color:#f6f1e7;
+    font-size:17px;letter-spacing:.1em;padding:15px;border-radius:12px;
+    cursor:pointer;box-shadow:0 4px 12px var(--shadow);transition:transform .12s;
+    font-family:"Hiragino Mincho ProN",-apple-system,serif;
+  }
+  .start-btn:active{transform:scale(.98);}
+
+  .qprogress{height:5px;background:var(--line);border-radius:3px;overflow:hidden;margin:6px 0 12px;}
+  .qbar{height:100%;width:0;background:var(--seal);transition:width .35s ease;}
+  .qmeta{display:flex;justify-content:space-between;font-size:13px;color:var(--muted);letter-spacing:.05em;margin-bottom:14px;}
+  #qscore{color:var(--seal);font-weight:600;}
+  .qcard{
+    background:var(--card);border:1px solid var(--line);border-radius:14px;
+    padding:30px 18px;text-align:center;box-shadow:0 4px 14px var(--shadow);margin-bottom:18px;
+  }
+  .qprompt-label{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);margin-bottom:14px;}
+  .qprompt{
+    font-family:"Hiragino Mincho ProN","Yu Mincho",serif;
+    color:var(--sumi);line-height:1.2;
+  }
+  .qprompt.big{font-size:78px;}
+  .qprompt.mid{font-size:30px;}
+  .qchoices{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+  .choice{
+    border:1px solid var(--line);background:var(--card);color:var(--ink);
+    font-size:17px;padding:18px 12px;border-radius:12px;cursor:pointer;
+    transition:all .15s;min-height:60px;line-height:1.3;
+    font-family:"Hiragino Mincho ProN",-apple-system,serif;
+  }
+  .choice.kanjiface{font-size:40px;}
+  .choice:active{transform:scale(.97);}
+  .choice.correct{background:#3f7d54;color:#fff;border-color:#3f7d54;}
+  .choice.wrong{background:var(--vermilion);color:#fff;border-color:var(--vermilion);}
+  .choice.dim{opacity:.45;}
+  .choice:disabled{cursor:default;}
+
+  .rscore{font-size:54px;text-align:center;color:var(--seal);font-family:"Hiragino Mincho ProN",serif;margin-top:10px;}
+  .rmsg{text-align:center;font-size:16px;color:var(--sumi);margin:6px 0 22px;}
+  .rmiss{display:flex;flex-direction:column;gap:8px;}
+  .rmiss .row{
+    display:flex;align-items:center;gap:12px;background:var(--card);
+    border:1px solid var(--line);border-radius:10px;padding:10px 14px;
+  }
+  .rmiss .row .rk{font-family:"Hiragino Mincho ProN",serif;font-size:30px;color:var(--sumi);min-width:34px;text-align:center;}
+  .rmiss .row .rd{font-size:13px;color:var(--muted);line-height:1.4;}
+  .rmiss .row .rd b{color:var(--seal);}
+  .rmiss .title{font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin-bottom:4px;text-align:center;}
+
+  @media (max-width:430px){
+    .grid{grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:13px;}
+    .front .ji{font-size:64px;}
+    .qprompt.big{font-size:64px;}
+  }
+</style>
+</head>
+<body>
+<header>
+  <span class="seal">漢字 ・ 復習</span>
+  <h1>Fiches de révision</h1>
+  <div class="sub">Minna no Nihongo &middot; Kanji</div>
+</header>
+
+<div class="tabs">
+  <button id="tabCards" class="tab on">Fiches</button>
+  <button id="tabQuiz" class="tab">Quiz</button>
+</div>
+
+<div id="viewCards">
+  <div class="controls">
+    <button id="flipAll">Tout retourner</button>
+    <button id="reset">Réinitialiser</button>
+    <button id="shuffle">Mélanger</button>
+  </div>
+  <div class="count" id="count"></div>
+  <div class="grid" id="grid"></div>
+</div>
+
+<div id="viewQuiz" hidden>
+  <div class="quiz-setup" id="quizSetup">
+    <p class="qlabel">Type de question</p>
+    <div class="qopts" id="qMode">
+      <button class="qopt on" data-mode="meaning">Sens du kanji</button>
+      <button class="qopt" data-mode="reading">Lecture (ON/KUN)</button>
+      <button class="qopt" data-mode="kanji">Trouver le kanji</button>
+    </div>
+    <p class="qlabel">Nombre de questions</p>
+    <div class="qopts" id="qLen">
+      <button class="qopt on" data-len="10">10</button>
+      <button class="qopt" data-len="20">20</button>
+      <button class="qopt" data-len="0">Tous</button>
+    </div>
+    <button id="quizStart" class="start-btn">Commencer</button>
+  </div>
+
+  <div class="quiz-play" id="quizPlay" hidden>
+    <div class="qprogress"><div class="qbar" id="qbar"></div></div>
+    <div class="qmeta"><span id="qcounter"></span><span id="qscore"></span></div>
+    <div class="qcard">
+      <div class="qprompt-label" id="qpromptLabel"></div>
+      <div class="qprompt" id="qprompt"></div>
+    </div>
+    <div class="qchoices" id="qchoices"></div>
+    <button id="qnext" class="start-btn" hidden>Suivant</button>
+  </div>
+
+  <div class="quiz-result" id="quizResult" hidden>
+    <div class="rscore" id="rscore"></div>
+    <div class="rmsg" id="rmsg"></div>
+    <div class="rmiss" id="rmiss"></div>
+    <button id="quizAgain" class="start-btn">Rejouer</button>
+  </div>
+</div>
+
+<script>
+const KANJI = [
+  {k:"日",mean:"jour, soleil",on:[["ニチ／ジツ"]],kun:[["ひ／-び／-か"]],ex:[["日曜日","にちようび","dimanche"],["毎日","まいにち","chaque jour"]]},
+  {k:"山",mean:"montagne",on:[["サン"]],kun:[["やま"]],ex:[["富士山","ふじさん","Mont Fuji"],["火山","かざん","volcan"]]},
+  {k:"土",mean:"terre, sol",on:[["ド／ト"]],kun:[["つち"]],ex:[["土曜日","どようび","samedi"],["土地","とち","terrain"]]},
+  {k:"木",mean:"arbre, bois",on:[["ボク／モク"]],kun:[["き／こ-"]],ex:[["木曜日","もくようび","jeudi"],["木","き","arbre"]]},
+  {k:"目",mean:"œil",on:[["モク／ボク"]],kun:[["め／ま-"]],ex:[["目的","もくてき","but, objectif"],["目","め","œil"]]},
+  {k:"口",mean:"bouche",on:[["コウ／ク"]],kun:[["くち"]],ex:[["人口","じんこう","population"],["口","くち","bouche"]]},
+  {k:"金",mean:"or, argent",on:[["キン／コン"]],kun:[["かね／かな"]],ex:[["金曜日","きんようび","vendredi"],["お金","おかね","argent"]]},
+  {k:"川",mean:"rivière",on:[["セン"]],kun:[["かわ"]],ex:[["川","かわ","rivière"],["川柳","せんりゅう","type de poème"]]},
+  {k:"水",mean:"eau",on:[["スイ"]],kun:[["みず"]],ex:[["水曜日","すいようび","mercredi"],["水","みず","eau"]]},
+  {k:"田",mean:"rizière",on:[["デン"]],kun:[["た"]],ex:[["水田","すいでん","rizière"],["田中","たなか","Tanaka (nom)"]]},
+  {k:"月",mean:"lune, mois",on:[["ゲツ／ガツ"]],kun:[["つき"]],ex:[["月曜日","げつようび","lundi"],["一月","いちがつ","janvier"]]},
+  {k:"手",mean:"main",on:[["シュ"]],kun:[["て"]],ex:[["手紙","てがみ","lettre"],["上手","じょうず","doué"]]},
+  {k:"一",mean:"un",on:[["イチ／イツ"]],kun:[["ひと-／ひと.つ"]],ex:[["一つ","ひとつ","un (objet)"],["一月","いちがつ","janvier"]]},
+  {k:"二",mean:"deux",on:[["ニ"]],kun:[["ふた／ふた.つ"]],ex:[["二つ","ふたつ","deux (objets)"],["二人","ふたり","deux personnes"]]},
+  {k:"三",mean:"trois",on:[["サン"]],kun:[["み／み.つ"]],ex:[["三つ","みっつ","trois (objets)"],["三月","さんがつ","mars"]]},
+  {k:"四",mean:"quatre",on:[["シ"]],kun:[["よ／よん／よ.つ"]],ex:[["四つ","よっつ","quatre (objets)"],["四月","しがつ","avril"]]},
+  {k:"五",mean:"cinq",on:[["ゴ"]],kun:[["いつ／いつ.つ"]],ex:[["五つ","いつつ","cinq (objets)"],["五月","ごがつ","mai"]]},
+  {k:"六",mean:"six",on:[["ロク"]],kun:[["む／む.つ"]],ex:[["六つ","むっつ","six (objets)"],["六月","ろくがつ","juin"]]},
+  {k:"七",mean:"sept",on:[["シチ"]],kun:[["なな／なな.つ"]],ex:[["七つ","ななつ","sept (objets)"],["七月","しちがつ","juillet"]]},
+  {k:"八",mean:"huit",on:[["ハチ"]],kun:[["や／や.つ"]],ex:[["八つ","やっつ","huit (objets)"],["八月","はちがつ","août"]]},
+  {k:"九",mean:"neuf",on:[["キュウ／ク"]],kun:[["ここの／ここの.つ"]],ex:[["九つ","ここのつ","neuf (objets)"],["九月","くがつ","septembre"]]},
+  {k:"十",mean:"dix",on:[["ジュウ"]],kun:[["とお"]],ex:[["十","じゅう","dix"],["十月","じゅうがつ","octobre"]]},
+  {k:"人",mean:"personne",on:[["ジン／ニン"]],kun:[["ひと"]],ex:[["日本人","にほんじん","Japonais"],["一人","ひとり","une personne"]]},
+  {k:"車",mean:"voiture, roue",on:[["シャ"]],kun:[["くるま"]],ex:[["電車","でんしゃ","train"],["車","くるま","voiture"]]},
+  {k:"火",mean:"feu",on:[["カ"]],kun:[["ひ／-び／ほ-"]],ex:[["火曜日","かようび","mardi"],["花火","はなび","feu d'artifice"]]},
+  {k:"左",mean:"gauche",on:[["サ"]],kun:[["ひだり"]],ex:[["左","ひだり","gauche"],["左右","さゆう","gauche et droite"]]},
+  {k:"右",mean:"droite",on:[["ウ／ユウ"]],kun:[["みぎ"]],ex:[["右","みぎ","droite"],["左右","さゆう","gauche et droite"]]},
+  {k:"空",mean:"ciel, vide",on:[["クウ"]],kun:[["そら／あ.く"]],ex:[["空港","くうこう","aéroport"],["空","そら","ciel"]]},
+  {k:"男",mean:"homme",on:[["ダン／ナン"]],kun:[["おとこ"]],ex:[["男性","だんせい","homme (formel)"],["長男","ちょうなん","fils aîné"]]},
+  {k:"女",mean:"femme",on:[["ジョ／ニョ"]],kun:[["おんな"]],ex:[["女性","じょせい","femme (formel)"],["女子","じょし","fille"]]},
+  {k:"子",mean:"enfant",on:[["シ／ス"]],kun:[["こ"]],ex:[["女子","じょし","fille"],["子供","こども","enfant"]]},
+  {k:"天",mean:"ciel, céleste",on:[["テン"]],kun:[["あま／あめ"]],ex:[["天気","てんき","temps (météo)"],["天才","てんさい","génie"]]},
+  {k:"上",mean:"haut, dessus",on:[["ジョウ／ショウ"]],kun:[["うえ／かみ／のぼ.る／うわ-"]],ex:[["上手","じょうず","doué"],["上","うえ","dessus"]]},
+  {k:"文",mean:"texte, écrit",on:[["ブン／モン"]],kun:[["ふみ"]],ex:[["文化","ぶんか","culture"],["文学","ぶんがく","littérature"]]},
+  {k:"休",mean:"repos",on:[["キュウ"]],kun:[["やす.む"]],ex:[["休憩","きゅうけい","pause"],["休み","やすみ","congé"]]},
+  {k:"中",mean:"milieu, intérieur",on:[["チュウ"]],kun:[["なか"]],ex:[["中国","ちゅうごく","Chine"],["中","なか","intérieur"]]},
+  {k:"見",mean:"voir",on:[["ケン"]],kun:[["み.る"]],ex:[["意見","いけん","opinion"],["見る","みる","voir"]]},
+  {k:"石",mean:"pierre",on:[["セキ／シャク／コク"]],kun:[["いし"]],ex:[["宝石","ほうせき","pierre précieuse"],["石油","せきゆ","pétrole"]]},
+  {k:"力",mean:"force",on:[["リョク／リキ"]],kun:[["ちから"]],ex:[["努力","どりょく","effort"],["協力","きょうりょく","coopération"]]},
+  {k:"大",mean:"grand",on:[["ダイ／タイ"]],kun:[["おお.きい"]],ex:[["大学","だいがく","université"],["大きい","おおきい","grand"]]},
+  {k:"字",mean:"caractère",on:[["ジ"]],kun:[["あざ"]],ex:[["漢字","かんじ","kanji"],["文字","もじ","lettre, caractère"]]},
+  {k:"名",mean:"nom",on:[["メイ／ミョウ"]],kun:[["な"]],ex:[["名前","なまえ","nom"],["有名","ゆうめい","célèbre"]]},
+  {k:"夕",mean:"soir",on:[["セキ"]],kun:[["ゆう"]],ex:[["夕方","ゆうがた","soirée"],["夕食","ゆうしょく","dîner"]]},
+  {k:"百",mean:"cent",on:[["ヒャク"]],kun:[["もも"]],ex:[["百","ひゃく","cent"],["三百","さんびゃく","trois cents"]]},
+  {k:"円",mean:"yen, rond",on:[["エン"]],kun:[["まる.い"]],ex:[["円","えん","yen"],["千円","せんえん","mille yens"]]},
+  {k:"下",mean:"bas, dessous",on:[["カ／ゲ"]],kun:[["した／さ.げる／くだ.さる／お.りる"]],ex:[["下","した","dessous"],["下さい","ください","s'il vous plaît"]]},
+  {k:"虫",mean:"insecte",on:[["チュウ"]],kun:[["むし"]],ex:[["虫","むし","insecte"],["昆虫","こんちゅう","insecte (terme)"]]},
+  {k:"千",mean:"mille",on:[["セン"]],kun:[["ち"]],ex:[["千","せん","mille"],["千円","せんえん","mille yens"]]},
+  {k:"学",mean:"étude, apprendre",on:[["ガク"]],kun:[["まな.ぶ"]],ex:[["学生","がくせい","étudiant"],["文学","ぶんがく","littérature"]]},
+  {k:"校",mean:"école",on:[["コウ"]],kun:[["—"]],ex:[["学校","がっこう","école"],["高校","こうこう","lycée"]]},
+  {k:"先",mean:"avant, devant",on:[["セン"]],kun:[["さき／ま.ず"]],ex:[["先生","せんせい","professeur"],["先週","せんしゅう","semaine dernière"]]},
+  {k:"生",mean:"vie, naître, cru",on:[["セイ／ショウ"]],kun:[["い.きる／う.まれる／なま／は.える"]],ex:[["学生","がくせい","étudiant"],["誕生日","たんじょうび","anniversaire"]]},
+  {k:"気",mean:"esprit, air",on:[["キ／ケ"]],kun:[["いき"]],ex:[["元気","げんき","en forme"],["天気","てんき","temps (météo)"]]},
+  {k:"糸",mean:"fil",on:[["シ"]],kun:[["いと"]],ex:[["糸","いと","fil"],["毛糸","けいと","laine"]]},
+  {k:"村",mean:"village",on:[["ソン"]],kun:[["むら"]],ex:[["村","むら","village"],["農村","のうそん","village agricole"]]},
+  {k:"正",mean:"correct, juste",on:[["セイ／ショウ"]],kun:[["ただ.しい／まさ.に"]],ex:[["正しい","ただしい","correct"],["正月","しょうがつ","Nouvel An"]]},
+  {k:"白",mean:"blanc",on:[["ハク／ビャク"]],kun:[["しろ／しろ.い／しら-"]],ex:[["白","しろ","blanc"],["白い","しろい","blanc (adj.)"]]},
+  {k:"行",mean:"aller",on:[["コウ／ギョウ"]],kun:[["い.く／おこな.う"]],ex:[["行く","いく","aller"],["銀行","ぎんこう","banque"]]},
+  {k:"本",mean:"livre, origine",on:[["ホン"]],kun:[["もと"]],ex:[["本","ほん","livre"],["日本","にほん","Japon"]]},
+  {k:"分",mean:"part, minute, comprendre",on:[["ブン／フン／ブ"]],kun:[["わ.ける／わ.かる"]],ex:[["分かる","わかる","comprendre"],["五分","ごふん","cinq minutes"]]},
+  {k:"後",mean:"après, arrière",on:[["ゴ／コウ"]],kun:[["のち／うし.ろ／あと"]],ex:[["午後","ごご","après-midi"],["後ろ","うしろ","derrière"]]},
+  {k:"前",mean:"avant, devant",on:[["ゼン"]],kun:[["まえ"]],ex:[["午前","ごぜん","matin"],["前","まえ","devant"]]},
+  {k:"時",mean:"heure, temps",on:[["ジ"]],kun:[["とき"]],ex:[["時間","じかん","temps, durée"],["一時","いちじ","une heure"]]},
+  {k:"間",mean:"intervalle, entre",on:[["カン／ケン"]],kun:[["あいだ／ま"]],ex:[["時間","じかん","temps, durée"],["人間","にんげん","être humain"]]},
+  {k:"国",mean:"pays",on:[["コク"]],kun:[["くに"]],ex:[["国","くに","pays"],["中国","ちゅうごく","Chine"]]},
+  {k:"東",mean:"est",on:[["トウ"]],kun:[["ひがし"]],ex:[["東京","とうきょう","Tokyo"],["東","ひがし","est"]]},
+  {k:"今",mean:"maintenant",on:[["コン／キン"]],kun:[["いま"]],ex:[["今","いま","maintenant"],["今日","きょう","aujourd'hui"]]},
+  {k:"入",mean:"entrer",on:[["ニュウ"]],kun:[["い.る／はい.る／い.れる"]],ex:[["入る","はいる","entrer"],["入口","いりぐち","entrée"]]},
+  {k:"長",mean:"long, chef",on:[["チョウ"]],kun:[["なが.い"]],ex:[["長い","ながい","long"],["社長","しゃちょう","président (société)"]]},
+  {k:"高",mean:"haut, cher",on:[["コウ"]],kun:[["たか.い"]],ex:[["高い","たかい","cher, haut"],["高校","こうこう","lycée"]]},
+  {k:"年",mean:"année",on:[["ネン"]],kun:[["とし"]],ex:[["今年","ことし","cette année"],["去年","きょねん","l'an dernier"]]},
+  {k:"外",mean:"extérieur, dehors",on:[["ガイ／ゲ"]],kun:[["そと／ほか／はず.す"]],ex:[["外国","がいこく","pays étranger"],["外","そと","dehors"]]},
+  {k:"来",mean:"venir",on:[["ライ"]],kun:[["く.る／きた.る"]],ex:[["来る","くる","venir"],["来週","らいしゅう","semaine prochaine"]]},
+  {k:"小",mean:"petit",on:[["ショウ"]],kun:[["ちい.さい／こ-／お-"]],ex:[["小さい","ちいさい","petit"],["小学校","しょうがっこう","école primaire"]]},
+  {k:"話",mean:"parler, histoire",on:[["ワ"]],kun:[["はな.す／はなし"]],ex:[["話す","はなす","parler"],["電話","でんわ","téléphone"]]},
+  {k:"北",mean:"nord",on:[["ホク"]],kun:[["きた"]],ex:[["北","きた","nord"],["北海道","ほっかいどう","Hokkaido"]]},
+  {k:"午",mean:"midi",on:[["ゴ"]],kun:[["—"]],ex:[["午前","ごぜん","matin"],["午後","ごご","après-midi"]]},
+  {k:"書",mean:"écrire",on:[["ショ"]],kun:[["か.く"]],ex:[["書く","かく","écrire"],["辞書","じしょ","dictionnaire"]]},
+  {k:"半",mean:"moitié, demi",on:[["ハン"]],kun:[["なか.ば"]],ex:[["半分","はんぶん","la moitié"],["半","はん","et demie (heure)"]]},
+  {k:"西",mean:"ouest",on:[["セイ／サイ"]],kun:[["にし"]],ex:[["西","にし","ouest"],["関西","かんさい","Kansai"]]},
+  {k:"電",mean:"électricité",on:[["デン"]],kun:[["—"]],ex:[["電車","でんしゃ","train"],["電話","でんわ","téléphone"]]},
+  {k:"出",mean:"sortir",on:[["シュツ／スイ"]],kun:[["で.る／だ.す"]],ex:[["出る","でる","sortir"],["出口","でぐち","sortie"]]},
+  {k:"語",mean:"langue, mot",on:[["ゴ"]],kun:[["かた.る"]],ex:[["日本語","にほんご","japonais (langue)"],["語","ご","mot, langue"]]},
+  {k:"聞",mean:"écouter, entendre",on:[["ブン／モン"]],kun:[["き.く／き.こえる"]],ex:[["聞く","きく","écouter"],["新聞","しんぶん","journal"]]},
+  {k:"食",mean:"manger",on:[["ショク／ジキ"]],kun:[["た.べる／く.う"]],ex:[["食べる","たべる","manger"],["食事","しょくじ","repas"]]},
+  {k:"何",mean:"quoi, combien",on:[["カ"]],kun:[["なに／なん"]],ex:[["何","なに／なん","quoi"],["何時","なんじ","quelle heure"]]},
+  {k:"南",mean:"sud",on:[["ナン"]],kun:[["みなみ"]],ex:[["南","みなみ","sud"],["南極","なんきょく","Antarctique"]]},
+  {k:"万",mean:"dix mille",on:[["マン／バン"]],kun:[["—"]],ex:[["一万","いちまん","dix mille"],["万年筆","まんねんひつ","stylo plume"]]},
+  {k:"毎",mean:"chaque",on:[["マイ"]],kun:[["—"]],ex:[["毎日","まいにち","chaque jour"],["毎年","まいとし","chaque année"]]},
+  {k:"母",mean:"mère",on:[["ボ"]],kun:[["はは／かあ"]],ex:[["母","はは","mère"],["お母さん","おかあさん","maman"]]},
+  {k:"読",mean:"lire",on:[["ドク／トク"]],kun:[["よ.む"]],ex:[["読む","よむ","lire"],["読書","どくしょ","lecture"]]},
+  {k:"友",mean:"ami",on:[["ユウ"]],kun:[["とも"]],ex:[["友達","ともだち","ami"],["友人","ゆうじん","ami (formel)"]]},
+  {k:"父",mean:"père",on:[["フ"]],kun:[["ちち／とう"]],ex:[["父","ちち","père"],["お父さん","おとうさん","papa"]]},
+  {k:"雨",mean:"pluie",on:[["ウ"]],kun:[["あめ／あま-"]],ex:[["雨","あめ","pluie"],["大雨","おおあめ","forte pluie"]]}
+];
+
+const grid=document.getElementById('grid');
+let order=[...KANJI.keys()];
+
+function render(){
+  grid.innerHTML='';
+  order.forEach(i=>{
+    const d=KANJI[i];
+    const card=document.createElement('div');
+    card.className='card';
+    const onRows=d.on.map(o=>`<div class="reading on"><span class="tag">ON</span><span class="val">${o[0]}</span></div>`).join('');
+    const kunRows=d.kun.map(o=>`<div class="reading kun"><span class="tag">KUN</span><span class="val">${o[0]}</span></div>`).join('');
+    const exRows=d.ex.map(e=>`<div><b>${e[0]}</b> ${e[1]} <span class="fr">— ${e[2]}</span></div>`).join('');
+    card.innerHTML=`
+      <div class="inner">
+        <div class="face front">
+          <span class="ji">${d.k}</span>
+          <span class="hint">toucher</span>
+        </div>
+        <div class="face back">
+          <div class="ji-mini">${d.k}</div>
+          <div class="meaning">${d.mean}</div>
+          ${onRows}${kunRows}
+          <div class="ex">${exRows}</div>
+        </div>
+      </div>`;
+    card.addEventListener('click',()=>card.classList.toggle('flip'));
+    grid.appendChild(card);
+  });
+  document.getElementById('count').textContent=KANJI.length+' kanji';
+}
+
+document.getElementById('flipAll').addEventListener('click',function(){
+  this.classList.toggle('on');
+  const on=this.classList.contains('on');
+  document.querySelectorAll('.card').forEach(c=>c.classList.toggle('flip',on));
+});
+document.getElementById('reset').addEventListener('click',()=>{
+  document.querySelectorAll('.card').forEach(c=>c.classList.remove('flip'));
+  document.getElementById('flipAll').classList.remove('on');
+});
+document.getElementById('shuffle').addEventListener('click',()=>{
+  for(let i=order.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[order[i],order[j]]=[order[j],order[i]];}
+  render();
+  document.getElementById('flipAll').classList.remove('on');
+});
+
+render();
+
+/* ---------- Tabs ---------- */
+const tabCards=document.getElementById('tabCards');
+const tabQuiz=document.getElementById('tabQuiz');
+const viewCards=document.getElementById('viewCards');
+const viewQuiz=document.getElementById('viewQuiz');
+function showTab(quiz){
+  tabQuiz.classList.toggle('on',quiz);
+  tabCards.classList.toggle('on',!quiz);
+  viewQuiz.hidden=!quiz;
+  viewCards.hidden=quiz;
+}
+tabCards.addEventListener('click',()=>showTab(false));
+tabQuiz.addEventListener('click',()=>showTab(true));
+
+/* ---------- Quiz ---------- */
+let quizMode='meaning', quizLen=10;
+const qModeBox=document.getElementById('qMode');
+const qLenBox=document.getElementById('qLen');
+qModeBox.addEventListener('click',e=>{
+  const b=e.target.closest('.qopt'); if(!b)return;
+  [...qModeBox.children].forEach(x=>x.classList.remove('on'));
+  b.classList.add('on'); quizMode=b.dataset.mode;
+});
+qLenBox.addEventListener('click',e=>{
+  const b=e.target.closest('.qopt'); if(!b)return;
+  [...qLenBox.children].forEach(x=>x.classList.remove('on'));
+  b.classList.add('on'); quizLen=+b.dataset.len;
+});
+
+const setup=document.getElementById('quizSetup');
+const play=document.getElementById('quizPlay');
+const result=document.getElementById('quizResult');
+let questions=[], qIndex=0, score=0, missed=[];
+
+function shuffleArr(a){a=[...a];for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+
+function buildQuestion(idx){
+  const d=KANJI[idx];
+  const pool=shuffleArr([...KANJI.keys()].filter(i=>i!==idx)).slice(0,3);
+  let prompt, promptClass, promptLabel, correct, options;
+  if(quizMode==='meaning'){
+    promptLabel='Quel est le sens ?'; prompt=d.k; promptClass='big';
+    correct=d.mean; options=shuffleArr([correct,...pool.map(i=>KANJI[i].mean)]);
+  }else if(quizMode==='reading'){
+    promptLabel='Quelle lecture ?'; prompt=d.k; promptClass='big';
+    const read=v=>v.on[0][0]+'  /  '+v.kun[0][0];
+    correct=read(d); options=shuffleArr([correct,...pool.map(i=>read(KANJI[i]))]);
+  }else{
+    promptLabel='Quel kanji ?'; prompt=d.mean; promptClass='mid';
+    correct=d.k; options=shuffleArr([correct,...pool.map(i=>KANJI[i].k)]);
+  }
+  return {idx,prompt,promptClass,promptLabel,correct,options,kanjiFace:quizMode==='kanji'};
+}
+
+function startQuiz(){
+  const n=quizLen===0?KANJI.length:Math.min(quizLen,KANJI.length);
+  const picks=shuffleArr([...KANJI.keys()]).slice(0,n);
+  questions=picks.map(buildQuestion);
+  qIndex=0; score=0; missed=[];
+  setup.hidden=true; result.hidden=true; play.hidden=false;
+  renderQuestion();
+}
+
+const qbar=document.getElementById('qbar');
+const qcounter=document.getElementById('qcounter');
+const qscore=document.getElementById('qscore');
+const qpromptLabel=document.getElementById('qpromptLabel');
+const qprompt=document.getElementById('qprompt');
+const qchoices=document.getElementById('qchoices');
+const qnext=document.getElementById('qnext');
+
+function renderQuestion(){
+  const q=questions[qIndex];
+  qbar.style.width=(qIndex/questions.length*100)+'%';
+  qcounter.textContent='Question '+(qIndex+1)+' / '+questions.length;
+  qscore.textContent=score+' pts';
+  qpromptLabel.textContent=q.promptLabel;
+  qprompt.textContent=q.prompt;
+  qprompt.className='qprompt '+q.promptClass;
+  qchoices.innerHTML='';
+  qnext.hidden=true;
+  q.options.forEach(opt=>{
+    const b=document.createElement('button');
+    b.className='choice'+(q.kanjiFace?' kanjiface':'');
+    b.textContent=opt;
+    b.addEventListener('click',()=>answer(b,opt,q));
+    qchoices.appendChild(b);
+  });
+}
+
+function answer(btn,opt,q){
+  const buttons=[...qchoices.children];
+  buttons.forEach(b=>b.disabled=true);
+  if(opt===q.correct){
+    btn.classList.add('correct'); score++;
+  }else{
+    btn.classList.add('wrong');
+    buttons.forEach(b=>{if(b.textContent===q.correct)b.classList.add('correct');});
+    missed.push(q.idx);
+  }
+  buttons.forEach(b=>{if(!b.classList.contains('correct')&&!b.classList.contains('wrong'))b.classList.add('dim');});
+  qscore.textContent=score+' pts';
+  qnext.hidden=false;
+  qnext.textContent=(qIndex===questions.length-1)?'Voir le résultat':'Suivant';
+}
+
+qnext.addEventListener('click',()=>{
+  qIndex++;
+  if(qIndex>=questions.length){showResult();}else{renderQuestion();}
+});
+
+function showResult(){
+  play.hidden=true; result.hidden=false;
+  const total=questions.length;
+  const pct=Math.round(score/total*100);
+  document.getElementById('rscore').textContent=score+' / '+total;
+  let msg;
+  if(pct===100)msg='Parfait ! 完璧です 🎌';
+  else if(pct>=80)msg='Très bien ! Continue comme ça.';
+  else if(pct>=50)msg='Pas mal — révise les kanji ratés ci-dessous.';
+  else msg='Courage ! Revois les fiches puis recommence.';
+  document.getElementById('rmsg').textContent=msg;
+  const miss=document.getElementById('rmiss');
+  if(missed.length){
+    const uniq=[...new Set(missed)];
+    miss.innerHTML='<div class="title">À revoir</div>'+uniq.map(i=>{
+      const d=KANJI[i];
+      return `<div class="row"><span class="rk">${d.k}</span><span class="rd"><b>${d.mean}</b><br>ON ${d.on[0][0]} · KUN ${d.kun[0][0]}</span></div>`;
+    }).join('');
+  }else{miss.innerHTML='';}
+}
+
+document.getElementById('quizStart').addEventListener('click',startQuiz);
+document.getElementById('quizAgain').addEventListener('click',()=>{
+  result.hidden=true; setup.hidden=false;
+});
+</script>
+</body>
+</html>
