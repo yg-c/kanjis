@@ -298,6 +298,18 @@
   .rmiss .row .rd b{color:var(--seal);}
   .rmiss .title{font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin-bottom:4px;text-align:center;}
 
+  .filters{
+    display:flex;flex-wrap:wrap;justify-content:center;gap:6px;
+    padding:10px 16px 0;font-family:-apple-system,"Helvetica Neue",sans-serif;
+  }
+  .filters button{
+    border:1px solid var(--line);background:transparent;color:var(--muted);
+    font-size:13px;padding:6px 13px;border-radius:999px;cursor:pointer;transition:all .2s;
+  }
+  .filters button.on{background:var(--gold);color:#fff;border-color:var(--gold);}
+  .filters button:active{transform:scale(.95);}
+  .fnote{text-align:center;font-family:-apple-system,sans-serif;font-size:12px;color:var(--muted);margin-top:14px;}
+
   @media (max-width:430px){
     .grid{grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:13px;}
     .front .ji{font-size:64px;}
@@ -315,6 +327,14 @@
 <div class="tabs">
   <button id="tabCards" class="tab on">Fiches</button>
   <button id="tabQuiz" class="tab">Quiz</button>
+</div>
+
+<div class="filters" id="filters">
+  <button data-f="all" class="on">Tous</button>
+  <button data-f="n5">N5</button>
+  <button data-f="horsn5">Hors N5</button>
+  <button data-f="todo">À acquérir</button>
+  <button data-f="acquis">Acquis</button>
 </div>
 
 <div id="viewCards">
@@ -342,6 +362,7 @@
       <button class="qopt" data-len="0">Tous</button>
     </div>
     <button id="quizStart" class="start-btn">Commencer</button>
+    <p class="fnote" id="quizNote"></p>
   </div>
 
   <div class="quiz-play" id="quizPlay" hidden>
@@ -458,15 +479,60 @@ const KANJI = [
   {k:"読",mean:"lire",on:[["ドク／トク"]],kun:[["よ.む"]],ex:[["読む","よむ","lire"],["読書","どくしょ","lecture"]]},
   {k:"友",mean:"ami",on:[["ユウ"]],kun:[["とも"]],ex:[["友達","ともだち","ami"],["友人","ゆうじん","ami (formel)"]]},
   {k:"父",mean:"père",on:[["フ"]],kun:[["ちち／とう"]],ex:[["父","ちち","père"],["お父さん","おとうさん","papa"]]},
-  {k:"雨",mean:"pluie",on:[["ウ"]],kun:[["あめ／あま-"]],ex:[["雨","あめ","pluie"],["大雨","おおあめ","forte pluie"]]}
+  {k:"雨",mean:"pluie",on:[["ウ"]],kun:[["あめ／あま-"]],ex:[["雨","あめ","pluie"],["大雨","おおあめ","forte pluie"]]},
+{k:"花",mean:"fleur",on:[["カ"]],kun:[["はな"]],ex:[["花","はな","fleur"],["花見","はなみ","contemplation des cerisiers"]]},
+{k:"音",mean:"son, bruit",on:[["オン／イン"]],kun:[["おと／ね"]],ex:[["音楽","おんがく","musique"],["音","おと","son, bruit"]]},
+{k:"会",mean:"rencontrer, réunion",on:[["カイ／エ"]],kun:[["あ.う"]],ex:[["会社","かいしゃ","entreprise"],["会う","あう","rencontrer"]]},
+{k:"社",mean:"société, sanctuaire",on:[["シャ"]],kun:[["やしろ"]],ex:[["会社","かいしゃ","entreprise"],["神社","じんじゃ","sanctuaire shintô"]]},
+{k:"新",mean:"nouveau",on:[["シン"]],kun:[["あたら.しい／あら.た"]],ex:[["新しい","あたらしい","nouveau"],["新聞","しんぶん","journal"]]},
+{k:"立",mean:"se lever, debout",on:[["リツ／リュウ"]],kun:[["た.つ／た.てる"]],ex:[["立つ","たつ","se lever"],["国立","こくりつ","national (établissement)"]]},
+{k:"言",mean:"dire, parole",on:[["ゲン／ゴン"]],kun:[["い.う／こと"]],ex:[["言う","いう","dire"],["言葉","ことば","mot, langage"]]},
+{k:"多",mean:"nombreux",on:[["タ"]],kun:[["おお.い"]],ex:[["多い","おおい","nombreux"],["多分","たぶん","sans doute"]]},
+{k:"安",mean:"bon marché, tranquille",on:[["アン"]],kun:[["やす.い"]],ex:[["安い","やすい","bon marché"],["安心","あんしん","soulagement"]]},
+{k:"道",mean:"chemin, voie",on:[["ドウ／トウ"]],kun:[["みち"]],ex:[["道","みち","rue, chemin"],["北海道","ほっかいどう","Hokkaido"]]},
+{k:"少",mean:"peu",on:[["ショウ"]],kun:[["すく.ない／すこ.し"]],ex:[["少し","すこし","un peu"],["少ない","すくない","peu nombreux"]]},
+{k:"足",mean:"pied, jambe, suffire",on:[["ソク"]],kun:[["あし／た.りる／た.す"]],ex:[["足","あし","pied, jambe"],["足りる","たりる","suffire"]]},
+{k:"店",mean:"magasin",on:[["テン"]],kun:[["みせ"]],ex:[["店","みせ","magasin"],["喫茶店","きっさてん","café (salon)"]]},
+{k:"古",mean:"vieux, ancien",on:[["コ"]],kun:[["ふる.い"]],ex:[["古い","ふるい","vieux"],["中古","ちゅうこ","d'occasion"]]},
+{k:"買",mean:"acheter",on:[["バイ"]],kun:[["か.う"]],ex:[["買う","かう","acheter"],["買い物","かいもの","courses, shopping"]]},
+{k:"週",mean:"semaine",on:[["シュウ"]],kun:[["—"]],ex:[["今週","こんしゅう","cette semaine"],["週末","しゅうまつ","week-end"]]},
+{k:"駅",mean:"gare",on:[["エキ"]],kun:[["—"]],ex:[["駅","えき","gare"],["駅員","えきいん","employé de gare"]]},
+{k:"飲",mean:"boire",on:[["イン"]],kun:[["の.む"]],ex:[["飲む","のむ","boire"],["飲み物","のみもの","boisson"]]},
+{k:"魚",mean:"poisson",on:[["ギョ"]],kun:[["さかな／うお"]],ex:[["魚","さかな","poisson"],["金魚","きんぎょ","poisson rouge"]]},
+{k:"耳",mean:"oreille",on:[["ジ"]],kun:[["みみ"]],ex:[["耳","みみ","oreille"],["耳鼻科","じびか","ORL"]]}
 ];
+
+/* ---------- Filtres ----------
+   ACQUIS : ajoute ici un kanji quand tu le maîtrises.
+   HORS_N5 : kanji de la liste qui ne font pas partie du N5 (liste usuelle à 103). */
+const ACQUIS="日山土木目口金川水田月手一二三四五六七八九十人車火左右空男女子天上文休中見石力大字名夕百円下虫千学校先生気糸村正白音花";
+const HORS_N5="田石力字夕虫糸村正音文";
+let filter='all';
+function inFilter(d){
+  switch(filter){
+    case 'n5': return !HORS_N5.includes(d.k);
+    case 'horsn5': return HORS_N5.includes(d.k);
+    case 'todo': return !ACQUIS.includes(d.k);
+    case 'acquis': return ACQUIS.includes(d.k);
+    default: return true;
+  }
+}
+function filteredKeys(){return [...KANJI.keys()].filter(i=>inFilter(KANJI[i]));}
+const filtersBox=document.getElementById('filters');
+filtersBox.addEventListener('click',e=>{
+  const b=e.target.closest('button'); if(!b)return;
+  [...filtersBox.children].forEach(x=>x.classList.remove('on'));
+  b.classList.add('on'); filter=b.dataset.f;
+  document.getElementById('flipAll').classList.remove('on');
+  render(); updateQuizNote();
+});
 
 const grid=document.getElementById('grid');
 let order=[...KANJI.keys()];
 
 function render(){
   grid.innerHTML='';
-  order.forEach(i=>{
+  order.filter(i=>inFilter(KANJI[i])).forEach(i=>{
     const d=KANJI[i];
     const card=document.createElement('div');
     card.className='card';
@@ -489,7 +555,8 @@ function render(){
     card.addEventListener('click',()=>card.classList.toggle('flip'));
     grid.appendChild(card);
   });
-  document.getElementById('count').textContent=KANJI.length+' kanji';
+  const nf=filteredKeys().length;
+  document.getElementById('count').textContent=(nf===KANJI.length?KANJI.length:nf+' / '+KANJI.length)+' kanji';
 }
 
 document.getElementById('flipAll').addEventListener('click',function(){
@@ -547,7 +614,8 @@ function shuffleArr(a){a=[...a];for(let i=a.length-1;i>0;i--){const j=Math.floor
 
 function buildQuestion(idx){
   const d=KANJI[idx];
-  const pool=shuffleArr([...KANJI.keys()].filter(i=>i!==idx)).slice(0,3);
+  const src=filteredKeys().length>=4?filteredKeys():[...KANJI.keys()];
+  const pool=shuffleArr(src.filter(i=>i!==idx)).slice(0,3);
   let prompt, promptClass, promptLabel, correct, options;
   if(quizMode==='meaning'){
     promptLabel='Quel est le sens ?'; prompt=d.k; promptClass='big';
@@ -564,8 +632,9 @@ function buildQuestion(idx){
 }
 
 function startQuiz(){
-  const n=quizLen===0?KANJI.length:Math.min(quizLen,KANJI.length);
-  const picks=shuffleArr([...KANJI.keys()]).slice(0,n);
+  const keys=filteredKeys();
+  const n=quizLen===0?keys.length:Math.min(quizLen,keys.length);
+  const picks=shuffleArr(keys).slice(0,n);
   questions=picks.map(buildQuestion);
   qIndex=0; score=0; missed=[];
   setup.hidden=true; result.hidden=true; play.hidden=false;
@@ -641,6 +710,11 @@ function showResult(){
   }else{miss.innerHTML='';}
 }
 
+function updateQuizNote(){
+  const labels={all:'tous les kanji',n5:'N5',horsn5:'hors N5',todo:'à acquérir',acquis:'acquis'};
+  document.getElementById('quizNote').textContent='Sélection : '+labels[filter]+' ('+filteredKeys().length+' kanji)';
+}
+updateQuizNote();
 document.getElementById('quizStart').addEventListener('click',startQuiz);
 document.getElementById('quizAgain').addEventListener('click',()=>{
   result.hidden=true; setup.hidden=false;
