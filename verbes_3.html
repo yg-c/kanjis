@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>Verbes · feuille bleue</title>
+<link rel="stylesheet" href="cartes.css">
+</head>
+<body class="feuille-bleue">
+<a class="home" href="index.html">&larr; Accueil</a>
+
+<header>
+  <span class="seal">動詞 ・ 復習</span>
+  <h1>Verbes</h1>
+  <div class="sub">Minna no Nihongo &middot; Verbes</div>
+</header>
+
+<nav class="sheets">
+  <a href="verbes.html">Feuille rose</a>
+  <a href="verbes_2.html">Feuille verte</a>
+  <a href="verbes_3.html" class="on">Feuille bleue</a>
+</nav>
+
+<div class="controls">
+  <button id="flipAll">Tout retourner</button>
+  <button id="reset">Réinitialiser</button>
+  <button id="shuffle">Mélanger</button>
+</div>
+<div class="count" id="count"></div>
+<div class="grid" id="grid"></div>
+
+<script>
+const CARDS = [
+{n:1, g:2,fr:"allumer",masu:"つけます",dict:"つける",te:"つけて",ta:"つけた",nai:"つけない"},
+{n:2, g:1,fr:"éteindre",masu:"消[け]します",dict:"消[け]す",te:"消[け]して",ta:"消[け]した",nai:"消[け]さない"},
+{n:3, g:1,fr:"utiliser",masu:"使[つか]います",dict:"使[つか]う",te:"使[つか]って",ta:"使[つか]った",nai:"使[つか]わない"},
+{n:4, g:1,fr:"prêter",masu:"貸[か]します",dict:"貸[か]す",te:"貸[か]して",ta:"貸[か]した",nai:"貸[か]さない"},
+{n:5, g:2,fr:"emprunter",masu:"借[か]ります",dict:"借[か]りる",te:"借[か]りて",ta:"借[か]りた",nai:"借[か]りない"},
+{n:6, g:1,fr:"rendre",masu:"返[かえ]します",dict:"返[かえ]す",te:"返[かえ]して",ta:"返[かえ]した",nai:"返[かえ]さない"},
+{n:7, g:1,fr:"emporter (quelque chose)",masu:"持[も]っていきます",dict:"持[も]っていく",te:"持[も]っていって",ta:"持[も]っていった",nai:"持[も]っていかない"},
+{n:8, g:3,fr:"apporter (quelque chose)",masu:"持[も]ってきます",dict:"持[も]ってくる",te:"持[も]ってきて",ta:"持[も]ってきた",nai:"持[も]ってこない"},
+{n:9, g:1,fr:"emmener (quelqu'un)",masu:"連[つ]れていきます",dict:"連[つ]れていく",te:"連[つ]れていって",ta:"連[つ]れていった",nai:"連[つ]れていかない"},
+{n:10,g:3,fr:"amener (quelqu'un)",masu:"連[つ]れてきます",dict:"連[つ]れてくる",te:"連[つ]れてきて",ta:"連[つ]れてきた",nai:"連[つ]れてこない"},
+{n:11,g:2,fr:"arrêter, abandonner",masu:"やめます",dict:"やめる",te:"やめて",ta:"やめた",nai:"やめない"},
+{n:12,g:2,fr:"chercher, examiner",masu:"調[しら]べます",dict:"調[しら]べる",te:"調[しら]べて",ta:"調[しら]べた",nai:"調[しら]べない"},
+{n:13,g:2,fr:"penser, réfléchir",masu:"考[かんが]えます",dict:"考[かんが]える",te:"考[かんが]えて",ta:"考[かんが]えた",nai:"考[かんが]えない"},
+{n:14,g:1,fr:"payer",masu:"払[はら]います",dict:"払[はら]う",te:"払[はら]って",ta:"払[はら]った",nai:"払[はら]わない"},
+{n:15,g:1,fr:"finir, se terminer",masu:"終[お]わります",dict:"終[お]わる",te:"終[お]わって",ta:"終[お]わった",nai:"終[お]わらない"},
+{n:16,g:2,fr:"commencer",masu:"始[はじ]めます",dict:"始[はじ]める",te:"始[はじ]めて",ta:"始[はじ]めた",nai:"始[はじ]めない"},
+{n:17,g:3,fr:"partir (en voyage)",masu:"出発[しゅっぱつ]します",dict:"出発[しゅっぱつ]する",te:"出発[しゅっぱつ]して",ta:"出発[しゅっぱつ]した",nai:"出発[しゅっぱつ]しない"},
+{n:18,g:1,fr:"arriver",masu:"着[つ]きます",dict:"着[つ]く",te:"着[つ]いて",ta:"着[つ]いた",nai:"着[つ]かない"},
+{n:19,g:1,fr:"aider",masu:"手伝[てつだ]います",dict:"手伝[てつだ]う",te:"手伝[てつだ]って",ta:"手伝[てつだ]った",nai:"手伝[てつだ]わない"},
+{n:20,g:1,fr:"loger, passer la nuit",masu:"泊[と]まります",dict:"泊[と]まる",te:"泊[と]まって",ta:"泊[と]まった",nai:"泊[と]まらない"},
+{n:21,g:1,fr:"envoyer, accompagner",masu:"送[おく]ります",dict:"送[おく]る",te:"送[おく]って",ta:"送[おく]った",nai:"送[おく]らない"},
+{n:22,g:1,fr:"dire",masu:"言[い]います",dict:"言[い]う",te:"言[い]って",ta:"言[い]った",nai:"言[い]わない"},
+{n:23,g:2,fr:"changer",masu:"かえます",dict:"かえる",te:"かえて",ta:"かえた",nai:"かえない"},
+{n:24,g:2,fr:"continuer",masu:"続[つづ]けます",dict:"続[つづ]ける",te:"続[つづ]けて",ta:"続[つづ]けた",nai:"続[つづ]けない"}
+];
+const IMG_DIR="images/verbes_3";
+const LABEL="verbes";
+</script>
+<script src="cartes.js"></script>
+</body>
+</html>

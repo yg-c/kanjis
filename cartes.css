@@ -233,6 +233,7 @@ rt{font-size:.6em;color:#5f574c;}
 /* ---- Sélecteur de feuille ---- */
 .sheets{
   display:flex;
+  flex-wrap:wrap;
   justify-content:center;
   gap:8px;
   padding:10px 16px 0;
@@ -257,6 +258,7 @@ rt{font-size:.6em;color:#5f574c;}
 /* ---- Couleur des feuilles de verbes (fond des PDF d'origine) ---- */
 .feuille-rose{--sheet:#f4b9c5;}
 .feuille-verte{--sheet:#bdd69c;}
-.feuille-rose .face,.feuille-verte .face{background:var(--sheet);}
-.feuille-rose .back .grp,.feuille-verte .back .grp{color:var(--sumi);}
-.feuille-rose .back .obj,.feuille-verte .back .obj{color:#5f574c;}
+.feuille-bleue{--sheet:#bee3d7;}
+.feuille-rose .face,.feuille-verte .face,.feuille-bleue .face{background:var(--sheet);}
+.feuille-rose .back .grp,.feuille-verte .back .grp,.feuille-bleue .back .grp{color:var(--sumi);}
+.feuille-rose .back .obj,.feuille-verte .back .obj,.feuille-bleue .back .obj{color:#5f574c;}
