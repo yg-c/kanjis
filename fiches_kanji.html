@@ -499,14 +499,17 @@ const KANJI = [
 {k:"駅",mean:"gare",on:[["エキ"]],kun:[["—"]],ex:[["駅","えき","gare"],["駅員","えきいん","employé de gare"]]},
 {k:"飲",mean:"boire",on:[["イン"]],kun:[["の.む"]],ex:[["飲む","のむ","boire"],["飲み物","のみもの","boisson"]]},
 {k:"魚",mean:"poisson",on:[["ギョ"]],kun:[["さかな／うお"]],ex:[["魚","さかな","poisson"],["金魚","きんぎょ","poisson rouge"]]},
-{k:"耳",mean:"oreille",on:[["ジ"]],kun:[["みみ"]],ex:[["耳","みみ","oreille"],["耳鼻科","じびか","ORL"]]}
+{k:"耳",mean:"oreille",on:[["ジ"]],kun:[["みみ"]],ex:[["耳","みみ","oreille"],["耳鼻科","じびか","ORL"]]},
+{k:"赤",mean:"rouge",on:[["セキ／シャク"]],kun:[["あか／あか.い"]],ex:[["赤い","あかい","rouge (adj.)"],["赤ちゃん","あかちゃん","bébé"]]},
+{k:"青",mean:"bleu, vert",on:[["セイ／ショウ"]],kun:[["あお／あお.い"]],ex:[["青い","あおい","bleu (adj.)"],["青年","せいねん","jeune homme"]]},
+{k:"町",mean:"ville, quartier",on:[["チョウ"]],kun:[["まち"]],ex:[["町","まち","ville, quartier"],["町長","ちょうちょう","maire (de ville)"]]}
 ];
 
 /* ---------- Filtres ----------
    ACQUIS : ajoute ici un kanji quand tu le maîtrises.
    HORS_N5 : kanji de la liste qui ne font pas partie du N5 (liste usuelle à 103). */
 const ACQUIS="日山土木目口金川水田月手一二三四五六七八九十人車火左右空男女子天上文休中見石力大字名夕百円下虫千学校先生気糸村正白音花";
-const HORS_N5="田石力字夕虫糸村正音文";
+const HORS_N5="田石力字夕虫糸村正音文赤青町";
 let filter='all';
 function inFilter(d){
   switch(filter){
