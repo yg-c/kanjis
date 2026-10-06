@@ -253,3 +253,10 @@ rt{font-size:.6em;color:#5f574c;}
 @media (max-width:430px){
   .grid{grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:13px;}
 }
+
+/* ---- Couleur des feuilles de verbes (fond des PDF d'origine) ---- */
+.feuille-rose{--sheet:#f4b9c5;}
+.feuille-verte{--sheet:#bdd69c;}
+.feuille-rose .face,.feuille-verte .face{background:var(--sheet);}
+.feuille-rose .back .grp,.feuille-verte .back .grp{color:var(--sumi);}
+.feuille-rose .back .obj,.feuille-verte .back .obj{color:#5f574c;}
