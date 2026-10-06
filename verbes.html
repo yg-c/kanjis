@@ -5,221 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <title>Fiches Verbes</title>
-<style>
-  :root{
-    --paper:#f3efe6;
-    --ink:#1c1a17;
-    --sumi:#2b2722;
-    --vermilion:#c0392b;
-    --vermilion-soft:#d35843;
-    --seal:#9b2d23;
-    --gold:#b08743;
-    --muted:#7c7468;
-    --line:#d9d2c4;
-    --card:#fbf9f3;
-    --shadow:rgba(40,34,26,.18);
-  }
-  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
-  html,body{margin:0;padding:0;}
-  body{
-    background:
-      radial-gradient(circle at 20% 12%, #f7f3ea 0%, var(--paper) 55%) fixed;
-    color:var(--ink);
-    font-family:"Hiragino Mincho ProN","Yu Mincho",Georgia,serif;
-    min-height:100vh;
-    -webkit-font-smoothing:antialiased;
-  }
-  header{
-    text-align:center;
-    padding:26px 16px 10px;
-  }
-  .home{
-    position:absolute;
-    top:14px;left:16px;
-    font-family:-apple-system,"Helvetica Neue",sans-serif;
-    font-size:13px;
-    color:var(--muted);
-    text-decoration:none;
-  }
-  .home:hover{color:var(--vermilion);}
-  header .seal{
-    display:inline-block;
-    font-family:"Hiragino Mincho ProN",serif;
-    background:var(--seal);
-    color:#f3efe6;
-    font-size:13px;
-    letter-spacing:.35em;
-    padding:6px 4px 6px 12px;
-    writing-mode:horizontal-tb;
-    border-radius:3px;
-    box-shadow:0 2px 6px var(--shadow);
-  }
-  h1{
-    font-size:30px;
-    margin:14px 0 4px;
-    letter-spacing:.12em;
-    font-weight:600;
-  }
-  .sub{
-    color:var(--muted);
-    font-size:13px;
-    letter-spacing:.18em;
-    font-family:-apple-system,"Helvetica Neue",sans-serif;
-    text-transform:uppercase;
-  }
-
-  .controls{
-    display:flex;
-    flex-wrap:wrap;
-    justify-content:center;
-    gap:10px;
-    padding:14px 16px 6px;
-    font-family:-apple-system,"Helvetica Neue",sans-serif;
-  }
-  .controls button{
-    border:1px solid var(--line);
-    background:var(--card);
-    color:var(--sumi);
-    font-size:14px;
-    padding:9px 16px;
-    border-radius:999px;
-    cursor:pointer;
-    transition:transform .12s ease, background .2s;
-  }
-  .controls button:active{transform:scale(.95);}
-  .controls button.on{background:var(--sumi);color:var(--paper);border-color:var(--sumi);}
-  .count{
-    font-family:-apple-system,sans-serif;
-    font-size:12px;
-    color:var(--muted);
-    text-align:center;
-    padding:2px 0 12px;
-    letter-spacing:.1em;
-  }
-
-  .grid{
-    display:grid;
-    grid-template-columns:repeat(auto-fill,minmax(168px,1fr));
-    gap:16px;
-    padding:8px 18px 60px;
-    max-width:1100px;
-    margin:0 auto;
-  }
-
-  .card{
-    position:relative;
-    aspect-ratio:3/4;
-    min-height:224px;
-    perspective:1100px;
-    cursor:pointer;
-  }
-  @supports not (aspect-ratio:1){
-    .card{height:224px;}
-  }
-  .inner{
-    position:absolute;
-    inset:0;
-    transition:transform .55s cubic-bezier(.2,.7,.2,1);
-    transform-style:preserve-3d;
-  }
-  .card.flip .inner{transform:rotateY(180deg);}
-  .face{
-    position:absolute;
-    inset:0;
-    backface-visibility:hidden;
-    -webkit-backface-visibility:hidden;
-    border-radius:12px;
-    background:var(--card);
-    box-shadow:0 4px 14px var(--shadow);
-    display:flex;
-    flex-direction:column;
-    overflow:hidden;
-  }
-  .front{
-    align-items:center;
-    justify-content:flex-start;
-    padding-top:16px;
-    border:1px solid var(--line);
-  }
-  .front::before{
-    content:"";
-    position:absolute;inset:7px;
-    border:1px solid var(--line);
-    border-radius:8px;
-    pointer-events:none;
-  }
-  .front img{
-    width:78%;
-    mix-blend-mode:multiply;
-    border-radius:6px;
-  }
-  .front .fr{
-    margin-top:10px;
-    padding:0 8px;
-    font-size:16px;
-    line-height:1.25;
-    text-align:center;
-    color:var(--sumi);
-  }
-  .front .hint{
-    position:absolute;
-    bottom:10px;
-    font-size:11px;
-    letter-spacing:.2em;
-    color:var(--muted);
-    font-family:-apple-system,sans-serif;
-  }
-
-  .back{
-    transform:rotateY(180deg);
-    border:1px solid var(--line);
-    padding:13px 13px 11px;
-    background:linear-gradient(180deg,#fcfaf4,#f6f1e7);
-    justify-content:center;
-    gap:10px;
-  }
-  .back .grp{
-    text-align:center;
-    font-family:-apple-system,sans-serif;
-    font-size:11px;
-    font-weight:600;
-    letter-spacing:.14em;
-    text-transform:uppercase;
-    color:var(--gold);
-  }
-  .back .obj{
-    text-align:center;
-    font-size:15px;
-    color:var(--muted);
-  }
-  .form{
-    display:flex;
-    align-items:center;
-    gap:7px;
-  }
-  .form .tag{
-    flex:none;
-    min-width:30px;
-    text-align:center;
-    font-size:10px;
-    font-weight:700;
-    padding:2px 5px;
-    border-radius:3px;
-    background:var(--sumi);
-    color:var(--paper);
-  }
-  .form.masu .tag{background:var(--vermilion);}
-  .form .val{
-    font-size:17px;
-    line-height:1.9;
-    color:var(--ink);
-  }
-  rt{font-size:.6em;color:#5f574c;}
-
-  @media (max-width:430px){
-    .grid{grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:13px;}
-  }
-</style>
+<link rel="stylesheet" href="cartes.css">
 </head>
 <body>
 <a class="home" href="index.html">&larr; Accueil</a>
@@ -230,6 +16,11 @@
   <div class="sub">Minna no Nihongo &middot; Verbes</div>
 </header>
 
+<nav class="sheets">
+  <a href="verbes.html" class="on">Feuille 1</a>
+  <a href="verbes_2.html">Feuille 2</a>
+</nav>
+
 <div class="controls">
   <button id="flipAll">Tout retourner</button>
   <button id="reset">Réinitialiser</button>
@@ -239,7 +30,7 @@
 <div class="grid" id="grid"></div>
 
 <script>
-const VERBS = [
+const CARDS = [
 {n:1, g:1,fr:"rencontrer",obj:"",masu:"会[あ]います",dict:"会[あ]う",te:"会[あ]って"},
 {n:2, g:1,fr:"acheter",obj:"",masu:"買[か]います",dict:"買[か]う",te:"買[か]って"},
 {n:3, g:1,fr:"attendre",obj:"",masu:"待[ま]ちます",dict:"待[ま]つ",te:"待[ま]って"},
@@ -271,59 +62,9 @@ const VERBS = [
 {n:29,g:3,fr:"cuisiner",obj:"",masu:"料理[りょうり]します",dict:"料理[りょうり]する",te:"料理[りょうり]して"},
 {n:30,g:3,fr:"venir",obj:"",masu:"来[き]ます",dict:"来[く]る",te:"来[き]て"}
 ];
-/* ---- fin données ---- */
-
-/* 漢字[よみ] -> <ruby>漢字<rt>よみ</rt></ruby> */
-function ruby(s){
-  return s.replace(/([一-鿿々]+)\[([^\]]+)\]/g,'<ruby>$1<rt>$2</rt></ruby>');
-}
-const GROUPES=['','Groupe I','Groupe II','Groupe III'];
-
-const grid=document.getElementById('grid');
-let order=[...VERBS.keys()];
-
-function render(){
-  grid.innerHTML='';
-  order.forEach(i=>{
-    const v=VERBS[i];
-    const card=document.createElement('div');
-    card.className='card';
-    const row=(cls,tag,val)=>`<div class="form ${cls}"><span class="tag">${tag}</span><span class="val">${ruby(val)}</span></div>`;
-    card.innerHTML=`
-      <div class="inner">
-        <div class="face front">
-          <img src="images/verbes/${String(v.n).padStart(2,'0')}.jpg" alt="${v.fr}">
-          <div class="fr">${v.fr}</div>
-          <span class="hint">toucher</span>
-        </div>
-        <div class="face back">
-          <div class="grp">${GROUPES[v.g]}</div>
-          ${v.obj?`<div class="obj">(${ruby(v.obj)})</div>`:''}
-          ${row('masu','ます',v.masu)}${row('dict','辞書',v.dict)}${row('te','て',v.te)}
-        </div>
-      </div>`;
-    card.addEventListener('click',()=>card.classList.toggle('flip'));
-    grid.appendChild(card);
-  });
-  document.getElementById('count').textContent=VERBS.length+' verbes';
-}
-
-document.getElementById('flipAll').addEventListener('click',function(){
-  this.classList.toggle('on');
-  const on=this.classList.contains('on');
-  document.querySelectorAll('.card').forEach(c=>c.classList.toggle('flip',on));
-});
-document.getElementById('reset').addEventListener('click',()=>{
-  document.querySelectorAll('.card').forEach(c=>c.classList.remove('flip'));
-  document.getElementById('flipAll').classList.remove('on');
-});
-document.getElementById('shuffle').addEventListener('click',()=>{
-  for(let i=order.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[order[i],order[j]]=[order[j],order[i]];}
-  render();
-  document.getElementById('flipAll').classList.remove('on');
-});
-
-render();
+const IMG_DIR="images/verbes";
+const LABEL="verbes";
 </script>
+<script src="cartes.js"></script>
 </body>
 </html>

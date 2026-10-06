@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>Vocabulaire 16</title>
+<link rel="stylesheet" href="cartes.css">
+</head>
+<body>
+<a class="home" href="index.html">&larr; Accueil</a>
+
+<header>
+  <span class="seal">語彙 ・ 復習</span>
+  <h1>Vocabulaire</h1>
+  <div class="sub">Minna no Nihongo &middot; Vocabulaire</div>
+</header>
+
+<nav class="sheets">
+  <a href="vocabulaire_16.html" class="on">Chapitre 16</a>
+</nav>
+
+<div class="controls">
+  <button id="flipAll">Tout retourner</button>
+  <button id="reset">Réinitialiser</button>
+  <button id="shuffle">Mélanger</button>
+</div>
+<div class="count" id="count"></div>
+<div class="grid" id="grid"></div>
+
+<script>
+const CARDS = [
+{n:1, fr:"monter (dans le train)",obj:"電車[でんしゃ]に",jp:"乗[の]ります"},
+{n:2, fr:"descendre (du train)",obj:"電車[でんしゃ]を",jp:"降[お]ります"},
+{n:3, fr:"changer (de train)",obj:"電車[でんしゃ]に",jp:"乗[の]り換[か]えます"},
+{n:4, fr:"prendre (une douche)",obj:"シャワーを",jp:"浴[あ]びます"},
+{n:5, fr:"jogging",jp:"ジョギング"},
+{n:6, fr:"temple bouddhiste",jp:"(お)寺[てら]"},
+{n:7, fr:"sanctuaire shintô",jp:"神社[じんじゃ]"},
+{n:8, fr:"mettre (un livre dans le sac)",obj:"本[ほん]をかばんに",jp:"入[い]れます"},
+{n:9, fr:"sortir (un livre du sac)",obj:"本[ほん]をかばんから",jp:"出[だ]します"},
+{n:10,fr:"retirer (de l'argent au distributeur)",obj:"お金[かね]をATMから",jp:"下[お]ろします"},
+{n:11,fr:"entrer (à l'université)",obj:"大学[だいがく]に",jp:"入[はい]ります"},
+{n:12,fr:"être diplômé (de l'université)",obj:"大学[だいがく]を",jp:"出[で]ます"},
+{n:13,fr:"quitter (son entreprise)",obj:"会社[かいしゃ]を",jp:"辞[や]めます"},
+{n:14,fr:"bouton",jp:"ボタン"},
+{n:15,fr:"appuyer (sur un bouton)",obj:"ボタンを",jp:"押[お]します"},
+{n:16,fr:"boire",jp:"飲[の]みます"},
+{n:17,fr:"visiter (pour apprendre)",jp:"見学[けんがく]します"},
+{n:18,fr:"téléphoner",jp:"電話[でんわ]します"},
+{n:19,fr:"long",jp:"長[なが]い"},
+{n:20,fr:"court",jp:"短[みじか]い"},
+{n:21,fr:"grand (de taille)",jp:"背[せ]が高[たか]い"},
+{n:22,fr:"petit (de taille)",jp:"背[せ]が低[ひく]い"},
+{n:23,fr:"corps",jp:"体[からだ]"},
+{n:24,fr:"cheveux",jp:"髪[かみ](の毛[け])"},
+{n:25,fr:"visage",jp:"顔[かお]"},
+{n:26,fr:"dent",jp:"歯[は]"},
+{n:27,fr:"jeune",jp:"若[わか]い"},
+{n:28,fr:"âgé",jp:"年[とし]取[と]った"},
+{n:29,fr:"gai, lumineux",jp:"明[あか]るい"},
+{n:30,fr:"sombre, morose",jp:"暗[くら]い"},
+{n:31,fr:"tête",jp:"頭[あたま]"},
+{n:32,fr:"oreille",jp:"耳[みみ]"},
+{n:33,fr:"œil",jp:"目[め]"},
+{n:34,fr:"nez",jp:"鼻[はな]"},
+{n:35,fr:"bouche",jp:"口[くち]"},
+{n:36,fr:"gorge",jp:"のど"},
+{n:37,fr:"épaule",jp:"肩[かた]"},
+{n:38,fr:"ventre",jp:"お腹[なか]"},
+{n:39,fr:"jambe",jp:"脚[あし]"},
+{n:40,fr:"pied",jp:"足[あし]"},
+{n:41,fr:"genou",jp:"膝[ひざ]"},
+{n:42,fr:"pointe des pieds",jp:"つま先[さき]"}
+];
+const IMG_DIR="images/vocabulaire/16";
+const LABEL="mots";
+</script>
+<script src="cartes.js"></script>
+</body>
+</html>

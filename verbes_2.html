@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>Fiches Verbes 2</title>
+<link rel="stylesheet" href="cartes.css">
+</head>
+<body>
+<a class="home" href="index.html">&larr; Accueil</a>
+
+<header>
+  <span class="seal">動詞 ・ 復習</span>
+  <h1>Verbes</h1>
+  <div class="sub">Minna no Nihongo &middot; Verbes</div>
+</header>
+
+<nav class="sheets">
+  <a href="verbes.html">Feuille 1</a>
+  <a href="verbes_2.html" class="on">Feuille 2</a>
+</nav>
+
+<div class="controls">
+  <button id="flipAll">Tout retourner</button>
+  <button id="reset">Réinitialiser</button>
+  <button id="shuffle">Mélanger</button>
+</div>
+<div class="count" id="count"></div>
+<div class="grid" id="grid"></div>
+
+<script>
+const CARDS = [
+{n:1, g:2,fr:"apprendre, retenir",masu:"覚[おぼ]えます",dict:"覚[おぼ]える",te:"覚[おぼ]えて",ta:"覚[おぼ]えた",nai:"覚[おぼ]えない"},
+{n:2, g:1,fr:"poser",masu:"置[お]きます",dict:"置[お]く",te:"置[お]いて",ta:"置[お]いた",nai:"置[お]かない"},
+{n:3, g:2,fr:"ouvrir",masu:"開[あ]けます",dict:"開[あ]ける",te:"開[あ]けて",ta:"開[あ]けた",nai:"開[あ]けない"},
+{n:4, g:1,fr:"se lever, être debout",masu:"立[た]ちます",dict:"立[た]つ",te:"立[た]って",ta:"立[た]った",nai:"立[た]たない"},
+{n:5, g:1,fr:"jouer (d'un instrument)",masu:"弾[ひ]きます",dict:"弾[ひ]く",te:"弾[ひ]いて",ta:"弾[ひ]いた",nai:"弾[ひ]かない"},
+{n:6, g:1,fr:"fabriquer",masu:"作[つく]ります",dict:"作[つく]る",te:"作[つく]って",ta:"作[つく]った",nai:"作[つく]らない"},
+{n:7, g:1,fr:"courir",masu:"走[はし]ります",dict:"走[はし]る",te:"走[はし]って",ta:"走[はし]った",nai:"走[はし]らない"},
+{n:8, g:1,fr:"marcher",masu:"歩[ある]きます",dict:"歩[ある]く",te:"歩[ある]いて",ta:"歩[ある]いた",nai:"歩[ある]かない"},
+{n:9, g:2,fr:"oublier",masu:"忘[わす]れます",dict:"忘[わす]れる",te:"忘[わす]れて",ta:"忘[わす]れた",nai:"忘[わす]れない"},
+{n:10,g:1,fr:"prendre",masu:"取[と]ります",dict:"取[と]る",te:"取[と]って",ta:"取[と]った",nai:"取[と]らない"},
+{n:11,g:2,fr:"fermer",masu:"閉[し]めます",dict:"閉[し]める",te:"閉[し]めて",ta:"閉[し]めた",nai:"閉[し]めない"},
+{n:12,g:1,fr:"s'asseoir",masu:"座[すわ]ります",dict:"座[すわ]る",te:"座[すわ]って",ta:"座[すわ]った",nai:"座[すわ]らない"},
+{n:13,g:2,fr:"jeter",masu:"捨[す]てます",dict:"捨[す]てる",te:"捨[す]てて",ta:"捨[す]てた",nai:"捨[す]てない"},
+{n:14,g:1,fr:"chanter",masu:"歌[うた]います",dict:"歌[うた]う",te:"歌[うた]って",ta:"歌[うた]った",nai:"歌[うた]わない"},
+{n:15,g:2,fr:"montrer",masu:"見[み]せます",dict:"見[み]せる",te:"見[み]せて",ta:"見[み]せた",nai:"見[み]せない"},
+{n:16,g:1,fr:"couper",masu:"切[き]ります",dict:"切[き]る",te:"切[き]って",ta:"切[き]った",nai:"切[き]らない"},
+{n:17,g:2,fr:"mettre (un vêtement)",masu:"着[き]ます",dict:"着[き]る",te:"着[き]て",ta:"着[き]た",nai:"着[き]ない"},
+{n:18,g:1,fr:"entrer",masu:"入[はい]ります",dict:"入[はい]る",te:"入[はい]って",ta:"入[はい]った",nai:"入[はい]らない"},
+{n:19,g:2,fr:"mettre dedans",masu:"入[い]れます",dict:"入[い]れる",te:"入[い]れて",ta:"入[い]れた",nai:"入[い]れない"},
+{n:20,g:1,fr:"monter (dans un véhicule)",masu:"乗[の]ります",dict:"乗[の]る",te:"乗[の]って",ta:"乗[の]った",nai:"乗[の]らない"},
+{n:21,g:1,fr:"se fâcher",masu:"怒[おこ]ります",dict:"怒[おこ]る",te:"怒[おこ]って",ta:"怒[おこ]った",nai:"怒[おこ]らない"},
+{n:22,g:1,fr:"rire",masu:"笑[わら]います",dict:"笑[わら]う",te:"笑[わら]って",ta:"笑[わら]った",nai:"笑[わら]わない"},
+{n:23,g:1,fr:"se dépêcher",masu:"急[いそ]ぎます",dict:"急[いそ]ぐ",te:"急[いそ]いで",ta:"急[いそ]いだ",nai:"急[いそ]がない"},
+{n:24,g:1,fr:"laver",masu:"洗[あら]います",dict:"洗[あら]う",te:"洗[あら]って",ta:"洗[あら]った",nai:"洗[あら]わない"},
+{n:25,g:1,fr:"enlever (un vêtement)",masu:"脱[ぬ]ぎます",dict:"脱[ぬ]ぐ",te:"脱[ぬ]いで",ta:"脱[ぬ]いだ",nai:"脱[ぬ]がない"},
+{n:26,g:2,fr:"sortir",masu:"出[で]ます",dict:"出[で]る",te:"出[で]て",ta:"出[で]た",nai:"出[で]ない"},
+{n:27,g:1,fr:"sortir (quelque chose)",masu:"出[だ]します",dict:"出[だ]す",te:"出[だ]して",ta:"出[だ]した",nai:"出[だ]さない"},
+{n:28,g:2,fr:"descendre (d'un véhicule)",masu:"降[お]ります",dict:"降[お]りる",te:"降[お]りて",ta:"降[お]りた",nai:"降[お]りない"},
+{n:29,g:3,fr:"être surpris",masu:"びっくりします",dict:"びっくりする",te:"びっくりして",ta:"びっくりした",nai:"びっくりしない"},
+{n:30,g:1,fr:"pleurer",masu:"泣[な]きます",dict:"泣[な]く",te:"泣[な]いて",ta:"泣[な]いた",nai:"泣[な]かない"},
+{n:31,g:1,fr:"appuyer, pousser",masu:"押[お]します",dict:"押[お]す",te:"押[お]して",ta:"押[お]した",nai:"押[お]さない"},
+{n:32,g:2,fr:"enseigner",masu:"教[おし]えます",dict:"教[おし]える",te:"教[おし]えて",ta:"教[おし]えた",nai:"教[おし]えない"}
+];
+const IMG_DIR="images/verbes_2";
+const LABEL="verbes";
+</script>
+<script src="cartes.js"></script>
+</body>
+</html>
