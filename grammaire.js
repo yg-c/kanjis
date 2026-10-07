@@ -32,17 +32,22 @@ function renderLesson(L){
             <div class="fr">${d.fr}</div>
           </details></li>`).join('')}</ol>
       </div>`:'';
-    return `<section class="point" id="p${i+1}">
-        <h3><span class="num">${i+1}</span>${jp(p.title)}</h3>
-        <div class="struct">${p.struct.map(s=>`<div class="jp">${jp(s)}</div>`).join('')}</div>
-        <p class="expl">${jp(p.expl)}</p>
-        <h4>Exemples</h4>
-        <ul class="ex">${ex}</ul>
-        ${drill}
-      </section>`;
+    // un volet (accordéon) par point : le titre se déplie au clic
+    return `<details class="point" id="p${i+1}">
+        <summary><span class="num">${i+1}</span><span class="ttl">${jp(p.title)}</span></summary>
+        <div class="body">
+          <div class="struct">${p.struct.map(s=>`<div class="jp">${jp(s)}</div>`).join('')}</div>
+          <p class="expl">${jp(p.expl)}</p>
+          <h4>Exemples</h4>
+          <ul class="ex">${ex}</ul>
+          ${drill}
+        </div>
+      </details>`;
   }).join('');
-  const toc=`<nav class="toc">${L.points.map((p,i)=>`<a href="#p${i+1}"><span class="num">${i+1}</span>${jp(p.title)}</a>`).join('')}</nav>`;
-  document.getElementById('lesson').innerHTML=goals+toc+points;
+  document.getElementById('lesson').innerHTML=goals+points;
+  // lien direct vers un point (grammaire_16.html#p3) : on l'ouvre
+  const target=location.hash&&document.querySelector(location.hash+'.point');
+  if(target){target.open=true;target.scrollIntoView();}
 }
 
 renderLesson(LESSON);

@@ -5,7 +5,7 @@
   padding:8px 16px 60px;
 }
 #lesson h2,#lesson h3,#lesson h4{font-weight:600;letter-spacing:.04em;}
-#lesson .fr,#lesson .expl,#lesson h4,#lesson summary,#lesson .toc{
+#lesson .fr,#lesson .expl,#lesson h4,#lesson summary{
   font-family:-apple-system,"Helvetica Neue",sans-serif;
 }
 #lesson .jp{font-size:18px;line-height:2.1;color:var(--ink);}
@@ -24,22 +24,32 @@
 .goals ol,.point ol,.point ul{margin:0;padding-left:22px;}
 .goals li,.ex li{margin:6px 0;}
 
-.toc{display:flex;flex-direction:column;gap:6px;margin:8px 0 4px;}
-.toc a{
-  display:flex;align-items:baseline;gap:10px;
-  color:var(--sumi);text-decoration:none;
-  font-family:"Hiragino Mincho ProN","Yu Mincho",serif;font-size:16px;
-  padding:6px 10px;border-radius:8px;
-}
-.toc a:hover{background:var(--card);}
 .num{
   flex:none;display:inline-flex;align-items:center;justify-content:center;
   width:24px;height:24px;border-radius:50%;
   background:var(--seal);color:#f3efe6;
   font-family:-apple-system,sans-serif;font-size:13px;font-weight:600;
 }
-.point h3{display:flex;align-items:baseline;gap:10px;font-size:20px;margin:0 0 8px;color:var(--sumi);}
-.point h3 .num{transform:translateY(-2px);}
+/* Volets (accordéon) : un par point de grammaire */
+.point{padding:0;margin:10px 0;}
+#lesson .point > summary{
+  display:flex;align-items:center;gap:12px;
+  padding:14px 18px;cursor:pointer;list-style:none;
+  font-family:"Hiragino Mincho ProN","Yu Mincho",serif;
+  font-size:19px;color:var(--sumi);
+}
+.point > summary::-webkit-details-marker{display:none;}
+.point > summary .ttl{flex:1;}
+.point > summary::after{
+  content:"";flex:none;width:9px;height:9px;
+  border-right:2px solid var(--muted);border-bottom:2px solid var(--muted);
+  transform:rotate(45deg) translateY(-3px);transition:transform .2s;
+}
+.point[open] > summary::after{transform:rotate(-135deg) translateY(-3px);}
+.point[open] > summary{border-bottom:1px solid var(--line);}
+.point > summary:hover{background:#f6f1e6;border-radius:14px;}
+.point[open] > summary:hover{border-radius:14px 14px 0 0;}
+.point .body{padding:6px 18px 14px;}
 .point h4{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin:14px 0 2px;}
 
 .struct{
@@ -72,7 +82,8 @@
 .k-mou{color:#e65100;font-weight:600;}
 
 @media (max-width:430px){
-  .goals,.point{padding:14px 13px 12px;}
+  .goals{padding:14px 13px 12px;}
+  #lesson .point > summary{padding:13px 13px;font-size:17px;gap:10px;}
+  .point .body{padding:6px 13px 12px;}
   #lesson .jp{font-size:16.5px;}
-  .point h3{font-size:18px;}
 }
