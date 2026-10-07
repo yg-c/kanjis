@@ -1,6 +1,7 @@
 /* Fiche de grammaire d'un chapitre. La page définit avant ce script :
    LESSON = {
-     goals:  [{jp, fr}],
+     chapter: 16,
+     goals:  [{jp, fr}],          (facultatif)
      points: [{title, struct:[jp], expl, ex:[{jp, fr}],
                drill:{title, items:[{prompt, q?, a, fr}]}}]
    }
@@ -15,8 +16,19 @@ function jp(s){
   return ruby(s).replace(/\{(\w+):([^}]*)\}/g,'<span class="k-$1">$2</span>');
 }
 
+/* Chapitres disponibles : un bouton par page grammaire_NN.html.
+   Ajouter le numéro ici quand on crée une nouvelle page. */
+const CHAPITRES=[10,11,12,13,14,15,16];
+function renderChapters(current){
+  const nav=document.getElementById('chapters');
+  if(!nav)return;
+  nav.classList.add('chapters');
+  nav.innerHTML='<span class="lbl">Chapitre</span>'+CHAPITRES.map(n=>
+    `<a href="grammaire_${n}.html"${n===current?' class="on" aria-current="page"':''}>${n}</a>`).join('');
+}
+
 function renderLesson(L){
-  const goals=`<section class="goals">
+  const goals=!L.goals?'':`<section class="goals">
       <h2>Objectifs</h2>
       <ol>${L.goals.map(g=>`<li><div class="jp">${jp(g.jp)}</div><div class="fr">${g.fr}</div></li>`).join('')}</ol>
     </section>`;
@@ -50,4 +62,5 @@ function renderLesson(L){
   if(target){target.open=true;target.scrollIntoView();}
 }
 
+renderChapters(LESSON.chapter);
 renderLesson(LESSON);

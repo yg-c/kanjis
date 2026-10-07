@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Japonais">
+<meta name="theme-color" content="#9b2d23">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/png" href="icons/favicon-32.png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<script src="pwa.js" defer></script>
+<title>Grammaire 12</title>
+<link rel="stylesheet" href="cartes.css">
+<link rel="stylesheet" href="grammaire.css">
+</head>
+<body>
+<a class="home" href="index.html">&larr; Accueil</a>
+
+<header>
+  <span class="seal">文法 ・ 復習</span>
+  <h1>Grammaire</h1>
+</header>
+
+<nav class="sheets" id="chapters"></nav>
+
+<main id="lesson"></main>
+
+<script>
+const LESSON = {
+chapter:12,
+points:[
+{
+  title:"Passé des noms et des adjectifs en な",
+  struct:["N ／ な-adj　{adj:でした}","N ／ な-adj　{adj:じゃありませんでした}"],
+  expl:"Au passé, です devient <b>でした</b>, et じゃありません devient <b>じゃありませんでした</b> (ou では ありませんでした, plus soutenu).",
+  ex:[
+    {jp:"きのうは雨[あめ]{adj:でした}。",fr:"Hier, il a plu."},
+    {jp:"10年前[ねんまえ]、この町[まち]は静[しず]か{adj:でした}。",fr:"Il y a dix ans, cette ville était calme."},
+    {jp:"先週[せんしゅう]の試験[しけん]は簡単[かんたん]{adj:じゃありませんでした}。",fr:"L'examen de la semaine dernière n'était pas facile."}
+  ],
+  drill:{title:"【練習[れんしゅう]】",
+  items:[
+    {prompt:"きのう・休[やす]み",a:"きのうは休[やす]み{adj:でした}。",fr:"Hier, j'étais en congé."},
+    {prompt:"パーティー・にぎやか",a:"パーティーはにぎやか{adj:でした}。",fr:"La fête était animée."},
+    {prompt:"ホテル・きれい（négatif）",a:"ホテルはきれい{adj:じゃありませんでした}。",fr:"L'hôtel n'était pas propre."}
+  ]}
+},
+{
+  title:"Passé des adjectifs en い",
+  struct:["い-adj : 〜{adj:い}です → 〜{adj:かった}です","〜{adj:い}です → 〜{adj:くなかった}です","いい → {adj:よかった}です ／ {adj:よくなかった}です"],
+  expl:"On remplace le い final par <b>かったです</b> (passé) ou <b>くなかったです</b> (passé négatif). Attention à l'exception <b>いい → よかった</b>.",
+  ex:[
+    {jp:"旅行[りょこう]は楽[たの]し{adj:かった}です。",fr:"Le voyage était très agréable."},
+    {jp:"きのうは寒[さむ]{adj:くなかった}です。",fr:"Hier, il ne faisait pas froid."},
+    {jp:"天気[てんき]は{adj:よかった}です。",fr:"Il faisait beau."}
+  ],
+  drill:{title:"【練習[れんしゅう]】",
+  items:[
+    {prompt:"パーティー・楽[たの]しい",a:"パーティーは楽[たの]し{adj:かった}です。",fr:"On s'est bien amusés à la fête."},
+    {prompt:"テスト・難[むずか]しい（négatif）",a:"テストは難[むずか]し{adj:くなかった}です。",fr:"Le test n'était pas difficile."},
+    {prompt:"天気[てんき]・いい（négatif）",a:"天気[てんき]は{adj:よくなかった}です。",fr:"Il ne faisait pas beau."},
+    {prompt:"きのうの映画[えいが]・おもしろい",a:"きのうの映画[えいが]はおもしろ{adj:かった}です。",fr:"Le film d'hier était intéressant."}
+  ]}
+},
+{
+  title:"N は どうでしたか",
+  struct:["N は {q:どう}でしたか。… Adj（passé）です。"],
+  expl:"Demande une <b>impression</b> sur une chose passée (voyage, examen, fête…). On répond avec un adjectif au passé.",
+  ex:[
+    {jp:"京都[きょうと]は{q:どう}でしたか。…とてもきれい{adj:でした}。",fr:"Comment était Kyoto ? … C'était très beau."},
+    {jp:"試験[しけん]は{q:どう}でしたか。…難[むずか]し{adj:かった}です。",fr:"Comment était l'examen ? … Il était difficile."}
+  ]
+},
+{
+  title:"N1 は N2 より Adj",
+  struct:["N1 {p:は}　N2 {p:より}　（ずっと）　Adj です。"],
+  expl:"<b>Comparaison</b> : N1 est plus … que N2. <b>より</b> se place après l'élément de comparaison. <b>ずっと</b> renforce : « beaucoup plus ».",
+  ex:[
+    {jp:"東京[とうきょう]{p:は}大阪[おおさか]{p:より}大[おお]きいです。",fr:"Tokyo est plus grand qu'Osaka."},
+    {jp:"新幹線[しんかんせん]{p:は}バス{p:より}{adj:ずっと}速[はや]いです。",fr:"Le shinkansen est beaucoup plus rapide que le bus."}
+  ],
+  drill:{title:"【練習[れんしゅう]】",
+  items:[
+    {prompt:"日本[にほん]・スイス・大[おお]きい",a:"日本[にほん]{p:は}スイス{p:より}大[おお]きいです。",fr:"Le Japon est plus grand que la Suisse."},
+    {prompt:"冬[ふゆ]・夏[なつ]・寒[さむ]い",a:"冬[ふゆ]{p:は}夏[なつ]{p:より}寒[さむ]いです。",fr:"L'hiver est plus froid que l'été."},
+    {prompt:"電車[でんしゃ]・バス・ずっと・便利[べんり]",a:"電車[でんしゃ]{p:は}バス{p:より}{adj:ずっと}便利[べんり]です。",fr:"Le train est beaucoup plus pratique que le bus."}
+  ]}
+},
+{
+  title:"N1 と N2 と どちらが Adj ですか",
+  struct:["N1 {p:と} N2 {p:と}　{q:どちら}{p:が}　Adj ですか。","… N {p:の}ほう{p:が}　Adj です。 ／ {q:どちらも}　Adj です。"],
+  expl:"Demande de <b>choisir entre deux</b>. On répond <b>N の ほうが</b> (« plutôt N »), ou <b>どちらも</b> (« les deux »).",
+  ex:[
+    {jp:"コーヒー{p:と}紅茶[こうちゃ]{p:と}{q:どちら}{p:が}好[す]きですか。…コーヒー{p:の}ほう{p:が}好[す]きです。",fr:"Tu préfères le café ou le thé ? … Je préfère le café."},
+    {jp:"山[やま]{p:と}海[うみ]{p:と}{q:どちら}{p:が}いいですか。…{q:どちらも}いいです。",fr:"La montagne ou la mer, qu'est-ce qui est mieux ? … Les deux."}
+  ],
+  drill:{title:"【練習[れんしゅう]】",
+  items:[
+    {prompt:"肉[にく]・魚[さかな]・好[す]き（魚[さかな]）",q:"肉[にく]{p:と}魚[さかな]{p:と}{q:どちら}{p:が}好[す]きですか。",a:"…魚[さかな]{p:の}ほう{p:が}好[す]きです。",fr:"Tu préfères la viande ou le poisson ? … Le poisson."},
+    {prompt:"東京[とうきょう]・京都[きょうと]・古[ふる]い（京都[きょうと]）",q:"東京[とうきょう]{p:と}京都[きょうと]{p:と}{q:どちら}{p:が}古[ふる]いですか。",a:"…京都[きょうと]{p:の}ほう{p:が}古[ふる]いです。",fr:"Quelle ville est la plus ancienne, Tokyo ou Kyoto ? … Kyoto."},
+    {prompt:"電車[でんしゃ]・バス・速[はや]い（電車[でんしゃ]）",q:"電車[でんしゃ]{p:と}バス{p:と}{q:どちら}{p:が}速[はや]いですか。",a:"…電車[でんしゃ]{p:の}ほう{p:が}速[はや]いです。",fr:"Lequel est le plus rapide, le train ou le bus ? … Le train."}
+  ]}
+},
+{
+  title:"〜で 何[なに]／だれ／どこ／いつ が いちばん Adj ですか",
+  struct:["domaine［の 中[なか]］{p:で}　{q:何[なに]／だれ／どこ／いつ}{p:が}　{adj:いちばん}　Adj ですか。"],
+  expl:"<b>Superlatif</b> : « le plus … » dans un ensemble. L'ensemble prend <b>で</b> (ou の 中[なか]で), et <b>いちばん</b> se place devant l'adjectif. Le mot interrogatif dépend de ce qu'on cherche : chose, personne, lieu, moment.",
+  ex:[
+    {jp:"季節[きせつ]{p:で}{q:いつ}{p:が}{adj:いちばん}好[す]きですか。…秋[あき]{p:が}{adj:いちばん}好[す]きです。",fr:"Quelle saison préfères-tu ? … L'automne."},
+    {jp:"家族[かぞく]{p:で}{q:だれ}{p:が}{adj:いちばん}背[せ]が高[たか]いですか。…父[ちち]{p:が}{adj:いちばん}高[たか]いです。",fr:"Qui est le plus grand de ta famille ? … Mon père."},
+    {jp:"日本料理[にほんりょうり]{p:の}中[なか]{p:で}{q:何[なに]}{p:が}{adj:いちばん}おいしいですか。…すし{p:が}{adj:いちばん}おいしいです。",fr:"Quel est le plat japonais le plus délicieux ? … Les sushis."}
+  ],
+  drill:{title:"【練習[れんしゅう]】",
+  items:[
+    {prompt:"スポーツ・何[なに]・好[す]き（サッカー）",q:"スポーツ{p:で}{q:何[なに]}{p:が}{adj:いちばん}好[す]きですか。",a:"…サッカー{p:が}{adj:いちばん}好[す]きです。",fr:"Quel sport préfères-tu ? … Le football."},
+    {prompt:"ヨーロッパ・どこ・好[す]き（イタリア）",q:"ヨーロッパ{p:で}{q:どこ}{p:が}{adj:いちばん}好[す]きですか。",a:"…イタリア{p:が}{adj:いちばん}好[す]きです。",fr:"Quel pays d'Europe préfères-tu ? … L'Italie."},
+    {prompt:"クラス・だれ・若[わか]い（リーさん）",q:"クラス{p:で}{q:だれ}{p:が}{adj:いちばん}若[わか]いですか。",a:"…リーさん{p:が}{adj:いちばん}若[わか]いです。",fr:"Qui est le plus jeune de la classe ? … Lee."}
+  ]}
+},
+{
+  title:"Adj ＋ の",
+  struct:["Adj ＋ {p:の}（＝ le nom déjà connu）"],
+  expl:"<b>の</b> remplace un nom dont on vient de parler, pour ne pas le répéter : 赤[あか]いの = « le rouge (le … rouge) ».",
+  ex:[
+    {jp:"赤[あか]いかさと白[しろ]いかさと、どちらがいいですか。…赤[あか]い{p:の}がいいです。",fr:"Le parapluie rouge ou le blanc ? … Le rouge."},
+    {jp:"このかばんは高[たか]いですね。もっと安[やす]い{p:の}はありますか。",fr:"Ce sac est cher. Vous en avez un moins cher ?"}
+  ]
+}
+]};
+</script>
+<script src="grammaire.js"></script>
+</body>
+</html>

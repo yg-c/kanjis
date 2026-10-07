@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Japonais">
+<meta name="theme-color" content="#9b2d23">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/png" href="icons/favicon-32.png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<script src="pwa.js" defer></script>
+<title>Grammaire 11</title>
+<link rel="stylesheet" href="cartes.css">
+<link rel="stylesheet" href="grammaire.css">
+</head>
+<body>
+<a class="home" href="index.html">&larr; Accueil</a>
+
+<header>
+  <span class="seal">文法 ・ 復習</span>
+  <h1>Grammaire</h1>
+</header>
+
+<nav class="sheets" id="chapters"></nav>
+
+<main id="lesson"></main>
+
+<script>
+const LESSON = {
+chapter:11,
+points:[
+{
+  title:"N を［quantité］V",
+  struct:["N {p:を}／{p:が}　{adj:nombre + compteur}　V"],
+  expl:"La quantité se place <b>juste devant le verbe</b>, sans particule. On la demande avec いくつ (objets), 何人[なんにん] (personnes), 何枚[なんまい], 何台[なんだい]…",
+  ex:[
+    {jp:"りんご{p:を}{adj:4つ}買[か]いました。",fr:"J'ai acheté quatre pommes."},
+    {jp:"会社[かいしゃ]に車[くるま]{p:が}{adj:3台[だい]}あります。",fr:"L'entreprise a trois voitures."},
+    {jp:"教室[きょうしつ]に学生[がくせい]{p:が}{q:何人[なんにん]}いますか。…{adj:12人[にん]}います。",fr:"Combien d'étudiants y a-t-il dans la classe ? … Il y en a douze."}
+  ],
+  drill:{title:"【練習[れんしゅう]】",
+  items:[
+    {prompt:"卵[たまご]・6つ・買[か]います",a:"卵[たまご]{p:を}{adj:6つ}買[か]いました。",fr:"J'ai acheté six œufs."},
+    {prompt:"封筒[ふうとう]・10枚[まい]・ください",a:"封筒[ふうとう]{p:を}{adj:10枚[まい]}ください。",fr:"Dix enveloppes, s'il vous plaît."},
+    {prompt:"兄弟[きょうだい]・何人[なんにん]（3人[にん]）",q:"兄弟[きょうだい]{p:が}{q:何人[なんにん]}いますか。",a:"…{adj:3人[にん]}います。",fr:"Combien de frères et sœurs as-tu ? … Trois."},
+    {prompt:"自転車[じてんしゃ]・2台[だい]・あります",a:"うちに自転車[じてんしゃ]{p:が}{adj:2台[だい]}あります。",fr:"À la maison, il y a deux vélos."}
+  ]}
+},
+{
+  title:"Les compteurs",
+  struct:["〜つ（objets）: ひとつ、ふたつ、みっつ… とお ／ {q:いくつ}","〜人[にん]（personnes）: ひとり、ふたり、三人[さんにん]、四人[よにん]… ／ {q:何人[なんにん]}","〜枚[まい]（objets plats）・〜台[だい]（machines, véhicules）・〜回[かい]（fois）"],
+  expl:"Le compteur dépend de ce qu'on compte. Les ～つ s'arrêtent à 10 (とお). Pour les personnes, <b>1 et 2</b> sont irréguliers (<b>ひとり、ふたり</b>), et 4 se dit <b>よにん</b>.",
+  ex:[
+    {jp:"家族[かぞく]は{q:何人[なんにん]}ですか。…{adj:四人[よにん]}です。",fr:"Vous êtes combien dans la famille ? … Quatre."},
+    {jp:"みかんを{q:いくつ}買[か]いましたか。…{adj:8つ}買[か]いました。",fr:"Combien de mandarines as-tu achetées ? … Huit."},
+    {jp:"日本人[にほんじん]の友達[ともだち]が{adj:ひとり}います。",fr:"J'ai un ami japonais."}
+  ]
+},
+{
+  title:"［période］に［N］回[かい] V",
+  struct:["période {p:に}　{adj:N回[かい]}　V"],
+  expl:"Indique une <b>fréquence</b> : combien de fois dans une période donnée. La période prend に.",
+  ex:[
+    {jp:"1週間[しゅうかん]{p:に}{adj:2回[かい]}テニスをします。",fr:"Je joue au tennis deux fois par semaine."},
+    {jp:"1か月[げつ]{p:に}{adj:1回[かい]}映画[えいが]を見[み]ます。",fr:"Je regarde un film une fois par mois."}
+  ],
+  drill:{title:"【練習[れんしゅう]】",
+  items:[
+    {prompt:"1日[にち]・3回[かい]・歯[は]をみがきます",a:"1日[にち]{p:に}{adj:3回[かい]}歯[は]をみがきます。",fr:"Je me brosse les dents trois fois par jour."},
+    {prompt:"1年[ねん]・1回[かい]・国[くに]へ帰[かえ]ります",a:"1年[ねん]{p:に}{adj:1回[かい]}国[くに]へ帰[かえ]ります。",fr:"Je rentre dans mon pays une fois par an."}
+  ]}
+},
+{
+  title:"La durée : どのくらい ／ 〜ぐらい",
+  struct:["{q:どのくらい}　V か。","… {adj:〜時間[じかん]・〜日[にち]・〜週間[しゅうかん]・〜か月[げつ]・〜年[ねん]}（ぐらい）　V"],
+  expl:"La durée se place devant le verbe, <b>sans particule</b>. On la demande avec <b>どのくらい</b>. <b>ぐらい</b> après un nombre veut dire « environ ».",
+  ex:[
+    {jp:"日本語[にほんご]を{q:どのくらい}勉強[べんきょう]しましたか。…{adj:3か月[げつ]}勉強[べんきょう]しました。",fr:"Combien de temps as-tu étudié le japonais ? … Trois mois."},
+    {jp:"毎晩[まいばん]{adj:7時間[じかん]ぐらい}寝[ね]ます。",fr:"Je dors environ sept heures chaque nuit."}
+  ]
+},
+{
+  title:"N1 から N2 まで［moyen］で［durée］かかります",
+  struct:["N1 から N2 まで　moyen {p:で}　{adj:durée}　かかります"],
+  expl:"Dit le <b>temps nécessaire</b> pour aller d'un endroit à un autre. À pied se dit <b>歩[ある]いて</b> (sans で).",
+  ex:[
+    {jp:"うちから駅[えき]まで自転車[じてんしゃ]{p:で}{adj:10分[ぷん]}かかります。",fr:"De chez moi à la gare, il faut dix minutes à vélo."},
+    {jp:"東京[とうきょう]から大阪[おおさか]まで新幹線[しんかんせん]{p:で}{q:どのくらい}かかりますか。…{adj:2時間半[じかんはん]ぐらい}かかります。",fr:"Combien de temps faut-il de Tokyo à Osaka en shinkansen ? … Environ deux heures et demie."}
+  ],
+  drill:{title:"【練習[れんしゅう]】",
+  items:[
+    {prompt:"うち・会社[かいしゃ]・電車[でんしゃ]・40分[ぷん]",a:"うちから会社[かいしゃ]まで電車[でんしゃ]{p:で}{adj:40分[ぷん]}かかります。",fr:"De chez moi au bureau, il faut 40 minutes en train."},
+    {prompt:"スイス・日本[にほん]・飛行機[ひこうき]・14時間[じかん]ぐらい",a:"スイスから日本[にほん]まで飛行機[ひこうき]{p:で}{adj:14時間[じかん]ぐらい}かかります。",fr:"De la Suisse au Japon, il faut environ 14 heures en avion."},
+    {prompt:"駅[えき]・大学[だいがく]・歩[ある]いて・15分[ふん]",a:"駅[えき]から大学[だいがく]まで歩[ある]いて{adj:15分[ふん]}かかります。",fr:"De la gare à l'université, il faut 15 minutes à pied."}
+  ]}
+},
+{
+  title:"〜だけ ／ 全部[ぜんぶ]で",
+  struct:["quantité ／ N ＋ {adj:だけ}","N を quantité ください。… {adj:全部[ぜんぶ]で}〜です。"],
+  expl:"<b>だけ</b> = « seulement ». <b>全部[ぜんぶ]で</b> = « en tout, au total », par exemple pour un prix.",
+  ex:[
+    {jp:"休[やす]みは日曜日[にちようび]{adj:だけ}です。",fr:"Je n'ai congé que le dimanche."},
+    {jp:"日本人[にほんじん]の友達[ともだち]がひとり{adj:だけ}います。",fr:"Je n'ai qu'un seul ami japonais."},
+    {jp:"りんごを3つください。…{adj:全部[ぜんぶ]で}300円[えん]です。",fr:"Trois pommes, s'il vous plaît. … Ça fait 300 yens en tout."}
+  ]
+}
+]};
+</script>
+<script src="grammaire.js"></script>
+</body>
+</html>

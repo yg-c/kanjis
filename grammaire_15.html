@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Japonais">
+<meta name="theme-color" content="#9b2d23">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/png" href="icons/favicon-32.png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<script src="pwa.js" defer></script>
+<title>Grammaire 15</title>
+<link rel="stylesheet" href="cartes.css">
+<link rel="stylesheet" href="grammaire.css">
+</head>
+<body>
+<a class="home" href="index.html">&larr; Accueil</a>
+
+<header>
+  <span class="seal">文法 ・ 復習</span>
+  <h1>Grammaire</h1>
+</header>
+
+<nav class="sheets" id="chapters"></nav>
+
+<main id="lesson"></main>
+
+<script>
+const LESSON = {
+chapter:15,
+points:[
+{
+  title:"V て も いいですか",
+  struct:["V{te:て}　{adj:も いいですか}。","… ええ、いいですよ。 ／ すみません、ちょっと……。"],
+  expl:"<b>Demander la permission</b> : « est-ce que je peux… ? ». Pour accepter : ええ、いいですよ. Pour refuser poliment, on reste vague : すみません、ちょっと…….",
+  ex:[
+    {jp:"写真[しゃしん]を{te:撮[と]って}{adj:も いいですか}。…ええ、いいですよ。",fr:"Je peux prendre une photo ? … Oui, bien sûr."},
+    {jp:"ここでたばこを{te:吸[す]って}{adj:も いいですか}。…すみません、ちょっと……。",fr:"Je peux fumer ici ? … Désolé, ce n'est pas possible."}
+  ],
+  drill:{title:"【練習[れんしゅう]】",
+  items:[
+    {prompt:"窓[まど]を開[あ]けます（ええ）",q:"窓[まど]を{te:開[あ]けて}{adj:も いいですか}。",a:"…ええ、いいですよ。",fr:"Je peux ouvrir la fenêtre ? … Oui, bien sûr."},
+    {prompt:"このペンを使[つか]います（ええ）",q:"このペンを{te:使[つか]って}{adj:も いいですか}。",a:"…ええ、いいですよ。",fr:"Je peux utiliser ce stylo ? … Oui, bien sûr."},
+    {prompt:"ここに座[すわ]ります（すみません）",q:"ここに{te:座[すわ]って}{adj:も いいですか}。",a:"…すみません、ちょっと……。",fr:"Je peux m'asseoir ici ? … Désolé, ce n'est pas possible."}
+  ]}
+},
+{
+  title:"V て は いけません",
+  struct:["V{te:て}　{p:は}　{adj:いけません}。"],
+  expl:"<b>Interdiction</b> : « il ne faut pas…, il est interdit de… ». Souvent en réponse à 〜ても いいですか : いいえ、〜ては いけません.",
+  ex:[
+    {jp:"ここで写真[しゃしん]を{te:撮[と]って}{p:は}{adj:いけません}。",fr:"Il est interdit de prendre des photos ici."},
+    {jp:"ここに車[くるま]を止[と]めてもいいですか。…いいえ、{te:止[と]めて}{p:は}{adj:いけません}。",fr:"Je peux me garer ici ? … Non, c'est interdit."}
+  ],
+  drill:{title:"【練習[れんしゅう]】",
+  items:[
+    {prompt:"教室[きょうしつ]・食[た]べます",a:"教室[きょうしつ]で{te:食[た]べて}{p:は}{adj:いけません}。",fr:"Il est interdit de manger en classe."},
+    {prompt:"図書館[としょかん]・電話[でんわ]をかけます",a:"図書館[としょかん]で電話[でんわ]を{te:かけて}{p:は}{adj:いけません}。",fr:"Il est interdit de téléphoner à la bibliothèque."},
+    {prompt:"ここ・ごみを捨[す]てます",a:"ここにごみを{te:捨[す]てて}{p:は}{adj:いけません}。",fr:"Il est interdit de jeter des déchets ici."}
+  ]}
+},
+{
+  title:"V て います（état qui dure）",
+  struct:["結婚[けっこん]して・住[す]んで・持[も]って・知[し]って　{te:います}"],
+  expl:"〜ています décrit aussi un <b>état durable</b>, souvent le résultat d'une action passée : être marié (結婚[けっこん]しています), habiter (住[す]んでいます), avoir (持[も]っています), savoir (知[し]っています). On habite quelque part avec <b>に</b>.",
+  ex:[
+    {jp:"私[わたし]は{te:結婚[けっこん]して}います。",fr:"Je suis marié."},
+    {jp:"ミラーさんは大阪[おおさか]{p:に}{te:住[す]んで}います。",fr:"M. Miller habite à Osaka."},
+    {jp:"自転車[じてんしゃ]を{te:持[も]って}いますか。…はい、{te:持[も]って}います。",fr:"Tu as un vélo ? … Oui, j'en ai un."}
+  ]
+},
+{
+  title:"知[し]って いますか — 知[し]りません",
+  struct:["{te:知[し]って}　いますか。… はい、{te:知[し]って}います。 ／ いいえ、{adj:知[し]りません}。"],
+  expl:"Négatif <b>irrégulier</b> : on ne dit pas « 知[し]っていません », mais <b>知[し]りません</b>.",
+  ex:[
+    {jp:"田中[たなか]さんの電話番号[でんわばんごう]を{te:知[し]って}いますか。…いいえ、{adj:知[し]りません}。",fr:"Tu connais le numéro de téléphone de M. Tanaka ? … Non, je ne le connais pas."}
+  ]
+},
+{
+  title:"V て います（habitude, profession）",
+  struct:["lieu {p:で}　{te:働[はたら]いて}・{te:教[おし]えて}・{te:勉強[べんきょう]して}　います"],
+  expl:"〜ています sert aussi à dire ce qu'on fait <b>habituellement</b>, en particulier son <b>métier</b>. Attention : on <b>travaille</b> dans un lieu avec <b>で</b>, mais on y <b>habite</b> avec <b>に</b>.",
+  ex:[
+    {jp:"兄[あに]は銀行[ぎんこう]{p:で}{te:働[はたら]いて}います。",fr:"Mon grand frère travaille dans une banque."},
+    {jp:"マリアさんは大学[だいがく]{p:で}日本語[にほんご]を{te:教[おし]えて}います。",fr:"Maria enseigne le japonais à l'université."},
+    {jp:"この会社[かいしゃ]はパソコンを{te:作[つく]って}います。",fr:"Cette entreprise fabrique des ordinateurs."}
+  ],
+  drill:{title:"【練習[れんしゅう]】 〜ています",
+  items:[
+    {prompt:"どこ・住[す]んでいますか（東京[とうきょう]）",q:"{q:どこ}{p:に}{te:住[す]んで}いますか。",a:"…東京[とうきょう]{p:に}{te:住[す]んで}います。",fr:"Où habites-tu ? … À Tokyo."},
+    {prompt:"お仕事[しごと]は（病院[びょういん]・働[はたら]きます）",q:"お仕事[しごと]は{q:何[なん]}ですか。",a:"…病院[びょういん]{p:で}{te:働[はたら]いて}います。",fr:"Quel est votre métier ? … Je travaille à l'hôpital."},
+    {prompt:"車[くるま]・持[も]っていますか（いいえ）",q:"車[くるま]を{te:持[も]って}いますか。",a:"…いいえ、{te:持[も]って}いません。",fr:"Tu as une voiture ? … Non, je n'en ai pas."},
+    {prompt:"山田[やまだ]さんの住所[じゅうしょ]・知[し]っていますか（いいえ）",q:"山田[やまだ]さんの住所[じゅうしょ]を{te:知[し]って}いますか。",a:"…いいえ、{adj:知[し]りません}。",fr:"Tu connais l'adresse de M. Yamada ? … Non, je ne la connais pas."}
+  ]}
+}
+]};
+</script>
+<script src="grammaire.js"></script>
+</body>
+</html>

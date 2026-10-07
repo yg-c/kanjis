@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Japonais">
+<meta name="theme-color" content="#9b2d23">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/png" href="icons/favicon-32.png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<script src="pwa.js" defer></script>
+<title>Grammaire 13</title>
+<link rel="stylesheet" href="cartes.css">
+<link rel="stylesheet" href="grammaire.css">
+</head>
+<body>
+<a class="home" href="index.html">&larr; Accueil</a>
+
+<header>
+  <span class="seal">文法 ・ 復習</span>
+  <h1>Grammaire</h1>
+</header>
+
+<nav class="sheets" id="chapters"></nav>
+
+<main id="lesson"></main>
+
+<script>
+const LESSON = {
+chapter:13,
+points:[
+{
+  title:"N が 欲[ほ]しいです",
+  struct:["N {p:が}　{adj:欲[ほ]しい}です。","{q:何[なに]}{p:が}／{q:どんな} N {p:が}　欲[ほ]しいですか。"],
+  expl:"Exprime le <b>désir d'avoir</b> quelque chose. L'objet désiré prend <b>が</b>. 欲[ほ]しい se conjugue comme un adjectif en い : 欲[ほ]しくないです, 欲[ほ]しかったです. On l'emploie pour soi, ou pour poser la question à son interlocuteur — pas pour parler du désir de quelqu'un d'autre.",
+  ex:[
+    {jp:"新[あたら]しいパソコン{p:が}{adj:欲[ほ]しい}です。",fr:"Je veux un nouvel ordinateur."},
+    {jp:"今[いま]、{q:何[なに]}{p:が}いちばん{adj:欲[ほ]しい}ですか。…車[くるま]{p:が}{adj:欲[ほ]しい}です。",fr:"Qu'est-ce que tu veux le plus en ce moment ? … Une voiture."},
+    {jp:"{q:どんな}靴[くつ]{p:が}{adj:欲[ほ]しい}ですか。…白[しろ]い靴[くつ]{p:が}{adj:欲[ほ]しい}です。",fr:"Quel genre de chaussures veux-tu ? … Des chaussures blanches."},
+    {jp:"子[こ]どもは{adj:欲[ほ]しくない}です。",fr:"Je ne veux pas d'enfants."}
+  ],
+  drill:{title:"【練習[れんしゅう]】",
+  items:[
+    {prompt:"大[おお]きい冷蔵庫[れいぞうこ]",a:"大[おお]きい冷蔵庫[れいぞうこ]{p:が}{adj:欲[ほ]しい}です。",fr:"Je veux un grand frigo."},
+    {prompt:"どんなカメラ（軽[かる]い）",q:"{q:どんな}カメラ{p:が}{adj:欲[ほ]しい}ですか。",a:"…軽[かる]いカメラ{p:が}{adj:欲[ほ]しい}です。",fr:"Quel genre d'appareil photo veux-tu ? … Un appareil léger."}
+  ]}
+},
+{
+  title:"V（ます）＋ たいです",
+  struct:["V（radical en ます）＋ {adj:たい}です","{adj:たくない}です ／ {adj:たかった}です ／ {adj:たくなかった}です"],
+  expl:"Exprime le <b>désir de faire</b> quelque chose : on enlève ます et on ajoute <b>たいです</b> (食[た]べます → 食[た]べたいです). L'objet peut prendre を ou が. たい se conjugue comme un adjectif en い.",
+  ex:[
+    {jp:"日本[にほん]へ{adj:行[い]きたい}です。",fr:"Je veux aller au Japon."},
+    {jp:"{q:何[なに]}{p:が}食[た]べたいですか。…すし{p:が}{adj:食[た]べたい}です。",fr:"Qu'est-ce que tu veux manger ? … Des sushis."},
+    {jp:"今日[きょう]は{q:どこ}{p:も}{adj:行[い]きたくない}です。",fr:"Aujourd'hui, je ne veux aller nulle part."}
+  ],
+  drill:{title:"【練習[れんしゅう]】",
+  items:[
+    {prompt:"新[あたら]しい車[くるま]を買[か]います",a:"新[あたら]しい車[くるま]を{adj:買[か]いたい}です。",fr:"Je veux acheter une nouvelle voiture."},
+    {prompt:"疲[つか]れました・休[やす]みます",a:"疲[つか]れました。{adj:休[やす]みたい}です。",fr:"Je suis fatigué. Je veux me reposer."},
+    {prompt:"今日[きょう]・何[なに]も・食[た]べます（négatif）",a:"今日[きょう]は{q:何[なに]}{p:も}{adj:食[た]べたくない}です。",fr:"Aujourd'hui, je ne veux rien manger."},
+    {prompt:"去年[きょねん]・日本[にほん]へ行[い]きます（passé）",a:"去年[きょねん]、日本[にほん]へ{adj:行[い]きたかった}です。",fr:"L'an dernier, je voulais aller au Japon."}
+  ]}
+},
+{
+  title:"N（lieu）へ V（ます）に 行[い]きます",
+  struct:["lieu {p:へ}　V（radical en ます）{p:に}　行[い]きます／来[き]ます／帰[かえ]ります","lieu {p:へ}　N（action）{p:に}　行[い]きます"],
+  expl:"Indique le <b>but d'un déplacement</b> : « aller (quelque part) pour faire… ». On met le radical du verbe (sans ます) + に. Avec un nom d'action (散歩[さんぽ]、買[か]い物[もの]、食事[しょくじ]、旅行[りょこう]…), on met directement N + に.",
+  ex:[
+    {jp:"デパートへ靴[くつ]を{adj:買[か]い}{p:に}行[い]きます。",fr:"Je vais au grand magasin acheter des chaussures."},
+    {jp:"京都[きょうと]へ写真[しゃしん]を{adj:撮[と]り}{p:に}行[い]きました。",fr:"Je suis allé à Kyoto prendre des photos."},
+    {jp:"日本[にほん]へ経済[けいざい]の{adj:勉強[べんきょう]}{p:に}来[き]ました。",fr:"Je suis venu au Japon pour étudier l'économie."}
+  ],
+  drill:{title:"【練習[れんしゅう]】",
+  items:[
+    {prompt:"図書館[としょかん]・本[ほん]を借[か]ります・行[い]きます",a:"図書館[としょかん]へ本[ほん]を{adj:借[か]り}{p:に}行[い]きます。",fr:"Je vais à la bibliothèque emprunter des livres."},
+    {prompt:"公園[こうえん]・散歩[さんぽ]・行[い]きます",a:"公園[こうえん]へ{adj:散歩[さんぽ]}{p:に}行[い]きます。",fr:"Je vais me promener au parc."},
+    {prompt:"うち・昼[ひる]ごはんを食[た]べます・帰[かえ]ります",a:"うちへ昼[ひる]ごはんを{adj:食[た]べ}{p:に}帰[かえ]ります。",fr:"Je rentre à la maison pour déjeuner."},
+    {prompt:"スイス・スキー（します）・来[き]ました",a:"スイスへ{adj:スキー}{p:に}来[き]ました。",fr:"Je suis venu en Suisse pour skier."}
+  ]}
+},
+{
+  title:"何[なに]か／どこか ≠ 何[なに]も／どこも",
+  struct:["{q:何[なに]か}・{q:どこか}（phrase affirmative ou question）","{q:何[なに]も}・{q:どこも}　＋ verbe négatif"],
+  expl:"<b>何[なに]か</b> = « quelque chose », <b>どこか</b> = « quelque part ». Après eux, on peut omettre を et へ. Avec un verbe négatif, on emploie <b>何[なに]も</b> (« rien ») et <b>どこも</b> (« nulle part »).",
+  ex:[
+    {jp:"のどが渇[かわ]きましたね。{q:何[なに]か}飲[の]みたいです。",fr:"J'ai soif. Je voudrais boire quelque chose."},
+    {jp:"冬休[ふゆやす]みは{q:どこか}行[い]きましたか。…いいえ、{q:どこも}行[い]きませんでした。",fr:"Tu es allé quelque part pendant les vacances d'hiver ? … Non, je ne suis allé nulle part."}
+  ],
+  drill:{title:"【練習[れんしゅう]】",
+  items:[
+    {prompt:"日曜日[にちようび]・どこか・行[い]きます（いいえ）",q:"日曜日[にちようび]、{q:どこか}行[い]きましたか。",a:"…いいえ、{q:どこも}行[い]きませんでした。",fr:"Tu es allé quelque part dimanche ? … Non, nulle part."},
+    {prompt:"何[なに]か・食[た]べます（はい・パン）",q:"{q:何[なに]か}食[た]べましたか。",a:"…はい、パンを食[た]べました。",fr:"Tu as mangé quelque chose ? … Oui, du pain."}
+  ]}
+}
+]};
+</script>
+<script src="grammaire.js"></script>
+</body>
+</html>

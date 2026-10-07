@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Japonais">
+<meta name="theme-color" content="#9b2d23">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/png" href="icons/favicon-32.png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<script src="pwa.js" defer></script>
+<title>Grammaire 14</title>
+<link rel="stylesheet" href="cartes.css">
+<link rel="stylesheet" href="grammaire.css">
+</head>
+<body>
+<a class="home" href="index.html">&larr; Accueil</a>
+
+<header>
+  <span class="seal">文法 ・ 復習</span>
+  <h1>Grammaire</h1>
+</header>
+
+<nav class="sheets" id="chapters"></nav>
+
+<main id="lesson"></main>
+
+<script>
+const LESSON = {
+chapter:14,
+points:[
+{
+  title:"La forme て",
+  struct:[
+    "Groupe I : 書[か]きます → {te:書[か]いて}　急[いそ]ぎます → {te:急[いそ]いで}",
+    "飲[の]みます → {te:飲[の]んで}　呼[よ]びます → {te:呼[よ]んで}",
+    "買[か]います → {te:買[か]って}　待[ま]ちます → {te:待[ま]って}　帰[かえ]ります → {te:帰[かえ]って}",
+    "話[はな]します → {te:話[はな]して}　exception : 行[い]きます → {te:行[い]って}",
+    "Groupe II : 食[た]べます → {te:食[た]べて}　見[み]ます → {te:見[み]て}",
+    "Groupe III : 来[き]ます → {te:来[き]て}　します → {te:して}"
+  ],
+  expl:"La forme て sert de base à de nombreuses structures : demander (〜てください), action en cours (〜ています), enchaîner des actions (chapitre 16)… Pour le groupe I, elle dépend de la syllabe avant ます : き→<b>いて</b>, ぎ→<b>いで</b>, み・び・に→<b>んで</b>, い・ち・り→<b>って</b>, し→<b>して</b>. Les feuilles de verbes permettent de la réviser.",
+  ex:[
+    {jp:"手紙[てがみ]を{te:書[か]いて}、出[だ]します。",fr:"J'écris une lettre et je l'envoie."}
+  ],
+  drill:{title:"【練習[れんしゅう]】 て形[けい]にしましょう。",
+  items:[
+    {prompt:"泳[およ]ぎます",a:"{te:泳[およ]いで}",fr:"Groupe I, ぎ → いで"},
+    {prompt:"読[よ]みます",a:"{te:読[よ]んで}",fr:"Groupe I, み → んで"},
+    {prompt:"待[ま]ちます",a:"{te:待[ま]って}",fr:"Groupe I, ち → って"},
+    {prompt:"貸[か]します",a:"{te:貸[か]して}",fr:"Groupe I, し → して"},
+    {prompt:"行[い]きます",a:"{te:行[い]って}",fr:"Exception : on ne dit pas « いいて »"},
+    {prompt:"起[お]きます",a:"{te:起[お]きて}",fr:"Groupe II : ます → て"},
+    {prompt:"来[き]ます",a:"{te:来[き]て}",fr:"Groupe III"},
+    {prompt:"勉強[べんきょう]します",a:"{te:勉強[べんきょう]して}",fr:"Groupe III"}
+  ]}
+},
+{
+  title:"V て ください",
+  struct:["（すみませんが、）V{te:て}　ください。"],
+  expl:"<b>Demande polie</b> : « veuillez… ». すみませんが devant adoucit la demande. Avec どうぞ, c'est une invitation (« je vous en prie, … »). On l'utilise aussi pour donner des directions, par exemple dans un taxi.",
+  ex:[
+    {jp:"ここに名前[なまえ]を{te:書[か]いて}ください。",fr:"Écrivez votre nom ici, s'il vous plaît."},
+    {jp:"すみませんが、ちょっと{te:待[ま]って}ください。",fr:"Excusez-moi, attendez un instant, s'il vous plaît."},
+    {jp:"どうぞたくさん{te:食[た]べて}ください。",fr:"Je vous en prie, servez-vous."},
+    {jp:"次[つぎ]の信号[しんごう]を右[みぎ]へ{te:曲[ま]がって}ください。あそこで{te:止[と]めて}ください。",fr:"Tournez à droite au prochain feu. Arrêtez-vous là-bas, s'il vous plaît."}
+  ],
+  drill:{title:"【練習[れんしゅう]】",
+  items:[
+    {prompt:"窓[まど]を開[あ]けます",a:"すみませんが、窓[まど]を{te:開[あ]けて}ください。",fr:"Excusez-moi, ouvrez la fenêtre, s'il vous plaît."},
+    {prompt:"もう少[すこ]しゆっくり話[はな]します",a:"もう少[すこ]しゆっくり{te:話[はな]して}ください。",fr:"Parlez un peu plus lentement, s'il vous plaît."},
+    {prompt:"塩[しお]を取[と]ります",a:"すみませんが、塩[しお]を{te:取[と]って}ください。",fr:"Excusez-moi, passez-moi le sel, s'il vous plaît."},
+    {prompt:"写真[しゃしん]を見[み]せます",a:"写真[しゃしん]を{te:見[み]せて}ください。",fr:"Montrez-moi la photo, s'il vous plaît."}
+  ]}
+},
+{
+  title:"V て います（action en cours）",
+  struct:["V{te:て}　います。 ／ V{te:て}　いません。"],
+  expl:"Décrit une action <b>en train de se faire</b> : « être en train de… ». Au négatif : 〜て いません.",
+  ex:[
+    {jp:"今[いま]、雨[あめ]が{te:降[ふ]って}います。",fr:"Il est en train de pleuvoir."},
+    {jp:"ミラーさんは今[いま]、{q:何[なに]}をしていますか。…電話[でんわ]を{te:かけて}います。",fr:"Que fait M. Miller en ce moment ? … Il est au téléphone."},
+    {jp:"雨[あめ]が降[ふ]っていますか。…いいえ、{te:降[ふ]って}いません。",fr:"Il pleut ? … Non, il ne pleut pas."}
+  ],
+  drill:{title:"【練習[れんしゅう]】 今[いま]、何[なに]をしていますか。",
+  items:[
+    {prompt:"本[ほん]を読[よ]みます",a:"本[ほん]を{te:読[よ]んで}います。",fr:"Je suis en train de lire un livre."},
+    {prompt:"テレビを見[み]ます",a:"テレビを{te:見[み]て}います。",fr:"Je suis en train de regarder la télé."},
+    {prompt:"音楽[おんがく]を聞[き]きます",a:"音楽[おんがく]を{te:聞[き]いて}います。",fr:"Je suis en train d'écouter de la musique."}
+  ]}
+},
+{
+  title:"V（ます）＋ ましょうか",
+  struct:["V（radical en ます）＋ {adj:ましょうか}。","… ええ、お願[ねが]いします。 ／ いいえ、けっこうです。"],
+  expl:"<b>Proposer son aide</b> : « voulez-vous que je… ? ». On accepte avec ええ、お願[ねが]いします, on refuse poliment avec いいえ、けっこうです.",
+  ex:[
+    {jp:"荷物[にもつ]を{adj:持[も]ちましょうか}。…ええ、お願[ねが]いします。",fr:"Je porte vos bagages ? … Oui, volontiers."},
+    {jp:"傘[かさ]を{adj:貸[か]しましょうか}。…いいえ、けっこうです。",fr:"Je vous prête un parapluie ? … Non merci, ça ira."}
+  ],
+  drill:{title:"【練習[れんしゅう]】",
+  items:[
+    {prompt:"タクシーを呼[よ]びます（ええ）",q:"タクシーを{adj:呼[よ]びましょうか}。",a:"…ええ、お願[ねが]いします。",fr:"J'appelle un taxi ? … Oui, s'il vous plaît."},
+    {prompt:"窓[まど]を閉[し]めます（いいえ）",q:"窓[まど]を{adj:閉[し]めましょうか}。",a:"…いいえ、けっこうです。",fr:"Je ferme la fenêtre ? … Non merci."},
+    {prompt:"手伝[てつだ]います（ええ）",q:"{adj:手伝[てつだ]いましょうか}。",a:"…ええ、お願[ねが]いします。",fr:"Je vous aide ? … Oui, s'il vous plaît."}
+  ]}
+},
+{
+  title:"V（ます）＋ 方[かた]",
+  struct:["V（radical en ます）＋ {adj:方[かた]}　＝ « la manière de V »"],
+  expl:"Forme un nom qui veut dire <b>« la façon de faire »</b> : 読[よ]み方[かた] (la lecture), 使[つか]い方[かた] (la façon d'utiliser, le mode d'emploi)…",
+  ex:[
+    {jp:"この漢字[かんじ]の{adj:読[よ]み方[かた]}を教[おし]えてください。",fr:"Dites-moi comment se lit ce kanji, s'il vous plaît."},
+    {jp:"このカメラの{adj:使[つか]い方[かた]}がわかりません。",fr:"Je ne comprends pas comment utiliser cet appareil photo."}
+  ]
+}
+]};
+</script>
+<script src="grammaire.js"></script>
+</body>
+</html>

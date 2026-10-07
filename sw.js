@@ -5,7 +5,7 @@
  * - activate : supprime les caches des versions précédentes.
  * Quand on ajoute ou renomme une page, un dessin ou un fichier :
  * l'ajouter à ASSETS et augmenter VERSION. */
-const VERSION='2026-10-07-1';
+const VERSION='2026-10-07-2';
 const CACHE='revision-japonais-'+VERSION;
 const ASSETS=[
   './',
@@ -15,6 +15,12 @@ const ASSETS=[
   'fiches_kanji.html',
   'grammaire.css',
   'grammaire.js',
+  'grammaire_10.html',
+  'grammaire_11.html',
+  'grammaire_12.html',
+  'grammaire_13.html',
+  'grammaire_14.html',
+  'grammaire_15.html',
   'grammaire_16.html',
   'icons/apple-touch-icon.png',
   'icons/favicon-32.png',

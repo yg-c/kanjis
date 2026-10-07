@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Japonais">
+<meta name="theme-color" content="#9b2d23">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/png" href="icons/favicon-32.png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<script src="pwa.js" defer></script>
+<title>Grammaire 10</title>
+<link rel="stylesheet" href="cartes.css">
+<link rel="stylesheet" href="grammaire.css">
+</head>
+<body>
+<a class="home" href="index.html">&larr; Accueil</a>
+
+<header>
+  <span class="seal">文法 ・ 復習</span>
+  <h1>Grammaire</h1>
+</header>
+
+<nav class="sheets" id="chapters"></nav>
+
+<main id="lesson"></main>
+
+<script>
+const LESSON = {
+chapter:10,
+points:[
+{
+  title:"N（lieu）に N が あります／います",
+  struct:["N（lieu）{p:に}　N {p:が}　あります（choses）","N（lieu）{p:に}　N {p:が}　います（êtres vivants）"],
+  expl:"Dit <b>ce qui se trouve</b> dans un lieu. <b>あります</b> pour les objets et les plantes, <b>います</b> pour les personnes et les animaux. Le lieu prend に, ce qui existe prend が. Si la réponse est « rien / personne » : <b>何[なに]も ありません</b>, <b>だれも いません</b>.",
+  ex:[
+    {jp:"机[つくえ]の上[うえ]{p:に}本[ほん]{p:が}あります。",fr:"Il y a un livre sur le bureau."},
+    {jp:"庭[にわ]{p:に}猫[ねこ]{p:が}います。",fr:"Il y a un chat dans le jardin."},
+    {jp:"箱[はこ]の中[なか]{p:に}{q:何[なに]}{p:が}ありますか。…{q:何[なに]も}ありません。",fr:"Qu'y a-t-il dans la boîte ? … Il n'y a rien."},
+    {jp:"教室[きょうしつ]{p:に}{q:だれ}{p:が}いますか。…{q:だれも}いません。",fr:"Qui y a-t-il dans la salle de classe ? … Il n'y a personne."}
+  ],
+  drill:{title:"【練習[れんしゅう]】 〜に〜があります／います",
+  items:[
+    {prompt:"机[つくえ]の上[うえ]・パソコン",a:"机[つくえ]の上[うえ]{p:に}パソコン{p:が}あります。",fr:"Il y a un ordinateur sur le bureau."},
+    {prompt:"公園[こうえん]・子[こ]ども",a:"公園[こうえん]{p:に}子[こ]ども{p:が}います。",fr:"Il y a des enfants dans le parc."},
+    {prompt:"冷蔵庫[れいぞうこ]の中[なか]・何[なに]（ビール）",q:"冷蔵庫[れいぞうこ]の中[なか]{p:に}{q:何[なに]}{p:が}ありますか。",a:"…ビール{p:が}あります。",fr:"Qu'y a-t-il dans le frigo ? … Il y a de la bière."},
+    {prompt:"部屋[へや]・だれ（だれも）",q:"部屋[へや]{p:に}{q:だれ}{p:が}いますか。",a:"…{q:だれも}いません。",fr:"Qui y a-t-il dans la chambre ? … Il n'y a personne."}
+  ]}
+},
+{
+  title:"N は N（lieu）に あります／います",
+  struct:["N {p:は}　N（lieu）{p:に}　あります／います","N {p:は}　{q:どこ}{p:に}　ありますか／いますか"],
+  expl:"Ici, la chose ou la personne est déjà connue : c'est le <b>thème</b> (は), et on dit <b>où</b> elle se trouve. On le demande avec どこに ありますか／いますか.",
+  ex:[
+    {jp:"ミラーさん{p:は}会議室[かいぎしつ]{p:に}います。",fr:"M. Miller est dans la salle de réunion."},
+    {jp:"かぎ{p:は}{q:どこ}{p:に}ありますか。…かばんの中[なか]{p:に}あります。",fr:"Où est la clé ? … Elle est dans le sac."},
+    {jp:"東京[とうきょう]ディズニーランド{p:は}千葉県[ちばけん]{p:に}あります。",fr:"Tokyo Disneyland se trouve dans la préfecture de Chiba."}
+  ],
+  drill:{title:"【練習[れんしゅう]】 〜はどこにありますか／いますか",
+  items:[
+    {prompt:"銀行[ぎんこう]・駅[えき]の前[まえ]",q:"銀行[ぎんこう]{p:は}{q:どこ}{p:に}ありますか。",a:"…駅[えき]の前[まえ]{p:に}あります。",fr:"Où est la banque ? … Devant la gare."},
+    {prompt:"田中[たなか]さん・ロビー",q:"田中[たなか]さん{p:は}{q:どこ}{p:に}いますか。",a:"…ロビー{p:に}います。",fr:"Où est M. Tanaka ? … Dans le hall."},
+    {prompt:"電話[でんわ]・あそこ",q:"電話[でんわ]{p:は}{q:どこ}{p:に}ありますか。",a:"…あそこ{p:に}あります。",fr:"Où est le téléphone ? … Là-bas."}
+  ]}
+},
+{
+  title:"Les mots de position",
+  struct:["N の　上[うえ]・下[した]・前[まえ]・後[うし]ろ・右[みぎ]・左[ひだり]","N の　中[なか]・外[そと]・隣[となり]・近[ちか]く","N1 {p:と} N2 {p:の}　間[あいだ]"],
+  expl:"Le mot de position se place <b>après</b> le nom, relié par の. On ajoute ensuite に pour dire où se trouve quelque chose, ou で pour dire où se passe une action. <b>N1 と N2 の 間[あいだ]</b> = « entre N1 et N2 ».",
+  ex:[
+    {jp:"犬[いぬ]は車[くるま]の下[した]{p:に}います。",fr:"Le chien est sous la voiture."},
+    {jp:"駅[えき]の近[ちか]く{p:に}コンビニがあります。",fr:"Il y a une supérette près de la gare."},
+    {jp:"本屋[ほんや]は花屋[はなや]{p:と}スーパー{p:の}間[あいだ]{p:に}あります。",fr:"La librairie est entre le fleuriste et le supermarché."},
+    {jp:"郵便局[ゆうびんきょく]の隣[となり]{p:で}友達[ともだち]に会[あ]いました。",fr:"J'ai rencontré un ami à côté de la poste. (action → で)"}
+  ],
+  drill:{title:"【練習[れんしゅう]】",
+  items:[
+    {prompt:"ねこ・いすの下[した]",a:"ねこはいすの下[した]{p:に}います。",fr:"Le chat est sous la chaise."},
+    {prompt:"銀行[ぎんこう]・郵便局[ゆうびんきょく]とデパートの間[あいだ]",a:"銀行[ぎんこう]は郵便局[ゆうびんきょく]{p:と}デパート{p:の}間[あいだ]{p:に}あります。",fr:"La banque est entre la poste et le grand magasin."},
+    {prompt:"駅[えき]の前[まえ]・何[なに]（バス停[てい]）",q:"駅[えき]の前[まえ]{p:に}{q:何[なに]}{p:が}ありますか。",a:"…バス停[てい]{p:が}あります。",fr:"Qu'y a-t-il devant la gare ? … Un arrêt de bus."},
+    {prompt:"子[こ]ども・木[き]の後[うし]ろ",a:"子[こ]どもは木[き]の後[うし]ろ{p:に}います。",fr:"L'enfant est derrière l'arbre."}
+  ]}
+},
+{
+  title:"N1 や N2［など］",
+  struct:["N1 {p:や} N2［{p:など}］"],
+  expl:"Énumère <b>quelques exemples</b> parmi d'autres, alors que と donne la liste complète. など à la fin renforce l'idée de « etc. ».",
+  ex:[
+    {jp:"箱[はこ]の中[なか]に手紙[てがみ]{p:や}写真[しゃしん]があります。",fr:"Dans la boîte, il y a des lettres, des photos (entre autres)."},
+    {jp:"冷蔵庫[れいぞうこ]に卵[たまご]{p:や}牛乳[ぎゅうにゅう]{p:など}があります。",fr:"Dans le frigo, il y a des œufs, du lait, etc."}
+  ],
+  drill:{title:"【練習[れんしゅう]】",
+  items:[
+    {prompt:"かばんの中[なか]・本[ほん]・ノート",a:"かばんの中[なか]に本[ほん]{p:や}ノート{p:など}があります。",fr:"Dans le sac, il y a des livres, des cahiers, etc."},
+    {prompt:"駅[えき]の近[ちか]く・レストラン・銀行[ぎんこう]",a:"駅[えき]の近[ちか]くにレストラン{p:や}銀行[ぎんこう]{p:など}があります。",fr:"Près de la gare, il y a des restaurants, des banques, etc."}
+  ]}
+},
+{
+  title:"N は N（lieu）です",
+  struct:["N {p:は}　N（lieu）です。"],
+  expl:"À l'oral, quand on sait déjà de quoi on parle, 〜に あります／います peut être remplacé simplement par <b>です</b>.",
+  ex:[
+    {jp:"トイレは{q:どこ}ですか。…あそこです。",fr:"Où sont les toilettes ? … Là-bas."},
+    {jp:"ミラーさんは会議室[かいぎしつ]です。",fr:"M. Miller est dans la salle de réunion."}
+  ]
+}
+]};
+</script>
+<script src="grammaire.js"></script>
+</body>
+</html>
