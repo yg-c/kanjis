@@ -1,0 +1,78 @@
+/* Fiche de grammaire (en plus de cartes.css pour l'en-tête et le sélecteur de chapitre) */
+#lesson{
+  max-width:760px;
+  margin:0 auto;
+  padding:8px 16px 60px;
+}
+#lesson h2,#lesson h3,#lesson h4{font-weight:600;letter-spacing:.04em;}
+#lesson .fr,#lesson .expl,#lesson h4,#lesson summary,#lesson .toc{
+  font-family:-apple-system,"Helvetica Neue",sans-serif;
+}
+#lesson .jp{font-size:18px;line-height:2.1;color:var(--ink);}
+#lesson rt{font-size:.5em;color:#5f574c;}
+#lesson .fr{font-size:13.5px;line-height:1.45;color:var(--muted);margin:-2px 0 4px;}
+
+.goals,.point{
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:14px;
+  box-shadow:0 4px 14px var(--shadow);
+  padding:16px 18px 14px;
+  margin:16px 0;
+}
+.goals h2{font-size:15px;color:var(--seal);margin:0 0 4px;font-family:-apple-system,sans-serif;text-transform:uppercase;letter-spacing:.14em;}
+.goals ol,.point ol,.point ul{margin:0;padding-left:22px;}
+.goals li,.ex li{margin:6px 0;}
+
+.toc{display:flex;flex-direction:column;gap:6px;margin:8px 0 4px;}
+.toc a{
+  display:flex;align-items:baseline;gap:10px;
+  color:var(--sumi);text-decoration:none;
+  font-family:"Hiragino Mincho ProN","Yu Mincho",serif;font-size:16px;
+  padding:6px 10px;border-radius:8px;
+}
+.toc a:hover{background:var(--card);}
+.num{
+  flex:none;display:inline-flex;align-items:center;justify-content:center;
+  width:24px;height:24px;border-radius:50%;
+  background:var(--seal);color:#f3efe6;
+  font-family:-apple-system,sans-serif;font-size:13px;font-weight:600;
+}
+.point h3{display:flex;align-items:baseline;gap:10px;font-size:20px;margin:0 0 8px;color:var(--sumi);}
+.point h3 .num{transform:translateY(-2px);}
+.point h4{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin:14px 0 2px;}
+
+.struct{
+  background:#f4efe3;border-left:4px solid var(--gold);border-radius:6px;
+  padding:4px 12px;margin:4px 0 10px;
+}
+.struct .jp{font-size:17px;}
+.expl{font-size:14.5px;line-height:1.55;color:var(--sumi);margin:6px 0;}
+
+.drill{border-top:1px dashed var(--line);margin-top:14px;}
+.drill li{margin:10px 0;}
+.drill .prompt{line-height:2;}
+.drill details{margin:2px 0 0;}
+.drill summary{
+  display:inline-block;cursor:pointer;list-style:none;
+  font-size:12.5px;color:var(--seal);
+  border:1px solid var(--line);border-radius:999px;padding:3px 12px;
+}
+.drill summary::-webkit-details-marker{display:none;}
+.drill details[open] summary{background:var(--seal);color:#f3efe6;border-color:var(--seal);}
+.drill details > .jp,.drill details > .fr{padding-left:4px;}
+.drill .ans{color:var(--seal);}
+
+/* Couleurs des diapositives du cours */
+.k-te{color:#2e7d32;text-decoration:underline;text-underline-offset:4px;}
+.k-kara{color:#c2185b;font-weight:600;}
+.k-p{color:#e65100;font-weight:600;}
+.k-adj{color:#1565c0;}
+.k-q{color:#c62828;font-weight:600;}
+.k-mou{color:#e65100;font-weight:600;}
+
+@media (max-width:430px){
+  .goals,.point{padding:14px 13px 12px;}
+  #lesson .jp{font-size:16.5px;}
+  .point h3{font-size:18px;}
+}

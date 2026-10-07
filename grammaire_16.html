@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>Grammaire 16</title>
+<link rel="stylesheet" href="cartes.css">
+<link rel="stylesheet" href="grammaire.css">
+</head>
+<body>
+<a class="home" href="index.html">&larr; Accueil</a>
+
+<header>
+  <span class="seal">文法 ・ 復習</span>
+  <h1>Grammaire</h1>
+</header>
+
+<nav class="sheets">
+  <a href="grammaire_16.html" class="on">Chapitre 16</a>
+</nav>
+
+<main id="lesson"></main>
+
+<script>
+const LESSON = {
+goals:[
+  {jp:"日常生活[にちじょうせいかつ]の行動[こうどう]を順[じゅん]を追[お]って話[はな]せる。",
+   fr:"Raconter dans l'ordre les actions de la vie de tous les jours."},
+  {jp:"人[ひと]や物[もの]、場所[ばしょ]について簡単[かんたん]な描写説明[びょうしゃせつめい]ができる。",
+   fr:"Décrire simplement une personne, un objet ou un lieu."}
+],
+points:[
+{
+  title:"V1て、V2て、V3",
+  struct:["{te:V1て}、{te:V2て}、… V（dernier verbe）"],
+  expl:"La forme て relie des actions qui se suivent, mentionnées dans l'<b>ordre chronologique</b>. Le temps de la phrase (présent ou passé) est donné par le <b>dernier verbe</b>.",
+  ex:[
+    {jp:"毎朝[まいあさ]6時半[じはん]に{te:起[お]きて}、ヨガを{te:して}、シャワーを{te:浴[あ]びて}、朝[あさ]ごはんを食[た]べます。",
+     fr:"Chaque matin, je me lève à 6 h 30, je fais du yoga, je prends une douche et je prends le petit-déjeuner."},
+    {jp:"大学生[だいがくせい]の時[とき]、家[うち]から駅[えき]まで自転車[じてんしゃ]に{te:乗[の]って}、駅[えき]で電車[でんしゃ]に{te:乗[の]って}、金沢駅[かなざわえき]で電車[でんしゃ]を{te:降[お]りて}、バスに{te:乗[の]り換[か]えて}、大学[だいがく]まで行[い]きました。",
+     fr:"Quand j'étais étudiant, j'allais de chez moi à la gare à vélo, je prenais le train, je descendais à la gare de Kanazawa, je changeais pour le bus et j'allais jusqu'à l'université."}
+  ]
+},
+{
+  title:"V1てから、V2",
+  struct:["{te:V1て}{kara:から}、V2"],
+  expl:"V2 se produit <b>après</b> V1. V1 est souvent une condition ou une action préparatoire pour V2. Le temps de la phrase est donné par le <b>dernier verbe</b>. On demande la suite avec 〜てから、何[なに]をしますか。",
+  ex:[
+    {jp:"お金[かね]を{te:入[い]れて}{kara:から}、ボタンを押[お]します。",
+     fr:"Après avoir mis l'argent, on appuie sur le bouton."},
+    {jp:"スイスで日本語[にほんご]を{te:勉強[べんきょう]して}{kara:から}、日本[にほん]へ行[い]きました。",
+     fr:"Après avoir étudié le japonais en Suisse, je suis allé au Japon."},
+    {jp:"お金[かね]を{te:入[い]れて}{kara:から}、{q:何[なに]}をします{q:か}。…ボタンを押[お]します。",
+     fr:"Après avoir mis l'argent, qu'est-ce qu'on fait ? … On appuie sur le bouton."},
+    {jp:"スイスで日本語[にほんご]を{te:勉強[べんきょう]して}{kara:から}、{q:何[なに]}をしました{q:か}。…日本[にほん]へ行[い]きました。",
+     fr:"Après avoir étudié le japonais en Suisse, qu'as-tu fait ? … Je suis allé au Japon."}
+  ],
+  drill:{title:"【練習[れんしゅう]】 〜てから、〜",
+  items:[
+    {prompt:"うちへ　かえります・ばんごはんを　食[た]べます",
+     a:"うちへ{te:かえって}{kara:から}、ばんごはんを食[た]べます。",
+     fr:"Après être rentré à la maison, je dîne."},
+    {prompt:"電話[でんわ]を　かけます・ともだちの家[うち]へ　行[い]きます",
+     a:"電話[でんわ]を{te:かけて}{kara:から}、ともだちの家[うち]へ行[い]きます。",
+     fr:"Après avoir téléphoné, je vais chez mon ami."},
+    {prompt:"先週[せんしゅう]の金曜日[きんようび]・仕事[しごと]が終[お]わります・泳[およ]ぎに行[い]きます",
+     a:"先週[せんしゅう]の金曜日[きんようび]、仕事[しごと]が{te:終[お]わって}{kara:から}、泳[およ]ぎに行[い]きました。",
+     fr:"Vendredi dernier, après le travail, je suis allé nager."},
+    {prompt:"去年[きょねん]、日本[にほん]に行[い]きます・ホテルを予約[よやく]します",
+     a:"去年[きょねん]、日本[にほん]に{te:行[い]って}{kara:から}、ホテルを予約[よやく]しました。",
+     fr:"L'année dernière, j'ai réservé l'hôtel une fois arrivé au Japon."},
+    {prompt:"いつもシャワーを浴[あ]びます・日記[にっき]を書[か]きます",
+     a:"いつもシャワーを{te:浴[あ]びて}{kara:から}、日記[にっき]を書[か]きます。",
+     fr:"J'écris toujours mon journal après avoir pris une douche."},
+    {prompt:"先月[せんげつ]タバコを辞[や]めます・飛行機[ひこうき]に乗[の]ります",
+     a:"先月[せんげつ]タバコを{te:辞[や]めて}{kara:から}、飛行機[ひこうき]に乗[の]りました。",
+     fr:"Le mois dernier, j'ai pris l'avion après avoir arrêté de fumer."}
+  ]}
+},
+{
+  title:"もう〜ましたか。…いいえ、まだです",
+  struct:["{mou:もう} Vましたか。","…はい、{mou:もう} Vました。","…いいえ、{mou:まだ}です。{te:V1て}{kara:から} V2。"],
+  expl:"もう = « déjà », まだです = « pas encore ». Pour répondre « pas encore », on peut préciser ce qu'on fera d'abord avec 〜てから.",
+  ex:[
+    {jp:"{mou:もう}宿題[しゅくだい]をしましたか。…いいえ、{mou:まだ}です。テレビを{te:見[み]て}{kara:から}します。",
+     fr:"Tu as déjà fait tes devoirs ? … Non, pas encore. Je les ferai après avoir regardé la télé."},
+    {jp:"{mou:もう}郵便局[ゆうびんきょく]に行[い]きましたか。…いいえ、{mou:まだ}です。水[みず]を{te:飲[の]んで}{kara:から}行[い]きます。",
+     fr:"Tu es déjà allé à la poste ? … Non, pas encore. J'irai après avoir bu de l'eau."},
+    {jp:"…はい、{mou:もう}行[い]きました。水[みず]を{te:飲[の]んで}{kara:から}行[い]きました。",
+     fr:"… Oui, j'y suis déjà allé. J'y suis allé après avoir bu de l'eau."}
+  ],
+  drill:{title:"【練習[れんしゅう]】「もう」を使[つか]って聞[き]きましょう。",
+  items:[
+    {prompt:"「となりのトトロ」・見[み]ます（「かぜのたにのナウシカ」を見[み]ます）",
+     q:"{mou:もう}「となりのトトロ」を見[み]ましたか。",
+     a:"…いいえ、{mou:まだ}です。「かぜのたにのナウシカ」を{te:見[み]て}{kara:から}見[み]ます。",
+     fr:"Tu as déjà vu « Mon voisin Totoro » ? … Non, pas encore. Je le verrai après « Nausicaä de la vallée du vent »."},
+    {prompt:"ディズニーランド東京[とうきょう]・行[い]きます（ゴールデンウィークが　おわります）",
+     q:"{mou:もう}ディズニーランド東京[とうきょう]に行[い]きましたか。",
+     a:"…いいえ、{mou:まだ}です。ゴールデンウィークが{te:おわって}{kara:から}行[い]きます。",
+     fr:"Tu es déjà allé à Disneyland Tokyo ? … Non, pas encore. J'irai après la Golden Week."},
+    {prompt:"もんたの「僕[ぼく]のかわいこちゃん」・聞[き]きます（ひるごはんを　食[た]べます）",
+     q:"{mou:もう}もんたの「僕[ぼく]のかわいこちゃん」を聞[き]きましたか。",
+     a:"…いいえ、{mou:まだ}です。ひるごはんを{te:食[た]べて}{kara:から}聞[き]きます。",
+     fr:"Tu as déjà écouté « Boku no kawaiko-chan » de Monta ? … Non, pas encore. Je l'écouterai après le déjeuner."},
+    {prompt:"日本語[にほんご]で新聞[しんぶん]・読[よ]みます（漢字[かんじ]を　たくさん勉強[べんきょう]します）",
+     q:"{mou:もう}日本語[にほんご]で新聞[しんぶん]を読[よ]みましたか。",
+     a:"…いいえ、{mou:まだ}です。漢字[かんじ]をたくさん{te:勉強[べんきょう]して}{kara:から}読[よ]みます。",
+     fr:"Tu as déjà lu un journal en japonais ? … Non, pas encore. Je le lirai après avoir beaucoup étudié les kanji."},
+    {prompt:"大学[だいがく]・出[で]ます（「そつぎょうろん文[ぶん]」を　かきます）",
+     q:"{mou:もう}大学[だいがく]を出[で]ましたか。",
+     a:"…いいえ、{mou:まだ}です。「そつぎょうろん文[ぶん]」を{te:かいて}{kara:から}出[で]ます。",
+     fr:"Tu as déjà terminé l'université ? … Non, pas encore. Je la terminerai après avoir écrit mon mémoire de fin d'études."},
+    {prompt:"会社[かいしゃ]・辞[や]めます（あたらしい人[ひと]が　きます）",
+     q:"{mou:もう}会社[かいしゃ]を辞[や]めましたか。",
+     a:"…いいえ、{mou:まだ}です。あたらしい人[ひと]が{te:きて}{kara:から}辞[や]めます。",
+     fr:"Tu as déjà quitté ton entreprise ? … Non, pas encore. Je partirai après l'arrivée de la nouvelle personne."},
+    {prompt:"きょう・シャワーを　あびます（プールに　泳[およ]ぎに行[い]きます）",
+     q:"きょう、{mou:もう}シャワーをあびましたか。",
+     a:"…いいえ、{mou:まだ}です。プールに泳[およ]ぎに{te:行[い]って}{kara:から}あびます。",
+     fr:"Tu as déjà pris ta douche aujourd'hui ? … Non, pas encore. Je la prendrai après être allé nager à la piscine."},
+    {prompt:"日本[にほん]の自動販売機[じどうはんばいき]のボタン・おします（おもしろい自動販売機[じどうはんばいき]を　みつけます）",
+     q:"{mou:もう}日本[にほん]の自動販売機[じどうはんばいき]のボタンをおしましたか。",
+     a:"…いいえ、{mou:まだ}です。おもしろい自動販売機[じどうはんばいき]を{te:みつけて}{kara:から}おします。",
+     fr:"Tu as déjà appuyé sur le bouton d'un distributeur japonais ? … Non, pas encore. Je le ferai après en avoir trouvé un amusant."}
+  ]}
+},
+{
+  title:"N1 は N2 が Adj",
+  struct:["N1 {p:は}　N2 {p:が}　{adj:Adj} です。"],
+  expl:"Cette structure indique que le thème (N1) a une propriété exprimée par « N2 が adjectif ».",
+  ex:[
+    {jp:"マリアさん{p:は}髪[かみ]{p:が}{adj:長[なが]い}です。",fr:"Maria a les cheveux longs."},
+    {jp:"マリアさん{p:は}頭[あたま]{p:が}{adj:いい}です。",fr:"Maria est intelligente."},
+    {jp:"ゾウ{p:は}体[からだ]{p:が}{adj:大[おお]きい}です。",fr:"L'éléphant a un grand corps."},
+    {jp:"ゾウ{p:は}目[め]{p:が}{adj:小[ちい]さい}です。",fr:"L'éléphant a de petits yeux."},
+    {jp:"日本[にほん]{p:は}山[やま]{p:が}{adj:多[おお]い}です。",fr:"Au Japon, il y a beaucoup de montagnes."},
+    {jp:"日本[にほん]{p:は}人[ひと]{p:が}{adj:多[おお]い}です。",fr:"Au Japon, il y a beaucoup de monde."},
+    {jp:"日本[にほん]{p:は}富士山[ふじさん]{p:が}{adj:有名[ゆうめい]}です。",fr:"Le Japon est célèbre pour le mont Fuji."}
+  ],
+  drill:{title:"【練習[れんしゅう]】言[い]いましょう。",
+  items:[
+    {prompt:"リーさん・目[め]・大[おお]きい",a:"リーさん{p:は}目[め]{p:が}{adj:大[おお]きい}です。",fr:"Lee a de grands yeux."},
+    {prompt:"東京[とうきょう]・コンビニ・多[おお]い",a:"東京[とうきょう]{p:は}コンビニ{p:が}{adj:多[おお]い}です。",fr:"À Tokyo, il y a beaucoup de supérettes."},
+    {prompt:"中国語[ちゅうごくご]・発音[はつおん]・むずかしい",a:"中国語[ちゅうごくご]{p:は}発音[はつおん]{p:が}{adj:むずかしい}です。",fr:"La prononciation du chinois est difficile."},
+    {prompt:"私[わたし]・髪[かみ]・みじかい",a:"私[わたし]{p:は}髪[かみ]{p:が}{adj:みじかい}です。",fr:"J'ai les cheveux courts."},
+    {prompt:"沖縄[おきなわ]・海[うみ]・きれい",a:"沖縄[おきなわ]{p:は}海[うみ]{p:が}{adj:きれい}です。",fr:"À Okinawa, la mer est belle."},
+    {prompt:"キリン・首[くび]・長[なが]い",a:"キリン{p:は}首[くび]{p:が}{adj:長[なが]い}です。",fr:"La girafe a un long cou."}
+  ]}
+},
+{
+  title:"Adj くて／で、N で　—　Adj ですが",
+  struct:["い-adj：〜{adj:い} → 〜{adj:くて}","な-adj：〜{adj:で}　　N：〜{adj:で}","opposition (+ / −)：〜です{p:が}、〜"],
+  expl:"Pour relier deux qualités qui vont dans le même sens (+ + ou − −), l'adjectif en い remplace い par <b>くて</b> ; l'adjectif en な (sans な) et le nom prennent <b>で</b>. Si les qualités s'opposent (+ −), on utilise <b>〜ですが</b> (« mais »).",
+  ex:[
+    {jp:"東京[とうきょう]は人[ひと]{p:が}多[おお]いです。そしてにぎやかです。",fr:"Tokyo est très peuplé. Et c'est animé."},
+    {jp:"東京[とうきょう]は人[ひと]{p:が}{adj:多[おお]くて}、にぎやかです。",fr:"Tokyo est très peuplé et animé."},
+    {jp:"東京[とうきょう]は{adj:にぎやかで}、人[ひと]{p:が}多[おお]いです。",fr:"Tokyo est animé et très peuplé."},
+    {jp:"私[わたし]の彼[かれ]は背[せ]{p:が}{adj:高[たか]くて}、ハンサムです。",fr:"Mon copain est grand et beau."},
+    {jp:"私[わたし]の彼[かれ]は背[せ]{p:が}高[たか]いです{p:が}、足[あし]{p:が}短[みじか]いです。",fr:"Mon copain est grand, mais il a les jambes courtes."},
+    {jp:"ミラーさんは{adj:アメリカ人[じん]で}、IMCの社員[しゃいん]です。",fr:"M. Miller est américain et employé chez IMC."}
+  ],
+  drill:{title:"【練習[れんしゅう]】",
+  items:[
+    {prompt:"ミラーさん・若[わか]い・元気[げんき]",a:"ミラーさんは{adj:若[わか]くて}、元気[げんき]です。",fr:"M. Miller est jeune et plein d'énergie."},
+    {prompt:"カリナさん・頭[あたま]・いい・暗[くら]い",a:"カリナさんは頭[あたま]がいいです{p:が}、暗[くら]いです。",fr:"Karina est intelligente, mais elle est un peu sombre. (+ / − → ですが)"},
+    {prompt:"ジョイさん・41才[さい]・独身[どくしん]",a:"ジョイさんは{adj:41才[さい]で}、独身[どくしん]です。",fr:"Joy a 41 ans et il est célibataire."},
+    {prompt:"ワン・中国人[ちゅうごくじん]・医者[いしゃ]",a:"ワンさんは{adj:中国人[ちゅうごくじん]で}、医者[いしゃ]です。",fr:"M. Wang est chinois et médecin."},
+    {prompt:"スイス・チーズ・おいしい・高[たか]い",a:"スイスはチーズがおいしいです{p:が}、高[たか]いです。",fr:"En Suisse, le fromage est bon, mais cher. (+ / − → ですが)"},
+    {prompt:"シンデレラのドレス・きれい・青[あお]い・長[なが]い",a:"シンデレラのドレスは{adj:きれいで}、{adj:青[あお]くて}、長[なが]いです。",fr:"La robe de Cendrillon est belle, bleue et longue."}
+  ]}
+},
+{
+  title:"どの N ですか ／ どれですか",
+  struct:["{q:どの} + N ですか。","{q:どれ}ですか。"],
+  expl:"<b>どの + nom</b> et <b>どれ</b> servent à demander de choisir une personne ou une chose parmi plus de trois, concrètement désignées ou montrées. どの est toujours suivi d'un nom ; どれ s'emploie seul. On répond en décrivant avec 〜くて／〜で + nom.",
+  ex:[
+    {jp:"ミラーさんは{q:どの}人[ひと]ですか。…この、髪[かみ]{p:が}金髪[きんぱつ]で、目[め]{p:が}青[あお]い人[ひと]です。",
+     fr:"Lequel est M. Miller ? … C'est celui-ci, aux cheveux blonds et aux yeux bleus."},
+    {jp:"ミラーさんの車[くるま]は{q:どれ}ですか。…あの{adj:小[ちい]さくて}赤[あか]い車[くるま]です。",
+     fr:"Laquelle est la voiture de M. Miller ? … C'est la petite voiture rouge, là-bas."}
+  ],
+  drill:{title:"【練習[れんしゅう]】言[い]いましょう。",
+  items:[
+    {prompt:"カリナさん・どの人[ひと]（背[せ]・高[たか]い、足[あし]・長[なが]い）",
+     q:"カリナさんは{q:どの}人[ひと]ですか。",a:"…背[せ]が{adj:高[たか]くて}、足[あし]が長[なが]い人[ひと]です。",
+     fr:"Laquelle est Karina ? … C'est celle qui est grande et qui a de longues jambes."},
+    {prompt:"サントスさん・どの人[ひと]（髪[かみ]・黒[くろ]い、鼻[はな]・大[おお]きい）",
+     q:"サントスさんは{q:どの}人[ひと]ですか。",a:"…髪[かみ]が{adj:黒[くろ]くて}、鼻[はな]が大[おお]きい人[ひと]です。",
+     fr:"Lequel est M. Santos ? … C'est celui qui a les cheveux noirs et un grand nez."},
+    {prompt:"ワンさん・どの人[ひと]（ゴルフ・上手[じょうず]、ハンサム）",
+     q:"ワンさんは{q:どの}人[ひと]ですか。",a:"…ゴルフが{adj:上手[じょうず]で}、ハンサムな人[ひと]です。",
+     fr:"Lequel est M. Wang ? … C'est celui qui joue bien au golf et qui est beau."},
+    {prompt:"イーさん・どの人[ひと]（口[くち]・小[ちい]さい、首[くび]・長[なが]い）",
+     q:"イーさんは{q:どの}人[ひと]ですか。",a:"…口[くち]が{adj:小[ちい]さくて}、首[くび]が長[なが]い人[ひと]です。",
+     fr:"Laquelle est Mme Lee ? … C'est celle qui a une petite bouche et un long cou."},
+    {prompt:"マリアさんの犬[いぬ]のリボン・どれ（かわいい、水色[みずいろ]）",
+     q:"マリアさんの犬[いぬ]のリボンは{q:どれ}ですか。",a:"…{adj:かわいくて}、水色[みずいろ]のリボンです。",
+     fr:"Lequel est le ruban du chien de Maria ? … C'est le ruban mignon, bleu ciel."},
+    {prompt:"水口[みずぐち]さんのくつ・どれ（ヒール・高[たか]い、くつのうら・赤[あか]い）",
+     q:"水口[みずぐち]さんのくつは{q:どれ}ですか。",a:"…ヒールが{adj:高[たか]くて}、くつのうらが赤[あか]いくつです。",
+     fr:"Lesquelles sont les chaussures de Mme Mizuguchi ? … Celles aux talons hauts et à la semelle rouge."},
+    {prompt:"田村[たむら]さんの家[うち]・どれ（屋根[やね]・茶色[ちゃいろ]、壁[かべ]・白[しろ]い）",
+     q:"田村[たむら]さんの家[うち]は{q:どれ}ですか。",a:"…屋根[やね]が{adj:茶色[ちゃいろ]で}、壁[かべ]が白[しろ]い家[うち]です。",
+     fr:"Laquelle est la maison de M. Tamura ? … C'est celle au toit marron et aux murs blancs."},
+    {prompt:"町田[まちだ]さんの家[うち]・どの駅[えき]・おります（池袋[いけぶくろ]）",
+     q:"町田[まちだ]さんの家[うち]は、{q:どの}駅[えき]でおりますか。",a:"…池袋[いけぶくろ]でおります。",
+     fr:"Pour aller chez M. Machida, à quelle gare descend-on ? … On descend à Ikebukuro."}
+  ]}
+}
+]};
+</script>
+<script src="grammaire.js"></script>
+</body>
+</html>

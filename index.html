@@ -84,13 +84,16 @@
   a.entry:active{transform:scale(.98);}
   .entry .glyph{
     flex:none;
-    width:64px;height:64px;
+    width:100px;height:64px;
     display:flex;align-items:center;justify-content:center;
-    font-size:38px;
+    font-size:26px;
+    line-height:1;
+    padding-top:8px;   /* place pour les furigana */
     color:var(--vermilion);
     border:2px solid var(--vermilion);
     border-radius:10px;
   }
+  .entry .glyph rt{font-size:.42em;color:var(--muted);letter-spacing:.05em;}
   .entry .title{
     font-size:21px;
     font-weight:600;
@@ -131,36 +134,42 @@
 <header>
   <span class="seal">日本語 ・ 復習</span>
   <h1>Révision japonais</h1>
-  <div class="sub">Minna no Nihongo</div>
 </header>
 
 <nav class="menu">
   <a class="entry" href="fiches_kanji.html">
-    <span class="glyph">漢</span>
+    <span class="glyph"><ruby>漢字<rt>かんじ</rt></ruby></span>
     <div>
       <div class="title">Kanji</div>
       <div class="desc">Fiches de révision et quiz</div>
     </div>
   </a>
   <a class="entry" href="verbes.html">
-    <span class="glyph">動</span>
+    <span class="glyph"><ruby>動詞<rt>どうし</rt></ruby></span>
     <div>
       <div class="title">Verbes</div>
       <div class="desc">Feuilles rose, verte et bleue · formes ます, て, た, ない</div>
     </div>
   </a>
-  <div class="entry soon" aria-disabled="true">
-    <span class="glyph">形</span>
+  <a class="entry" href="adjectifs.html">
+    <span class="glyph"><ruby>形容詞<rt>けいようし</rt></ruby></span>
     <div>
-      <div class="title">Adjectifs<span class="badge">bientôt</span></div>
-      <div class="desc">Adjectifs en い et en な</div>
+      <div class="title">Adjectifs</div>
+      <div class="desc">Adjectifs en い et en な · 4 formes polies</div>
     </div>
-  </div>
+  </a>
   <a class="entry" href="vocabulaire_16.html">
-    <span class="glyph">語</span>
+    <span class="glyph"><ruby>語彙<rt>ごい</rt></ruby></span>
     <div>
       <div class="title">Vocabulaire</div>
       <div class="desc">Mots par chapitre</div>
+    </div>
+  </a>
+  <a class="entry" href="grammaire_16.html">
+    <span class="glyph"><ruby>文法<rt>ぶんぽう</rt></ruby></span>
+    <div>
+      <div class="title">Grammaire</div>
+      <div class="desc">Points de grammaire par chapitre</div>
     </div>
   </a>
 </nav>

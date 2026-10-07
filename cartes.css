@@ -230,6 +230,23 @@ rt{font-size:.6em;color:#5f574c;}
 .card.f5 .form .tag{min-width:26px;padding:2px 3px;}
 .card.f5 .form .val{font-size:15px;font-size:min(15px,10.3cqw);line-height:1.75;}
 
+/* ---- Adjectifs : 4 formes, étiquette au-dessus, la forme peut aller à la ligne ---- */
+.card.adj{aspect-ratio:5/8;min-height:290px;}
+@supports not (aspect-ratio:1){.card.adj{height:290px;}}
+.card.adj .back{gap:2px;padding-left:10px;padding-right:10px;}
+.card.adj .form{flex-direction:column;align-items:flex-start;gap:0;}
+.card.adj .form .tag{min-width:0;font-size:9px;padding:1px 5px;}
+.card.adj .grp + .form .tag{background:var(--vermilion);}
+.card.adj .nw{white-space:nowrap;}
+.card.adj .front{justify-content:center;padding-top:0;padding-bottom:22px;}
+.card.adj .form .val{
+  font-size:15px;
+  font-size:min(15px,10cqw);
+  line-height:1.65;
+  white-space:normal;
+  line-break:strict;
+}
+
 /* ---- Sélecteur de feuille ---- */
 .sheets{
   display:flex;

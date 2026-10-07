@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>Adjectifs</title>
+<link rel="stylesheet" href="cartes.css">
+</head>
+<body>
+<a class="home" href="index.html">&larr; Accueil</a>
+
+<header>
+  <span class="seal">形容詞 ・ 復習</span>
+  <h1>Adjectifs</h1>
+</header>
+
+<div class="controls">
+  <button id="flipAll">Tout retourner</button>
+  <button id="reset">Réinitialiser</button>
+  <button id="shuffle">Mélanger</button>
+</div>
+<div class="count" id="count"></div>
+<div class="grid" id="grid"></div>
+
+<script>
+const CARDS = [
+{n:1, t:"i", fr:"nouveau",adj:"新[あたら]しい"},
+{n:2, t:"i", fr:"vieux (objet)",adj:"古[ふる]い"},
+{n:3, t:"i", fr:"froid (temps)",adj:"寒[さむ]い"},
+{n:4, t:"i", fr:"chaud (temps)",adj:"暑[あつ]い"},
+{n:5, t:"i", fr:"doux, tiède (temps)",adj:"暖[あたた]かい"},
+{n:6, t:"i", fr:"frais (temps)",adj:"涼[すず]しい"},
+{n:7, t:"i", fr:"chaud (au toucher)",adj:"熱[あつ]い"},
+{n:8, t:"i", fr:"froid (au toucher)",adj:"冷[つめ]たい"},
+{n:9, t:"i", fr:"court",adj:"短[みじか]い"},
+{n:10,t:"i", fr:"long",adj:"長[なが]い"},
+{n:11,t:"i", fr:"loin",adj:"遠[とお]い"},
+{n:12,t:"i", fr:"près",adj:"近[ちか]い"},
+{n:13,t:"i", fr:"lent",adj:"遅[おそ]い"},
+{n:14,t:"i", fr:"rapide",adj:"速[はや]い"},
+{n:15,t:"i", fr:"bas",adj:"低[ひく]い"},
+{n:16,t:"i", fr:"haut",adj:"高[たか]い"},
+{n:17,t:"i", fr:"bon marché",adj:"安[やす]い"},
+{n:18,t:"i", fr:"cher",adj:"高[たか]い"},
+{n:19,t:"i", fr:"grand",adj:"大[おお]きい"},
+{n:20,t:"i", fr:"petit",adj:"小[ちい]さい"},
+{n:21,t:"i", fr:"spacieux",adj:"広[ひろ]い"},
+{n:22,t:"i", fr:"étroit, exigu",adj:"狭[せま]い"},
+{n:23,t:"i", fr:"peu nombreux",adj:"少[すく]ない"},
+{n:24,t:"i", fr:"nombreux",adj:"多[おお]い"},
+{n:25,t:"i", fr:"facile",adj:"易[やさ]しい"},
+{n:26,t:"i", fr:"difficile",adj:"難[むずか]しい"},
+{n:27,t:"i", fr:"délicieux",adj:"おいしい"},
+{n:28,t:"i", fr:"intéressant, amusant",adj:"面白[おもしろ]い"},
+{n:29,t:"na",fr:"animé",adj:"にぎやか"},
+{n:30,t:"na",fr:"calme",adj:"静[しず]か"},
+{n:31,t:"na",fr:"en forme",adj:"元気[げんき]"},
+{n:32,t:"na",fr:"beau, propre",adj:"きれい"},
+{n:33,t:"na",fr:"célèbre",adj:"有名[ゆうめい]"},
+{n:34,t:"na",fr:"pratique",adj:"便利[べんり]"}
+];
+const IMG_DIR="images/adjectifs";
+const LABEL="adjectifs";
+</script>
+<script src="cartes.js"></script>
+</body>
+</html>

@@ -2,6 +2,7 @@
    La page définit avant ce script :
    - CARDS   : verbes [{n, g, fr, obj?, masu, dict, te, ta?, nai?}]
                ou mots [{n, fr, obj?, jp}]
+               ou adjectifs [{n, t:"i"|"na", fr, adj}] (formes calculées)
    - IMG_DIR : dossier des dessins, ex. "images/verbes" (fichiers NN.jpg)
    - LABEL   : mot du compteur, ex. "verbes" ou "mots"
    Le dos affiche le groupe et les formes présentes, ou le mot japonais (jp). */
@@ -16,9 +17,26 @@ const FORMS=[['masu','ます'],['dict','辞書'],['te','て'],['ta','た'],['nai
 const grid=document.getElementById('grid');
 let order=[...CARDS.keys()];
 
+/* Formes polies d'un adjectif : 新[あたら]しい (t:"i") ou 静[しず]か (t:"na") */
+const ADJ_TAGS=['です','ない','た','なかった'];
+function adjForms(v){
+  if(v.t==='i'){
+    const stem=v.adj.slice(0,-1);   // retire le い final
+    return [v.adj+'です',stem+'くないです',stem+'かったです',stem+'くなかったです'];
+  }
+  return [v.adj+'です',v.adj+'じゃありません',v.adj+'でした',v.adj+'じゃありませんでした'];
+}
+
 function backHTML(v){
   const obj=v.obj?`<div class="obj">(${ruby(v.obj)})</div>`:'';
   if(v.jp) return `${obj}<div class="jp">${ruby(v.jp)}</div>`;
+  if(v.adj){
+    // si la forme est trop longue, la coupure tombe entre l'adjectif et la terminaison
+    const base=v.t==='i'?v.adj.slice(0,-1):v.adj;
+    const val=f=>`<span class="nw">${ruby(base)}</span><span class="nw">${f.slice(base.length)}</span>`;
+    return `<div class="grp">Adjectif en ${v.t==='i'?'い':'な'}</div>`+
+      adjForms(v).map((f,i)=>`<div class="form"><span class="tag">${ADJ_TAGS[i]}</span><span class="val">${val(f)}</span></div>`).join('');
+  }
   const rows=FORMS.filter(([k])=>v[k])
     .map(([k,tag])=>`<div class="form ${k}"><span class="tag">${tag}</span><span class="val">${ruby(v[k])}</span></div>`).join('');
   return `<div class="grp">${GROUPES[v.g]}</div>${obj}${rows}`;
@@ -29,7 +47,7 @@ function render(){
   order.forEach(i=>{
     const v=CARDS[i];
     const card=document.createElement('div');
-    card.className='card'+(FORMS.filter(([k])=>v[k]).length>3?' f5':'');
+    card.className='card'+(v.adj?' adj':FORMS.filter(([k])=>v[k]).length>3?' f5':'');
     card.innerHTML=`
       <div class="inner">
         <div class="face front">
