@@ -1,0 +1,226 @@
+/* Service worker : rend le site utilisable hors ligne (iPad dans l'avion).
+ * - install  : enregistre tous les fichiers de ASSETS dans le cache.
+ * - fetch    : répond depuis le cache (instantané, marche hors ligne),
+ *              puis met la copie à jour en arrière-plan si le réseau répond.
+ * - activate : supprime les caches des versions précédentes.
+ * Quand on ajoute ou renomme une page, un dessin ou un fichier :
+ * l'ajouter à ASSETS et augmenter VERSION. */
+const VERSION='2026-10-07-1';
+const CACHE='revision-japonais-'+VERSION;
+const ASSETS=[
+  './',
+  'adjectifs.html',
+  'cartes.css',
+  'cartes.js',
+  'fiches_kanji.html',
+  'grammaire.css',
+  'grammaire.js',
+  'grammaire_16.html',
+  'icons/apple-touch-icon.png',
+  'icons/favicon-32.png',
+  'icons/icon-192.png',
+  'icons/icon-512.png',
+  'icons/icon-maskable-512.png',
+  'images/adjectifs/01.jpg',
+  'images/adjectifs/02.jpg',
+  'images/adjectifs/03.jpg',
+  'images/adjectifs/04.jpg',
+  'images/adjectifs/05.jpg',
+  'images/adjectifs/06.jpg',
+  'images/adjectifs/07.jpg',
+  'images/adjectifs/08.jpg',
+  'images/adjectifs/09.jpg',
+  'images/adjectifs/10.jpg',
+  'images/adjectifs/11.jpg',
+  'images/adjectifs/12.jpg',
+  'images/adjectifs/13.jpg',
+  'images/adjectifs/14.jpg',
+  'images/adjectifs/15.jpg',
+  'images/adjectifs/16.jpg',
+  'images/adjectifs/17.jpg',
+  'images/adjectifs/18.jpg',
+  'images/adjectifs/19.jpg',
+  'images/adjectifs/20.jpg',
+  'images/adjectifs/21.jpg',
+  'images/adjectifs/22.jpg',
+  'images/adjectifs/23.jpg',
+  'images/adjectifs/24.jpg',
+  'images/adjectifs/25.jpg',
+  'images/adjectifs/26.jpg',
+  'images/adjectifs/27.jpg',
+  'images/adjectifs/28.jpg',
+  'images/adjectifs/29.jpg',
+  'images/adjectifs/30.jpg',
+  'images/adjectifs/31.jpg',
+  'images/adjectifs/32.jpg',
+  'images/adjectifs/33.jpg',
+  'images/adjectifs/34.jpg',
+  'images/verbes/01.jpg',
+  'images/verbes/02.jpg',
+  'images/verbes/03.jpg',
+  'images/verbes/04.jpg',
+  'images/verbes/05.jpg',
+  'images/verbes/06.jpg',
+  'images/verbes/07.jpg',
+  'images/verbes/08.jpg',
+  'images/verbes/09.jpg',
+  'images/verbes/10.jpg',
+  'images/verbes/11.jpg',
+  'images/verbes/12.jpg',
+  'images/verbes/13.jpg',
+  'images/verbes/14.jpg',
+  'images/verbes/15.jpg',
+  'images/verbes/16.jpg',
+  'images/verbes/17.jpg',
+  'images/verbes/18.jpg',
+  'images/verbes/19.jpg',
+  'images/verbes/20.jpg',
+  'images/verbes/21.jpg',
+  'images/verbes/22.jpg',
+  'images/verbes/23.jpg',
+  'images/verbes/24.jpg',
+  'images/verbes/25.jpg',
+  'images/verbes/26.jpg',
+  'images/verbes/27.jpg',
+  'images/verbes/28.jpg',
+  'images/verbes/29.jpg',
+  'images/verbes/30.jpg',
+  'images/verbes_2/01.jpg',
+  'images/verbes_2/02.jpg',
+  'images/verbes_2/03.jpg',
+  'images/verbes_2/04.jpg',
+  'images/verbes_2/05.jpg',
+  'images/verbes_2/06.jpg',
+  'images/verbes_2/07.jpg',
+  'images/verbes_2/08.jpg',
+  'images/verbes_2/09.jpg',
+  'images/verbes_2/10.jpg',
+  'images/verbes_2/11.jpg',
+  'images/verbes_2/12.jpg',
+  'images/verbes_2/13.jpg',
+  'images/verbes_2/14.jpg',
+  'images/verbes_2/15.jpg',
+  'images/verbes_2/16.jpg',
+  'images/verbes_2/17.jpg',
+  'images/verbes_2/18.jpg',
+  'images/verbes_2/19.jpg',
+  'images/verbes_2/20.jpg',
+  'images/verbes_2/21.jpg',
+  'images/verbes_2/22.jpg',
+  'images/verbes_2/23.jpg',
+  'images/verbes_2/24.jpg',
+  'images/verbes_2/25.jpg',
+  'images/verbes_2/26.jpg',
+  'images/verbes_2/27.jpg',
+  'images/verbes_2/28.jpg',
+  'images/verbes_2/29.jpg',
+  'images/verbes_2/30.jpg',
+  'images/verbes_2/31.jpg',
+  'images/verbes_2/32.jpg',
+  'images/verbes_3/01.jpg',
+  'images/verbes_3/02.jpg',
+  'images/verbes_3/03.jpg',
+  'images/verbes_3/04.jpg',
+  'images/verbes_3/05.jpg',
+  'images/verbes_3/06.jpg',
+  'images/verbes_3/07.jpg',
+  'images/verbes_3/08.jpg',
+  'images/verbes_3/09.jpg',
+  'images/verbes_3/10.jpg',
+  'images/verbes_3/11.jpg',
+  'images/verbes_3/12.jpg',
+  'images/verbes_3/13.jpg',
+  'images/verbes_3/14.jpg',
+  'images/verbes_3/15.jpg',
+  'images/verbes_3/16.jpg',
+  'images/verbes_3/17.jpg',
+  'images/verbes_3/18.jpg',
+  'images/verbes_3/19.jpg',
+  'images/verbes_3/20.jpg',
+  'images/verbes_3/21.jpg',
+  'images/verbes_3/22.jpg',
+  'images/verbes_3/23.jpg',
+  'images/verbes_3/24.jpg',
+  'images/vocabulaire/16/01.jpg',
+  'images/vocabulaire/16/02.jpg',
+  'images/vocabulaire/16/03.jpg',
+  'images/vocabulaire/16/04.jpg',
+  'images/vocabulaire/16/05.jpg',
+  'images/vocabulaire/16/06.jpg',
+  'images/vocabulaire/16/07.jpg',
+  'images/vocabulaire/16/08.jpg',
+  'images/vocabulaire/16/09.jpg',
+  'images/vocabulaire/16/10.jpg',
+  'images/vocabulaire/16/11.jpg',
+  'images/vocabulaire/16/12.jpg',
+  'images/vocabulaire/16/13.jpg',
+  'images/vocabulaire/16/15.jpg',
+  'images/vocabulaire/16/16.jpg',
+  'images/vocabulaire/16/17.jpg',
+  'images/vocabulaire/16/18.jpg',
+  'images/vocabulaire/16/19.jpg',
+  'images/vocabulaire/16/20.jpg',
+  'images/vocabulaire/16/21.jpg',
+  'images/vocabulaire/16/22.jpg',
+  'images/vocabulaire/16/23.jpg',
+  'images/vocabulaire/16/24.jpg',
+  'images/vocabulaire/16/25.jpg',
+  'images/vocabulaire/16/26.jpg',
+  'images/vocabulaire/16/27.jpg',
+  'images/vocabulaire/16/28.jpg',
+  'images/vocabulaire/16/29.jpg',
+  'images/vocabulaire/16/30.jpg',
+  'images/vocabulaire/16/31.jpg',
+  'images/vocabulaire/16/32.jpg',
+  'images/vocabulaire/16/33.jpg',
+  'images/vocabulaire/16/34.jpg',
+  'images/vocabulaire/16/35.jpg',
+  'images/vocabulaire/16/36.jpg',
+  'images/vocabulaire/16/37.jpg',
+  'images/vocabulaire/16/38.jpg',
+  'images/vocabulaire/16/39.jpg',
+  'images/vocabulaire/16/40.jpg',
+  'images/vocabulaire/16/41.jpg',
+  'images/vocabulaire/16/42.jpg',
+  'index.html',
+  'manifest.webmanifest',
+  'pwa.js',
+  'verbes.html',
+  'verbes_2.html',
+  'verbes_3.html',
+  'vocabulaire_16.html'
+];
+
+self.addEventListener('install',event=>{
+  event.waitUntil(
+    caches.open(CACHE)
+      .then(cache=>cache.addAll(ASSETS.map(url=>new Request(url,{cache:'reload'}))))
+      .then(()=>self.skipWaiting())
+  );
+});
+
+self.addEventListener('activate',event=>{
+  event.waitUntil(
+    caches.keys()
+      .then(keys=>Promise.all(keys.filter(k=>k.startsWith('revision-japonais-')&&k!==CACHE).map(k=>caches.delete(k))))
+      .then(()=>self.clients.claim())
+  );
+});
+
+self.addEventListener('fetch',event=>{
+  const req=event.request;
+  if(req.method!=='GET'||new URL(req.url).origin!==location.origin)return;
+  event.respondWith(caches.open(CACHE).then(async cache=>{
+    const cached=await cache.match(req,{ignoreSearch:true});
+    const network=fetch(req).then(res=>{
+      if(res.ok)cache.put(req,res.clone());
+      return res;
+    }).catch(()=>null);
+    if(cached){event.waitUntil(network);return cached;}
+    const res=await network;
+    if(res)return res;
+    // hors ligne et page inconnue : on renvoie l'accueil
+    if(req.mode==='navigate')return cache.match('index.html');
+    return Response.error();
+  }));
+});
