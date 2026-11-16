@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Japonais">
+<meta name="theme-color" content="#9b2d23">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/png" href="icons/favicon-32.png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<script src="pwa.js" defer></script>
+<title>Verbes · conjugaison</title>
+<link rel="stylesheet" href="cartes.css">
+<style>
+  .conj{max-width:520px;margin:0 auto;padding:6px 16px 60px;}
+  .exo{text-align:center;margin:14px 0 14px;font-size:15px;color:var(--sumi);letter-spacing:.06em;}
+  .exo b{color:var(--vermilion);font-family:"Hiragino Mincho ProN","Yu Mincho",serif;font-size:18px;}
+  .rules{background:var(--card);border:1px solid var(--line);border-radius:14px;box-shadow:0 4px 14px var(--shadow);padding:6px 16px 10px;}
+  .rules table{width:100%;border-collapse:collapse;font-size:16px;}
+  .rules th{text-align:left;font-family:-apple-system,sans-serif;font-size:11px;font-weight:600;color:var(--gold);letter-spacing:.14em;text-transform:uppercase;padding:14px 4px 2px;}
+  .rules td{padding:6px 4px;border-bottom:1px solid var(--line);vertical-align:top;}
+  .rules tr:last-child td{border-bottom:none;}
+  .rules .r{font-size:14px;color:var(--vermilion);}
+  .rules .e{display:flex;flex-direction:column;line-height:2;}
+  .rules .e span{white-space:nowrap;}
+  .rules rt{font-size:.5em;}
+</style>
+</head>
+<body>
+<a class="home" href="index.html">&larr; Accueil</a>
+
+<header>
+  <span class="seal">動詞 ・ 復習</span>
+  <h1>Verbes</h1>
+</header>
+
+<nav class="sheets">
+  <a href="verbes.html">Feuille rose</a>
+  <a href="verbes_2.html">Feuille verte</a>
+  <a href="verbes_3.html">Feuille bleue</a>
+  <a href="verbes_conjugaison.html" class="on">Conjugaison</a>
+</nav>
+
+<main class="conj">
+  <div class="exo">Forme <b>ます</b> → forme <b>て</b></div>
+  <section class="rules">
+    <table>
+      <tr><th>Groupe I</th></tr>
+      <tr><td><div class="r">い・ち・り ます → って</div><div class="e"><span>買[か]います → 買[か]って</span><span>待[ま]ちます → 待[ま]って</span><span>帰[かえ]ります → 帰[かえ]って</span></div></td></tr>
+      <tr><td><div class="r">み・び・に ます → んで</div><div class="e"><span>読[よ]みます → 読[よ]んで</span><span>遊[あそ]びます → 遊[あそ]んで</span><span>死[し]にます → 死[し]んで</span></div></td></tr>
+      <tr><td><div class="r">き ます → いて</div><div class="e"><span>書[か]きます → 書[か]いて</span><span>歩[ある]きます → 歩[ある]いて</span></div></td></tr>
+      <tr><td><div class="r">ぎ ます → いで</div><div class="e"><span>泳[およ]ぎます → 泳[およ]いで</span><span>急[いそ]ぎます → 急[いそ]いで</span></div></td></tr>
+      <tr><td><div class="r">し ます → して</div><div class="e"><span>話[はな]します → 話[はな]して</span><span>貸[か]します → 貸[か]して</span></div></td></tr>
+      <tr><td><div class="r">Exception</div><div class="e"><span>行[い]きます → 行[い]って</span><span>持[も]っていきます → 持[も]っていって</span></div></td></tr>
+      <tr><th>Groupe II</th></tr>
+      <tr><td><div class="r">ます → て</div><div class="e"><span>食[た]べます → 食[た]べて</span><span>見[み]ます → 見[み]て</span><span>起[お]きます → 起[お]きて</span></div></td></tr>
+      <tr><th>Groupe III</th></tr>
+      <tr><td><div class="r">します → して</div><div class="e"><span>勉強[べんきょう]します → 勉強[べんきょう]して</span><span>びっくりします → びっくりして</span></div></td></tr>
+      <tr><td><div class="r">来[き]ます → 来[き]て</div><div class="e"><span>来[き]ます → 来[き]て</span><span>持[も]ってきます → 持[も]ってきて</span></div></td></tr>
+    </table>
+  </section>
+</main>
+
+<script>
+function ruby(s){return s.replace(/([一-鿿々]+)\[([^\]]+)\]/g,'<ruby>$1<rt>$2</rt></ruby>');}
+document.querySelectorAll('.rules td').forEach(td=>td.innerHTML=ruby(td.innerHTML));
+</script>
+</body>
+</html>
