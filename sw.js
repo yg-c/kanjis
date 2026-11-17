@@ -5,7 +5,7 @@
  * - activate : supprime les caches des versions précédentes.
  * Quand on ajoute ou renomme une page, un dessin ou un fichier :
  * l'ajouter à ASSETS et augmenter VERSION. */
-const VERSION='2026-11-16-2';
+const VERSION='2026-11-17-1';
 const CACHE='revision-japonais-'+VERSION;
 const ASSETS=[
   './',

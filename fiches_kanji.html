@@ -242,11 +242,12 @@
     color:var(--muted);
     font-size:15px;
     letter-spacing:.08em;
-    padding:9px 28px;
+    padding:9px 24px;
     border-radius:999px;
     cursor:pointer;
     transition:all .2s;
   }
+  @media (max-width:380px){.tab{padding:9px 16px;}}
   .tab.on{background:var(--seal);color:#f3efe6;border-color:var(--seal);box-shadow:0 2px 6px var(--shadow);}
   .tab:active{transform:scale(.96);}
 
@@ -325,6 +326,44 @@
   .filters button:active{transform:scale(.95);}
   .fnote{text-align:center;font-family:-apple-system,sans-serif;font-size:12px;color:var(--muted);margin-top:14px;}
 
+  /* ---- Liste ---- */
+  #viewList{max-width:900px;margin:0 auto;padding:8px 12px 60px;}
+  .ltable{
+    width:100%;border-collapse:collapse;background:var(--card);
+    border:1px solid var(--line);border-radius:12px;overflow:hidden;
+    box-shadow:0 4px 14px var(--shadow);
+  }
+  .ltable th{
+    font-family:-apple-system,"Helvetica Neue",sans-serif;
+    font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;
+    color:var(--paper);background:var(--sumi);padding:9px 8px;text-align:left;
+  }
+  .ltable th.c-on,.ltable th.c-onex{background:var(--seal);}
+  .ltable th:first-child,.ltable td.lk{text-align:center;}
+  .ltable td{
+    padding:9px 8px;border-top:1px solid var(--line);vertical-align:middle;
+    font-size:15px;color:var(--ink);
+  }
+  .ltable tbody tr:nth-child(even) td{background:#f6f1e7;}
+  .ltable td.lk{font-size:34px;line-height:1;color:var(--sumi);width:1%;padding:9px 12px;}
+  .ltable td.lon{color:var(--seal);}
+  .ltable .lex{font-size:19px;line-height:2;white-space:nowrap;}
+  .ltable .lex rt{font-size:.5em;color:var(--muted);font-family:-apple-system,sans-serif;}
+  .ltable .lfr{
+    display:block;font-family:-apple-system,sans-serif;font-size:11.5px;
+    color:var(--muted);line-height:1.3;
+  }
+  .ltable .none{color:var(--line);}
+
+  @media (max-width:560px){
+    #viewList{padding:8px 6px 60px;}
+    .ltable th{font-size:8.5px;letter-spacing:.04em;padding:8px 4px;}
+    .ltable td{padding:7px 4px;font-size:12.5px;}
+    .ltable td.lk{font-size:26px;padding:7px 6px;}
+    .ltable .lex{font-size:15px;white-space:normal;}
+    .ltable .lfr{font-size:10px;}
+  }
+
   @media (max-width:430px){
     .grid{grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:13px;}
     .front .ji{font-size:64px;}
@@ -343,6 +382,7 @@
 
 <div class="tabs">
   <button id="tabCards" class="tab on">Fiches</button>
+  <button id="tabList" class="tab">Liste</button>
   <button id="tabQuiz" class="tab">Quiz</button>
 </div>
 
@@ -362,6 +402,20 @@
   </div>
   <div class="count" id="count"></div>
   <div class="grid" id="grid"></div>
+</div>
+
+<div id="viewList" hidden>
+  <div class="count" id="listCount"></div>
+  <table class="ltable">
+    <thead><tr>
+      <th>Kanji</th>
+      <th>Kun</th>
+      <th>Exemple kun</th>
+      <th class="c-on">On</th>
+      <th class="c-onex">Exemple on</th>
+    </tr></thead>
+    <tbody id="listBody"></tbody>
+  </table>
 </div>
 
 <div id="viewQuiz" hidden>
@@ -522,6 +576,143 @@ const KANJI = [
 {k:"町",mean:"ville, quartier",on:[["チョウ"]],kun:[["まち"]],ex:[["町","まち","ville, quartier"],["町長","ちょうちょう","maire (de ville)"]]}
 ];
 
+/* ---------- Liste : un exemple par lecture ----------
+   kanji : [exemple KUN, exemple ON], chacun [mot avec furigana 漢字[よみ], traduction].
+   null = pas d'exemple (lecture inexistante ou inusitée). */
+const LISTE = {
+  "日":[["日[ひ]","jour, soleil"],["日曜日[にちようび]","dimanche"]],
+  "山":[["山[やま]","montagne"],["富士山[ふじさん]","Mont Fuji"]],
+  "土":[["土[つち]","terre, sol"],["土曜日[どようび]","samedi"]],
+  "木":[["木[き]","arbre"],["木曜日[もくようび]","jeudi"]],
+  "目":[["目[め]","œil"],["目的[もくてき]","but, objectif"]],
+  "口":[["口[くち]","bouche"],["人口[じんこう]","population"]],
+  "金":[["お金[かね]","argent"],["金曜日[きんようび]","vendredi"]],
+  "川":[["川[かわ]","rivière"],["川柳[せんりゅう]","type de poème"]],
+  "水":[["水[みず]","eau"],["水曜日[すいようび]","mercredi"]],
+  "田":[["田[た]んぼ","rizière"],["水田[すいでん]","rizière"]],
+  "月":[["月[つき]","lune"],["月曜日[げつようび]","lundi"]],
+  "手":[["手[て]","main"],["歌手[かしゅ]","chanteur"]],
+  "一":[["一[ひと]つ","un (objet)"],["一月[いちがつ]","janvier"]],
+  "二":[["二[ふた]つ","deux (objets)"],["二月[にがつ]","février"]],
+  "三":[["三[みっ]つ","trois (objets)"],["三月[さんがつ]","mars"]],
+  "四":[["四[よっ]つ","quatre (objets)"],["四月[しがつ]","avril"]],
+  "五":[["五[いつ]つ","cinq (objets)"],["五月[ごがつ]","mai"]],
+  "六":[["六[むっ]つ","six (objets)"],["六月[ろくがつ]","juin"]],
+  "七":[["七[なな]つ","sept (objets)"],["七月[しちがつ]","juillet"]],
+  "八":[["八[やっ]つ","huit (objets)"],["八月[はちがつ]","août"]],
+  "九":[["九[ここの]つ","neuf (objets)"],["九月[くがつ]","septembre"]],
+  "十":[["十日[とおか]","le 10 du mois, dix jours"],["十月[じゅうがつ]","octobre"]],
+  "人":[["人[ひと]","personne"],["日本人[にほんじん]","Japonais"]],
+  "車":[["車[くるま]","voiture"],["電車[でんしゃ]","train"]],
+  "火":[["火[ひ]","feu"],["火曜日[かようび]","mardi"]],
+  "左":[["左[ひだり]","gauche"],["左右[さゆう]","gauche et droite"]],
+  "右":[["右[みぎ]","droite"],["左右[さゆう]","gauche et droite"]],
+  "空":[["空[そら]","ciel"],["空港[くうこう]","aéroport"]],
+  "男":[["男[おとこ]の人[ひと]","homme"],["男性[だんせい]","homme (formel)"]],
+  "女":[["女[おんな]の人[ひと]","femme"],["女性[じょせい]","femme (formel)"]],
+  "子":[["子供[こども]","enfant"],["女子[じょし]","fille"]],
+  "天":[["天[あま]の川[がわ]","Voie lactée"],["天気[てんき]","temps (météo)"]],
+  "上":[["上[うえ]","dessus"],["上手[じょうず]","doué"]],
+  "文":[["文[ふみ]","lettre, écrit (littéraire)"],["文化[ぶんか]","culture"]],
+  "休":[["休[やす]む","se reposer"],["休憩[きゅうけい]","pause"]],
+  "中":[["中[なか]","intérieur"],["中国[ちゅうごく]","Chine"]],
+  "見":[["見[み]る","voir"],["意見[いけん]","opinion"]],
+  "石":[["石[いし]","pierre"],["宝石[ほうせき]","pierre précieuse"]],
+  "力":[["力[ちから]","force"],["努力[どりょく]","effort"]],
+  "大":[["大[おお]きい","grand"],["大学[だいがく]","université"]],
+  "字":[null,["漢字[かんじ]","kanji"]],
+  "名":[["名前[なまえ]","nom"],["有名[ゆうめい]","célèbre"]],
+  "夕":[["夕方[ゆうがた]","soirée"],["一朝一夕[いっちょういっせき]","du jour au lendemain"]],
+  "百":[null,["三百[さんびゃく]","trois cents"]],
+  "円":[["円[まる]い","rond"],["千円[せんえん]","mille yens"]],
+  "下":[["下[した]","dessous"],["地下鉄[ちかてつ]","métro"]],
+  "虫":[["虫[むし]","insecte"],["昆虫[こんちゅう]","insecte (terme)"]],
+  "千":[["千代紙[ちよがみ]","papier japonais à motifs"],["千円[せんえん]","mille yens"]],
+  "学":[["学[まな]ぶ","apprendre"],["学生[がくせい]","étudiant"]],
+  "校":[null,["学校[がっこう]","école"]],
+  "先":[["先[さき]","devant, d'abord"],["先生[せんせい]","professeur"]],
+  "生":[["生[う]まれる","naître"],["学生[がくせい]","étudiant"]],
+  "気":[null,["元気[げんき]","en forme"]],
+  "糸":[["糸[いと]","fil"],["製糸[せいし]","filature"]],
+  "村":[["村[むら]","village"],["農村[のうそん]","village agricole"]],
+  "正":[["正[ただ]しい","correct"],["正月[しょうがつ]","Nouvel An"]],
+  "白":[["白[しろ]い","blanc"],["白鳥[はくちょう]","cygne"]],
+  "行":[["行[い]く","aller"],["銀行[ぎんこう]","banque"]],
+  "本":[["山本[やまもと]","Yamamoto (nom)"],["日本[にほん]","Japon"]],
+  "分":[["分[わ]かる","comprendre"],["五分[ごふん]","cinq minutes"]],
+  "後":[["後[うし]ろ","derrière"],["午後[ごご]","après-midi"]],
+  "前":[["前[まえ]","devant"],["午前[ごぜん]","matin"]],
+  "時":[["時[とき]","moment"],["時間[じかん]","temps, durée"]],
+  "間":[["間[あいだ]","entre, intervalle"],["時間[じかん]","temps, durée"]],
+  "国":[["国[くに]","pays"],["中国[ちゅうごく]","Chine"]],
+  "東":[["東[ひがし]","est"],["東京[とうきょう]","Tokyo"]],
+  "今":[["今[いま]","maintenant"],["今週[こんしゅう]","cette semaine"]],
+  "入":[["入[はい]る","entrer"],["入学[にゅうがく]","entrée à l'école"]],
+  "長":[["長[なが]い","long"],["社長[しゃちょう]","président (société)"]],
+  "高":[["高[たか]い","cher, haut"],["高校[こうこう]","lycée"]],
+  "年":[["年[とし]","année, âge"],["去年[きょねん]","l'an dernier"]],
+  "外":[["外[そと]","dehors"],["外国[がいこく]","pays étranger"]],
+  "来":[["来[く]る","venir"],["来週[らいしゅう]","semaine prochaine"]],
+  "小":[["小[ちい]さい","petit"],["小学校[しょうがっこう]","école primaire"]],
+  "話":[["話[はな]す","parler"],["電話[でんわ]","téléphone"]],
+  "北":[["北[きた]","nord"],["北海道[ほっかいどう]","Hokkaido"]],
+  "午":[null,["午前[ごぜん]","matin"]],
+  "書":[["書[か]く","écrire"],["辞書[じしょ]","dictionnaire"]],
+  "半":[["半[なか]ば","milieu, à moitié"],["半分[はんぶん]","la moitié"]],
+  "西":[["西[にし]","ouest"],["関西[かんさい]","Kansai"]],
+  "電":[null,["電車[でんしゃ]","train"]],
+  "出":[["出[で]る","sortir"],["出発[しゅっぱつ]","départ"]],
+  "語":[["語[かた]る","raconter"],["日本語[にほんご]","japonais (langue)"]],
+  "聞":[["聞[き]く","écouter"],["新聞[しんぶん]","journal"]],
+  "食":[["食[た]べる","manger"],["食事[しょくじ]","repas"]],
+  "何":[["何[なに]","quoi"],["幾何[きか]","géométrie"]],
+  "南":[["南[みなみ]","sud"],["南極[なんきょく]","Antarctique"]],
+  "万":[null,["一万[いちまん]","dix mille"]],
+  "毎":[null,["毎日[まいにち]","chaque jour"]],
+  "母":[["母[はは]","mère"],["母国[ぼこく]","pays natal"]],
+  "読":[["読[よ]む","lire"],["読書[どくしょ]","lecture"]],
+  "友":[["友達[ともだち]","ami"],["友人[ゆうじん]","ami (formel)"]],
+  "父":[["父[ちち]","père"],["祖父[そふ]","grand-père"]],
+  "雨":[["雨[あめ]","pluie"],["雨天[うてん]","temps pluvieux"]],
+  "花":[["花[はな]","fleur"],["花瓶[かびん]","vase"]],
+  "音":[["音[おと]","son, bruit"],["音楽[おんがく]","musique"]],
+  "会":[["会[あ]う","rencontrer"],["会社[かいしゃ]","entreprise"]],
+  "社":[["社[やしろ]","sanctuaire"],["会社[かいしゃ]","entreprise"]],
+  "新":[["新[あたら]しい","nouveau"],["新聞[しんぶん]","journal"]],
+  "立":[["立[た]つ","se lever"],["国立[こくりつ]","national (établissement)"]],
+  "言":[["言[い]う","dire"],["言語[げんご]","langue, langage"]],
+  "多":[["多[おお]い","nombreux"],["多分[たぶん]","sans doute"]],
+  "安":[["安[やす]い","bon marché"],["安心[あんしん]","soulagement"]],
+  "道":[["道[みち]","rue, chemin"],["北海道[ほっかいどう]","Hokkaido"]],
+  "少":[["少[すこ]し","un peu"],["少年[しょうねん]","garçon"]],
+  "足":[["足[あし]","pied, jambe"],["遠足[えんそく]","excursion"]],
+  "店":[["店[みせ]","magasin"],["喫茶店[きっさてん]","café (salon)"]],
+  "古":[["古[ふる]い","vieux"],["中古[ちゅうこ]","d'occasion"]],
+  "買":[["買[か]う","acheter"],["売買[ばいばい]","achat et vente"]],
+  "週":[null,["今週[こんしゅう]","cette semaine"]],
+  "駅":[null,["駅[えき]","gare"]],
+  "飲":[["飲[の]む","boire"],["飲酒[いんしゅ]","consommation d'alcool"]],
+  "魚":[["魚[さかな]","poisson"],["金魚[きんぎょ]","poisson rouge"]],
+  "耳":[["耳[みみ]","oreille"],["耳鼻科[じびか]","ORL"]],
+  "赤":[["赤[あか]い","rouge"],["赤十字[せきじゅうじ]","Croix-Rouge"]],
+  "青":[["青[あお]い","bleu"],["青年[せいねん]","jeune homme"]],
+  "町":[["町[まち]","ville, quartier"],["町長[ちょうちょう]","maire (de ville)"]]
+};
+function furi(s){return s.replace(/([一-龯々]+)\[([^\]]+)\]/g,'<ruby>$1<rt>$2</rt></ruby>');}
+function exCell(e){
+  return e?`<span class="lex">${furi(e[0])}</span><span class="lfr">${e[1]}</span>`:'<span class="none">—</span>';
+}
+function renderList(){
+  const keys=filteredKeys();
+  document.getElementById('listBody').innerHTML=keys.map(i=>{
+    const d=KANJI[i], x=LISTE[d.k]||[null,null];
+    const brk=v=>v==='—'?'<span class="none">—</span>':v.replace(/／/g,'／<wbr>');
+    return `<tr><td class="lk">${d.k}</td><td class="lkun">${brk(d.kun[0][0])}</td><td>${exCell(x[0])}</td>`+
+           `<td class="lon">${brk(d.on[0][0])}</td><td>${exCell(x[1])}</td></tr>`;
+  }).join('');
+  document.getElementById('listCount').textContent=(keys.length===KANJI.length?KANJI.length:keys.length+' / '+KANJI.length)+' kanji';
+}
+
 /* ---------- Filtres ----------
    ACQUIS : ajoute ici un kanji quand tu le maîtrises.
    HORS_N5 : kanji de la liste qui ne font pas partie du N5 (liste usuelle à 103). */
@@ -544,7 +735,7 @@ filtersBox.addEventListener('click',e=>{
   [...filtersBox.children].forEach(x=>x.classList.remove('on'));
   b.classList.add('on'); filter=b.dataset.f;
   document.getElementById('flipAll').classList.remove('on');
-  render(); updateQuizNote();
+  render(); renderList(); updateQuizNote();
 });
 
 const grid=document.getElementById('grid');
@@ -601,14 +792,20 @@ const tabCards=document.getElementById('tabCards');
 const tabQuiz=document.getElementById('tabQuiz');
 const viewCards=document.getElementById('viewCards');
 const viewQuiz=document.getElementById('viewQuiz');
-function showTab(quiz){
-  tabQuiz.classList.toggle('on',quiz);
-  tabCards.classList.toggle('on',!quiz);
-  viewQuiz.hidden=!quiz;
-  viewCards.hidden=quiz;
+const tabList=document.getElementById('tabList');
+const viewList=document.getElementById('viewList');
+function showTab(name){
+  tabCards.classList.toggle('on',name==='cards');
+  tabList.classList.toggle('on',name==='list');
+  tabQuiz.classList.toggle('on',name==='quiz');
+  viewCards.hidden=name!=='cards';
+  viewList.hidden=name!=='list';
+  viewQuiz.hidden=name!=='quiz';
 }
-tabCards.addEventListener('click',()=>showTab(false));
-tabQuiz.addEventListener('click',()=>showTab(true));
+tabCards.addEventListener('click',()=>showTab('cards'));
+tabList.addEventListener('click',()=>showTab('list'));
+tabQuiz.addEventListener('click',()=>showTab('quiz'));
+renderList();
 
 /* ---------- Quiz ---------- */
 let quizMode='meaning', quizLen=10;
